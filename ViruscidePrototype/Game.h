@@ -29,6 +29,8 @@ public:
 	sf::Text MoneyTxt;
 	sf::Text gameOverTxt;
 	sf::Text tower1PriceTxt;
+	sf::Text tower2PriceTxt;
+	sf::Text tower3PriceTxt;
 	bool isGameOver;
 	int GetMoney();
 	Tower* underConstruction;
