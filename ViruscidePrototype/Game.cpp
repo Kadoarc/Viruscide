@@ -246,16 +246,25 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 			{
 				map[i]->setFillColor(sf::Color::Green);
 			}
+			else if (map[i]->GetTileType() == GridType::core)
+			{
+				map[i]->setFillColor(sf::Color::Magenta);
+			}
 			else
 			{
 				map[i]->setFillColor(sf::Color::Red);
 			}
+			
 		}
 		else
 		{
 			if (map[i]->GetTileType() == GridType::hill)
 			{
 				map[i]->setFillColor(sf::Color::Yellow);
+			}
+			else if (map[i]->GetTileType() == GridType::core)
+			{
+				map[i]->setFillColor(sf::Color::Magenta);
 			}
 			else
 			{

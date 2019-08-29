@@ -35,7 +35,8 @@ enum Flags
 enum GridType
 {
 	hill = 0,
-	path
+	path, 
+	core
 };
 
 enum FullHdresolution
