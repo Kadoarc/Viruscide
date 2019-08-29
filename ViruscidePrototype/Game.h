@@ -8,7 +8,7 @@
 #include "Grid.h"
 #include "Player.h"
 
-class Player;
+
 
 class Game
 {
@@ -18,7 +18,7 @@ public:
 	std::vector<Tower*> towerList;
 	std::vector<Enemy*> enemyList;
 	std::vector<Tower*> gui;
-	
+	std::vector<Player*> playerList;
 	int money;
 	int coreHealth;
 	int Level;
@@ -29,6 +29,8 @@ public:
 	sf::Text MoneyTxt;
 	sf::Text gameOverTxt;
 	sf::Text tower1PriceTxt;
+	sf::Text tower2PriceTxt;
+	sf::Text tower3PriceTxt;
 	bool isGameOver;
 	int GetMoney();
 	Tower* underConstruction;
@@ -58,10 +60,9 @@ public:
 	int GetGridIndex(Grid* gridTile);
 	void DrawText(sf::RenderWindow &window);
 	Game(std::vector<Grid*> worldMap);
-
+	
 	void UpdateInput(const float &dt);
 private:
-	Player* player;
-	
+
 };
 

@@ -11,6 +11,8 @@ void Game::loadFont()
 void Game::MakeGUI()
 {
 	gui.push_back(new Tower(50, 89, TowerType::basic));
+	gui.push_back(new Tower(50, 200, TowerType::rapid));
+	gui.push_back(new Tower(50, 400, TowerType::ultimate));
 
 }
 
@@ -95,7 +97,27 @@ void Game::UpdateEnemies()
 
 void Game::UpdatePlayer()
 {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		playerList.back()->xPos -= 1.0f;
+		playerList.back()->setPosition(playerList.back()->xPos, playerList.back()->yPos);
+	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		playerList.back()->yPos -= 1.0f;
+		playerList.back()->setPosition(playerList.back()->xPos, playerList.back()->yPos);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		playerList.back()->yPos += 1.0f;
+		playerList.back()->setPosition(playerList.back()->xPos, playerList.back()->yPos);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		playerList.back()->xPos += 1.0f;
+		playerList.back()->setPosition(playerList.back()->xPos, playerList.back()->yPos);
+	}
 		
 }
 
@@ -270,6 +292,10 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		window.draw(*gui[m]);
 	}
 
+	for (int l = 0; l < playerList.size(); l++)
+	{
+		window.draw(*playerList[l]);
+	}
 	
 	DrawText(window);
 }
@@ -277,12 +303,18 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 void Game::UpdateGUI()
 {
 	tower1PriceTxt.setString(std::to_string(gui[0]->GetPrice()));
+	tower2PriceTxt.setString(std::to_string(gui[1]->GetPrice()));
+	tower3PriceTxt.setString(std::to_string(gui[2]->GetPrice()));
 	coreHealthTxt.setString(std::to_string(GetCoreHealth()));
 	MoneyTxt.setString(std::to_string(GetMoney()));
 	tower1PriceTxt.setFont(font);
+	tower2PriceTxt.setFont(font);
+	tower3PriceTxt.setFont(font);
 	coreHealthTxt.setFont(font);
 	MoneyTxt.setFont(font);
 	tower1PriceTxt.setPosition(gui[0]->getPosition().x + 100, gui[0]->getPosition().y);
+	tower2PriceTxt.setPosition(gui[1]->getPosition().x + 100, gui[1]->getPosition().y);
+	tower3PriceTxt.setPosition(gui[2]->getPosition().x + 100, gui[2]->getPosition().y);
 	coreHealthTxt.setPosition(1674, 100);
 	MoneyTxt.setPosition(1674, 6);
 	MoneyTxt.setFont(font);
@@ -397,6 +429,7 @@ void Game::GameCycle(sf::RenderWindow & window, Flags flag)
 
 void Game::UpdateAllStates(sf::RenderWindow & window)
 {
+	UpdatePlayer();
 	UpdateTowers(window);
 	UpdateEnemies();
 	UpdateGUI();
@@ -422,6 +455,8 @@ void Game::DrawText(sf::RenderWindow & window)
 	window.draw(MoneyTxt);
 	window.draw(coreHealthTxt);
 	window.draw(tower1PriceTxt);
+	window.draw(tower2PriceTxt);
+	window.draw(tower3PriceTxt);
 
 }
 
@@ -431,6 +466,7 @@ void Game::DrawText(sf::RenderWindow & window)
 
 Game::Game(std::vector<Grid*> worldMap) :map{ worldMap }, money{ 700 }, coreHealth{ 1 }, isGameOver{ false }, Level{ 1 }
 {
+	playerList.push_back(new Player(1000, 1000));
 	loadFont();
 	MakeGUI();
 }

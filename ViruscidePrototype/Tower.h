@@ -4,6 +4,7 @@
 #include "Utils.h"
 #include <string>
 #include <iostream>
+#include "TextureManager.h"
 
 class Tower : public sf::ConvexShape
 {
@@ -37,5 +38,9 @@ public:
 	void SetState();
 	bool GetIsBuilt();
 	void Update(sf::RenderWindow &window);
+
+private:
+	sf::Texture towerTexture;
+	sf::Sprite  towerSprite;
 };
 

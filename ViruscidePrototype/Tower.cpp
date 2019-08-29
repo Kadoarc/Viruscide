@@ -18,6 +18,15 @@ void Tower::SetTowerTraits(TowerType type)
 		
 		Price = 200;
 		break;
+
+	case rapid:
+		Price = 300;
+		break;
+
+	case ultimate:
+		Price = 400;
+		break;
+
 	default:
 		break;
 	}
@@ -37,7 +46,16 @@ Tower::Tower(int xPos, int yPos, TowerType type) :damage{ 10 }, range{ 120 }, Pr
 
 	if (type == TowerType::basic)
 	{
-		this->setFillColor(sf::Color(128, 128, 128));
+		//this->setFillColor(sf::Color(128, 128, 128));
+	}
+
+	else if (type == TowerType::rapid)
+	{
+		this->setFillColor(sf::Color(128, 128, 0));
+	}
+	else if (type == TowerType::ultimate)
+	{
+		this->setFillColor(sf::Color(0, 128, 128));
 	}
 	
 	rangeHelper = new sf::CircleShape(range);

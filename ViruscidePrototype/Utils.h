@@ -54,6 +54,8 @@ enum EnemyType
 enum TowerType
 {
 	basic = 0,
+	rapid,
+	ultimate,
 	
 };
 
