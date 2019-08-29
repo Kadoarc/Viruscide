@@ -97,7 +97,27 @@ void Game::UpdateEnemies()
 
 void Game::UpdatePlayer()
 {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		playerList.back()->xPos -= 1.0f;
+		playerList.back()->setPosition(playerList.back()->xPos, playerList.back()->yPos);
+	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		playerList.back()->yPos -= 1.0f;
+		playerList.back()->setPosition(playerList.back()->xPos, playerList.back()->yPos);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		playerList.back()->yPos += 1.0f;
+		playerList.back()->setPosition(playerList.back()->xPos, playerList.back()->yPos);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		playerList.back()->xPos += 1.0f;
+		playerList.back()->setPosition(playerList.back()->xPos, playerList.back()->yPos);
+	}
 		
 }
 
@@ -263,6 +283,10 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		window.draw(*gui[m]);
 	}
 
+	for (int l = 0; l < playerList.size(); l++)
+	{
+		window.draw(*playerList[l]);
+	}
 	
 	DrawText(window);
 }
@@ -396,6 +420,7 @@ void Game::GameCycle(sf::RenderWindow & window, Flags flag)
 
 void Game::UpdateAllStates(sf::RenderWindow & window)
 {
+	UpdatePlayer();
 	UpdateTowers(window);
 	UpdateEnemies();
 	UpdateGUI();
@@ -432,6 +457,7 @@ void Game::DrawText(sf::RenderWindow & window)
 
 Game::Game(std::vector<Grid*> worldMap) :map{ worldMap }, money{ 700 }, coreHealth{ 1 }, isGameOver{ false }, Level{ 1 }
 {
+	playerList.push_back(new Player(1000, 1000));
 	loadFont();
 	MakeGUI();
 }

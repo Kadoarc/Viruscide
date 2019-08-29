@@ -18,7 +18,7 @@ public:
 	std::vector<Tower*> towerList;
 	std::vector<Enemy*> enemyList;
 	std::vector<Tower*> gui;
-	
+	std::vector<Player*> playerList;
 	int money;
 	int coreHealth;
 	int Level;
