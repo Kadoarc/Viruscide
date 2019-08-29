@@ -97,7 +97,6 @@ void Game::UpdateEnemies()
 
 void Game::UpdatePlayer()
 {
-
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		playerList.back()->xPos -= 1.0f;
@@ -119,8 +118,8 @@ void Game::UpdatePlayer()
 		playerList.back()->xPos += 1.0f;
 		playerList.back()->setPosition(playerList.back()->xPos, playerList.back()->yPos);
 	}
+		
 }
-
 
 void Game::UpdateTowers(sf::RenderWindow & window)
 {
@@ -153,7 +152,6 @@ void Game::RestartGame()
 {
 	towerList.clear();
 	enemyList.clear();
-	playerList.clear();
 	for (int i = 0; i < map.size(); i++)
 	{
 		if (!map[i]->GetIsEmpty())
@@ -289,6 +287,7 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 	{
 		window.draw(*playerList[l]);
 	}
+	
 	DrawText(window);
 }
 
@@ -463,7 +462,6 @@ Game::Game(std::vector<Grid*> worldMap) :map{ worldMap }, money{ 700 }, coreHeal
 	MakeGUI();
 }
 
-
 void Game::UpdateInput(const float & dt)
 {
 
@@ -471,7 +469,7 @@ void Game::UpdateInput(const float & dt)
 
 Game::Game()
 {
-	
+
 }
 
 Game::~Game()

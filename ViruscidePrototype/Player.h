@@ -3,8 +3,8 @@
 class Player : public sf::ConvexShape
 {
 public:
-	float xPos = 1920/2;
-	float yPos = 1080/2;
+	float xPos = 1920 / 2;
+	float yPos = 1080 / 2;
 
 	Player(float xPos, float yPos);
 	Player();
