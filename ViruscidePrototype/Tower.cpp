@@ -46,7 +46,7 @@ Tower::Tower(int xPos, int yPos, TowerType type) :damage{ 10 }, range{ 120 }, Pr
 
 	if (type == TowerType::basic)
 	{
-		this->setFillColor(sf::Color(128, 128, 128));
+		//this->setFillColor(sf::Color(128, 128, 128));
 	}
 
 	else if (type == TowerType::rapid)
