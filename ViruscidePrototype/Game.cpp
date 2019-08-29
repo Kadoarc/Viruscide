@@ -11,6 +11,8 @@ void Game::loadFont()
 void Game::MakeGUI()
 {
 	gui.push_back(new Tower(50, 89, TowerType::basic));
+	gui.push_back(new Tower(50, 200, TowerType::rapid));
+	gui.push_back(new Tower(50, 400, TowerType::ultimate));
 
 }
 
@@ -293,12 +295,18 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 void Game::UpdateGUI()
 {
 	tower1PriceTxt.setString(std::to_string(gui[0]->GetPrice()));
+	tower2PriceTxt.setString(std::to_string(gui[1]->GetPrice()));
+	tower3PriceTxt.setString(std::to_string(gui[2]->GetPrice()));
 	coreHealthTxt.setString(std::to_string(GetCoreHealth()));
 	MoneyTxt.setString(std::to_string(GetMoney()));
 	tower1PriceTxt.setFont(font);
+	tower2PriceTxt.setFont(font);
+	tower3PriceTxt.setFont(font);
 	coreHealthTxt.setFont(font);
 	MoneyTxt.setFont(font);
 	tower1PriceTxt.setPosition(gui[0]->getPosition().x + 100, gui[0]->getPosition().y);
+	tower2PriceTxt.setPosition(gui[1]->getPosition().x + 100, gui[1]->getPosition().y);
+	tower3PriceTxt.setPosition(gui[2]->getPosition().x + 100, gui[2]->getPosition().y);
 	coreHealthTxt.setPosition(1674, 100);
 	MoneyTxt.setPosition(1674, 6);
 	MoneyTxt.setFont(font);
@@ -439,6 +447,8 @@ void Game::DrawText(sf::RenderWindow & window)
 	window.draw(MoneyTxt);
 	window.draw(coreHealthTxt);
 	window.draw(tower1PriceTxt);
+	window.draw(tower2PriceTxt);
+	window.draw(tower3PriceTxt);
 
 }
 

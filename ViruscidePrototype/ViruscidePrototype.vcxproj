@@ -76,10 +76,17 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+<<<<<<< HEAD
       <AdditionalIncludeDirectories>$(ProjectDir)\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ProjectDir)\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+=======
+      <AdditionalIncludeDirectories>C:\Users\Jeremy B\Documents\Viruscide\ViruscidePrototype\SFML\include;$(ProjectDir)\ViruscidePrototype\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>($ProjectDir)\SFML\lib;C:\Users\Jeremy B\Documents\Viruscide\ViruscidePrototype\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+>>>>>>> 3394e977c51fd839f4f66e4db56acb6e997724cb
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -89,10 +96,17 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+<<<<<<< HEAD
       <AdditionalIncludeDirectories>$(ProjectDir)\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ProjectDir)\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+=======
+      <AdditionalIncludeDirectories>C:\Users\Jeremy B\Documents\Viruscide\ViruscidePrototype\SFML\include;$(ProjectDir)\ViruscidePrototype\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>($ProjectDir)\SFML\lib;C:\Users\Jeremy B\Documents\Viruscide\ViruscidePrototype\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+>>>>>>> 3394e977c51fd839f4f66e4db56acb6e997724cb
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -104,12 +118,20 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+<<<<<<< HEAD
       <AdditionalIncludeDirectories>$(ProjectDir)\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+=======
+      <AdditionalIncludeDirectories>C:\Users\Jeremy B\Documents\Viruscide\ViruscidePrototype\SFML\include;$(ProjectDir)\ViruscidePrototype\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+>>>>>>> 3394e977c51fd839f4f66e4db56acb6e997724cb
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+<<<<<<< HEAD
       <AdditionalLibraryDirectories>$(ProjectDir)\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+=======
+      <AdditionalLibraryDirectories>($ProjectDir)\SFML\lib;C:\Users\Jeremy B\Documents\Viruscide\ViruscidePrototype\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+>>>>>>> 3394e977c51fd839f4f66e4db56acb6e997724cb
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -121,12 +143,20 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+<<<<<<< HEAD
       <AdditionalIncludeDirectories>$(ProjectDir)\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+=======
+      <AdditionalIncludeDirectories>C:\Users\Jeremy B\Documents\Viruscide\ViruscidePrototype\SFML\include;$(ProjectDir)\ViruscidePrototype\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+>>>>>>> 3394e977c51fd839f4f66e4db56acb6e997724cb
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+<<<<<<< HEAD
       <AdditionalLibraryDirectories>$(ProjectDir)\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+=======
+      <AdditionalLibraryDirectories>($ProjectDir)\SFML\lib;C:\Users\Jeremy B\Documents\Viruscide\ViruscidePrototype\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+>>>>>>> 3394e977c51fd839f4f66e4db56acb6e997724cb
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-network-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
