@@ -8,12 +8,7 @@ Player::Player(float xPos, float yPos)
 	this->setOrigin(TILE_SIZE / 2, TILE_SIZE / 2);
 }
 
-Player::Player(float xPos, float yPos)
-{
-	drawPlayer();
-	this->setPosition(xPos, yPos);
-	this->setOrigin(TILE_SIZE / 2, TILE_SIZE / 2);
-}
+
 
 Player::Player()
 {

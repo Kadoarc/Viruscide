@@ -6,7 +6,3 @@ SoundManager::SoundManager()
 {
 }
 
-
-SoundManager::~SoundManager()
-{
-}
