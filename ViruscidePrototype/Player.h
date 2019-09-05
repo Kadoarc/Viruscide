@@ -3,10 +3,13 @@
 class Player : public sf::ConvexShape
 {
 public:
-	float xPos = 1920 / 2;
-	float yPos = 1080 / 2;
+	// Initialise X,Y Coordinates
+	float xPos;
+	float yPos;
+	int playerNumber;
 
-	Player(float xPos, float yPos);
+
+	Player(float start_xPos, float start_yPos, int i_playerNumber);
 	Player();
 	~Player();
 	void drawPlayer();

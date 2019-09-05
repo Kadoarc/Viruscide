@@ -41,7 +41,7 @@ Tower::Tower(int xPos, int yPos, TowerType type) :damage{ 10 }, range{ 120 }, Pr
 	this->setPoint(0, sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 4));
 	this->setPoint(1, sf::Vector2f(TILE_SIZE*0.75, TILE_SIZE*0.75));
 	this->setPoint(2, sf::Vector2f(TILE_SIZE*0.25, TILE_SIZE*0.75));
-	this->setOrigin(sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 2));
+	//this->setOrigin(sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 2));
 	this->setPosition(sf::Vector2f(xPos, yPos));
 
 	if (type == TowerType::basic)

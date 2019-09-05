@@ -97,26 +97,68 @@ void Game::UpdateEnemies()
 
 void Game::UpdatePlayer()
 {
+	for (int i = 0; i < towerList.size(); i++)
+	{
+		if(playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()));
+		{
+			std::cout << "Player one Collision with Tower \n";
+		}
+	}
+	if (playerList.back()->getGlobalBounds().intersects(playerList.at(0)->getGlobalBounds()))
+	{
+		std::cout << "Player one Collision with Player Two \n";
+	}
+
+
+	// PLAYER ONE / WASD MOVEMENT
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		playerList.back()->xPos -= 1.0f;
-		playerList.back()->setPosition(playerList.back()->xPos, playerList.back()->yPos);
+		playerList.at(0)->xPos -= 1.0f;
+		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		playerList.back()->yPos -= 1.0f;
-		playerList.back()->setPosition(playerList.back()->xPos, playerList.back()->yPos);
+		playerList.at(0)->yPos -= 1.0f;
+		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		playerList.back()->yPos += 1.0f;
-		playerList.back()->setPosition(playerList.back()->xPos, playerList.back()->yPos);
+		playerList.at(0)->yPos += 1.0f;
+		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		playerList.back()->xPos += 1.0f;
-		playerList.back()->setPosition(playerList.back()->xPos, playerList.back()->yPos);
+		playerList.at(0)->xPos += 1.0f;
+		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+	{
+		std::cout << "E pressed \n";
+	}
+
+
+	// PLAYER TWO / ARROW KEY MOVMENT
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+	{
+		playerList.at(1)->xPos -= 1.0f;
+		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+	{
+		playerList.at(1)->yPos -= 1.0f;
+		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+	{
+		playerList.at(1)->yPos += 1.0f;
+		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+	{
+		playerList.at(1)->xPos += 1.0f;
+		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
 	}
 		
 }
@@ -466,7 +508,11 @@ void Game::DrawText(sf::RenderWindow & window)
 
 Game::Game(std::vector<Grid*> worldMap) :map{ worldMap }, money{ 700 }, coreHealth{ 1 }, isGameOver{ false }, Level{ 1 }
 {
-	playerList.push_back(new Player(1000, 1000));
+	// Add the players
+	// Player 1
+	playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 1));
+	// Player 2
+	playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 2));
 	loadFont();
 	MakeGUI();
 }
