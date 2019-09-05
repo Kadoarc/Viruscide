@@ -131,29 +131,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="Label.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Tower.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="GameUtils.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GUI.h" />
+    <ClInclude Include="Label.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="MenuState.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="Tower.h" />
+    <ClInclude Include="TowerType.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Widget.h" />
   </ItemGroup>

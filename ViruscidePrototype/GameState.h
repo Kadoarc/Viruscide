@@ -1,8 +1,15 @@
 #pragma once
-class GameState
-{
-public:
-	GameState();
-	~GameState();
-};
+
+namespace States {
+
+	enum class ID
+	{
+		None = 0,
+		Menu,
+		Game,
+		EndGame,
+	};
+}
+
+
 

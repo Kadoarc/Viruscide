@@ -8,9 +8,15 @@
 #include <string>
 #include <vector>
 
+
+#define MAP_WIDTH 26
+#define MAP_HEIGHT 31
+#define TILE_SIZE 32
+#define TILEWORLDSIZE 32
+
 const int TILE_OFFSET = 3;
 const int GUI_OFFSET = 320;
-const int TILE_SIZE = 80;
+//const int TILE_SIZE = 80;
 const float ENEMY_SIZE = 30;
 const int BOARD_HEIGHT = 13;
 const int BOARD_WIDTH = 16;
