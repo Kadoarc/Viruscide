@@ -1,25 +1,35 @@
-#include "GUI.h"
+#include "Gui.hpp"
 
 using namespace gui;
 
-void gui::GUI::addWidget(widget::Ptr widget)
+Gui::Gui()
+{
+}
+
+void Gui::addWidget(Widget::Ptr widget)
 {
 	widgets.push_back(widget);
 }
 
-void gui::GUI::removeWidgets()
+void Gui::removeWidgets()
 {
 	widgets.clear();
 }
 
-void gui::GUI::handleWidgetEvents(const sf::Event & event)
+void Gui::handleWidgetsEvent(const sf::Event &event)
 {
+	for (const auto &widget : widgets)
+		widget->handleEvent(event);
 }
 
-void gui::GUI::updateWidgets(sf::Time dt)
+void Gui::updateWidgets(sf::Time dt)
 {
+	for (const auto &widget : widgets)
+		widget->update(dt);
 }
 
-void gui::GUI::draw(sf::RenderTarget & target, sf::RenderStates states)
+void Gui::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
+	for (const auto &widget : widgets)
+		target.draw(*widget, states);
 }

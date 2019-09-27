@@ -1,36 +1,41 @@
 #include "Label.h"
 
+using namespace gui;
 
-
-
-gui::Label::Label()
+Label::Label()
 {
 }
 
-void gui::Label::handleEvent(const sf::Event & event)
+void Label::handleEvent(const sf::Event &event)
+{
+	//auto rect = sprite.getGlobalBounds();
+	/*rect.left = getPosition().x;
+	rect.top = getPosition().y;
+	rect.width = sprite.getLocalBounds().width;
+	rect.height = sprite.getLocalBounds().height;*/
+}
+
+void Label::update(sf::Time dt)
 {
 }
 
-void gui::Label::update(sf::Time dt)
-{
-}
-
-void gui::Label::setText(const sf::Text & text)
-{
-	this->text.setString();
-}
-
-void gui::Label::setTexture(const sf::Texture & texture)
+void Label::setTexture(const sf::Texture &texture)
 {
 	sprite.setTexture(texture);
 }
 
-void gui::Label::setFont(const sf::Font & font)
+void Label::setText(const std::string &text)
+{
+	this->text.setString(text);
+	//centerText();
+}
+
+void Label::setFont(const sf::Font &font)
 {
 	text.setFont(font);
 }
 
-bool gui::Label::isMouseOver(const sf::Vector2i & mouse)
+bool gui::Label::isMouseOver(const sf::Vector2i &mouse) const
 {
 	sf::FloatRect rect;
 	rect.left = getPosition().x;
@@ -38,10 +43,9 @@ bool gui::Label::isMouseOver(const sf::Vector2i & mouse)
 	rect.width = sprite.getLocalBounds().width;
 	rect.height = sprite.getLocalBounds().height;
 	return rect.contains(static_cast<sf::Vector2f>(mouse));
-
 }
 
-void gui::Label::draw(sf::RenderTarget & target, sf::RenderStates & states) const
+void Label::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	states.transform *= getTransform();
 	if (sprite.getTexture())
@@ -49,8 +53,10 @@ void gui::Label::draw(sf::RenderTarget & target, sf::RenderStates & states) cons
 	else target.draw(text, states);
 }
 
-void gui::Label::centreText()
+void Label::centerText()
 {
+	sf::FloatRect rect = text.getGlobalBounds();
+	text.setOrigin(rect.left, rect.top);
+	text.setPosition({ sprite.getLocalBounds().width / 2 - rect.width / 2,
+		sprite.getLocalBounds().height / 2 - rect.height / 2 });
 }
-
-
