@@ -8,7 +8,7 @@
 #include "Grid.h"
 #include "Player.h"
 
-class Player;
+
 
 class Game
 {
@@ -60,10 +60,9 @@ public:
 	int GetGridIndex(Grid* gridTile);
 	void DrawText(sf::RenderWindow &window);
 	Game(std::vector<Grid*> worldMap);
-
+	
 	void UpdateInput(const float &dt);
 private:
-	Player* player;
-	
+
 };
 

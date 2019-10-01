@@ -27,6 +27,9 @@ const sf::Time TIME_PASED = sf::seconds(1.f / 60.f);
 const int ENTRY_POINT_INDEX = 47;
 using namespace sf;
 
+const int SCREEN_WIDTH = 1920;
+const int SCREEN_HEIGHT = 1080;
+
 enum Flags
 {
 	gameInProgress = 0,
@@ -41,7 +44,8 @@ enum Flags
 enum GridType
 {
 	hill = 0,
-	path
+	path, 
+	core
 };
 
 enum FullHdresolution

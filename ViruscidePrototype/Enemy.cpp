@@ -24,7 +24,7 @@ void Enemy::DrawEnemy()
 		
 
 }
-Enemy::Enemy(int xPos, int yPos) :Health{ 20 }, Speed{ 11 }, value{ 50 }, previousPath{ nullptr }, nextPath{ nullptr }, isAtDestination{ true }, currentPath{ nullptr }, IsAtCore{ false }, hasWon{ false }, OTDamage{ 0 }
+Enemy::Enemy(int xPos, int yPos) :Health{ 20 }, Speed{ 4 }, value{ 50 }, previousPath{ nullptr }, nextPath{ nullptr }, isAtDestination{ true }, currentPath{ nullptr }, IsAtCore{ false }, hasWon{ false }, OTDamage{ 0 }
 {
 	DrawEnemy();
 	this->setPosition(xPos, yPos);

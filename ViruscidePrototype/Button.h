@@ -1,51 +1,44 @@
 #pragma once
 
-#include <functional>
+#include "Utils.h"
 
-#include "Widget.h"
-#include "SoundManager.h"
-
-namespace gui
+enum ButtonStates
 {
-	class Button : public widget
-	{
-	public:
-		using Callback = std::function<void()>;
+	normalButton = 0,
+	hoverButton = 1,
+	clickedButton = 2
+};
 
-		enum Type
-		{
-			Normal = 0,
-			Selected,
-			Pressed
-		};
+class ButtonClass
+{
+public:
+	ButtonClass();
+	ButtonClass(sf::Vector2f _position, sf::Vector2f _size, std::string _textureNormalPath, std::string _textureHoverPath, std::string _textureClickedPath);
+	~ButtonClass();
 
-		explicit Button(SoundManager &soundManager);
+	void update(sf::Event _event, sf::RenderWindow& _window);
+	void render(sf::RenderWindow& _window);
 
-		void setCallback(Callback callback);
-		void setTexture(const sf::Texture &texture);
-		void setText(const std::string &text);
-		void setFont(const sf::Font &font);
+	void loadTextures(std::string _textureNormalPath, std::string _textureHoverPath, std::string _textureClickedPath);
 
-		void handleEvent(const sf::Event &event) override;
-		void update(sf::Time dt) override;
+	void setPosition(sf::Vector2f _position);
+	void setTextureNormal(sf::Color _normalTexture);
+	void setTextureHover(sf::Color _hoverTexture);
+	void setTextureClicked(sf::Color _clickedTexture);
 
-	private:
-		void select();
-		void deselect();
-		void activate();
-		void deactivate();
+	sf::Vector2f getPosition();
+	sf::Vector2f getDimensions();
 
-		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-		void changeTexture(Type type);
-		void centerText();
+	ButtonStates getButtonState();
 
-		SoundManager &soundManager;
+private:
+	sf::RectangleShape button;
 
-		Callback   callback;
-		sf::Sprite sprite;
-		sf::Text   text;
+	sf::Texture textureNormal;
+	sf::Texture textureHover;
+	sf::Texture textureClicked;
 
-		bool selected;
-		bool toggle;
-	};
-}
+	sf::Vector2f position;
+
+	ButtonStates buttonState;
+};

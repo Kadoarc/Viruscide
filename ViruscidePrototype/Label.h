@@ -1,27 +1,21 @@
 #pragma once
 
-#include "Widget.h"
+#include "Utils.h"
 
-namespace gui
+class LabelClass
 {
-	class Label : public widget
-	{
-	public:
-		Label();
+public:
+	LabelClass();
+	LabelClass(sf::Vector2f _position ,float _size, std::string _string, sf::Text::Style _style, sf::Color _color, std::string _fontPath);
+	~LabelClass();
 
-		void handleEvent(const sf::Event &event) override;
-		void update(sf::Time dt) override;
+	void render(sf::RenderWindow& _window);
+	void loadFont(std::string _font);
+	void setText(std::string _text);
+	sf::Text getText();
 
-		void setTexture(const sf::Texture &texture);
-		void setText(const std::string &text);
-		void setFont(const sf::Font &font);
-
-		bool isMouseOver(const sf::Vector2i &mouse) const;
-	private:
-		virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-		void centerText();
-
-		sf::Sprite sprite;
-		sf::Text text;
-	};
-}
+private:
+	sf::Font font;
+	sf::Text text;
+	int textSize;
+};

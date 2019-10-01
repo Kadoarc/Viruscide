@@ -38,6 +38,10 @@ void Level::LoadLevel()
 			{
 				map[index]->SetGridType(GridType::path);
 			}
+			else if (level2[y][x] == 2)
+			{
+				map[index]->SetGridType(GridType::core);
+			}
 		}
 	}
 

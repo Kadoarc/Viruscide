@@ -1,131 +1,167 @@
 #include "Button.h"
 
-using namespace gui;
-
-Button::Button(SoundManager &soundManager)
-	: soundManager(soundManager)
-	, callback()
-	, selected(false)
-	, toggle(false)
+ButtonClass::ButtonClass()
 {
 }
 
-void Button::setCallback(Callback callback)
+ButtonClass::ButtonClass(sf::Vector2f _position, sf::Vector2f _size , std::string _textureNormalPath, 
+	std::string _textureHoverPath, std::string _textureClickedPath)
 {
-	this->callback = std::move(callback);
+	//set position var
+	position = _position;
+
+	//set button state
+	buttonState = normalButton;
+
+	//load button texture
+	loadTextures(_textureNormalPath, _textureHoverPath, _textureClickedPath);
+
+	button = sf::RectangleShape(_size);
+	button.setTexture(&textureNormal);
+	button.setOrigin(button.getGlobalBounds().width / 2, button.getGlobalBounds().height / 2);
+	button.setPosition(position);
 }
 
-void Button::setTexture(const sf::Texture &texture)
+ButtonClass::~ButtonClass()
 {
-	sprite.setTexture(texture);
-	changeTexture(Type::Normal);
-	centerText();
 }
 
-void Button::setText(const std::string &text)
+void ButtonClass::update(sf::Event _event, sf::RenderWindow & _window)
 {
-	this->text.setString(text);
-	centerText();
-}
+	sf::Vector2i mousePosition = sf::Mouse::getPosition(_window);
 
-void Button::setFont(const sf::Font &font)
-{
-	text.setFont(font);
-	centerText();
-}
+	bool mouseOnButton = mousePosition.x >= button.getPosition().x - button.getGlobalBounds().width / 2
+		&& mousePosition.x <= button.getPosition().x + button.getGlobalBounds().width / 2
+		&& mousePosition.y >= button.getPosition().y - button.getGlobalBounds().height / 2
+		&& mousePosition.y <= button.getPosition().y + button.getGlobalBounds().height / 2;
 
-void Button::handleEvent(const sf::Event &event)
-{
-	sf::FloatRect rect;
-	rect.left = getPosition().x;
-	rect.top = getPosition().y;
-	rect.width = sprite.getLocalBounds().width;
-	rect.height = sprite.getLocalBounds().height;
-
-	switch (event.type)
+	if (_event.type == sf::Event::MouseMoved)
 	{
-	case sf::Event::MouseButtonPressed:
-	case sf::Event::MouseButtonReleased:
-		if (rect.contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
+		if (mouseOnButton)
 		{
-			if (event.type == sf::Event::MouseButtonPressed)
-			{
-				activate();
-			}
-			else
-			{
-				deactivate();
-			}
-		}
-		break;
-	case sf::Event::MouseMoved:
-		if (rect.contains(static_cast<float>(event.mouseMove.x), static_cast<float>(event.mouseMove.y)))
-		{
-			if (!selected)
-				select();
+			buttonState = hoverButton;
 		}
 		else
 		{
-			if (selected)
-				deselect();
+			buttonState = normalButton;
+		}
+	}
+
+	if (_event.type == sf::Event::MouseButtonPressed)
+	{
+		switch (_event.mouseButton.button)
+		{
+		case sf::Mouse::Left:
+		{
+			if (mouseOnButton)
+			{
+				buttonState = clickedButton;
+			}
+			else
+			{
+				buttonState = normalButton;
+			}
 		}
 		break;
-	default:
+		}
+	}	
+
+	if (_event.type == sf::Event::MouseButtonReleased)
+	{
+		switch (_event.mouseButton.button)
+		{
+		case sf::Mouse::Left:
+		{
+			if (mouseOnButton)
+			{
+				buttonState = hoverButton;
+			}
+			else
+			{
+				buttonState = normalButton;
+			}
+		}
 		break;
+		}
+	}
+
+	switch (buttonState)
+	{
+	case normalButton:
+	{
+		button.setTexture(&textureNormal);
+	}
+	break;
+	case hoverButton:
+	{
+		button.setTexture(&textureHover);
+	}
+	break;
+	case clickedButton:
+	{
+		button.setTexture(&textureClicked);
+	}
+	break;
 	}
 }
 
-void Button::update(sf::Time dt)
+void ButtonClass::render(sf::RenderWindow & _window)
 {
+	_window.draw(button);
 }
 
-void Button::select()
+void ButtonClass::loadTextures(std::string _textureNormalPath, std::string _textureHoverPath, std::string _textureClickedPath)
 {
-	changeTexture(Type::Selected);
-	selected = true;
+	if (!textureNormal.loadFromFile(_textureNormalPath))
+	{
+		std::cout << "Error loading normal button texture" << std::endl;
+	}
 
-	soundManager.play("mouseHover");
+	if (!textureHover.loadFromFile(_textureHoverPath))
+	{
+		std::cout << "Error loading Hover button texture" << std::endl;
+	}
+
+	if (!textureClicked.loadFromFile(_textureClickedPath))
+	{
+		std::cout << "Error loading Clicked button texture" << std::endl;
+	}
 }
 
-void Button::deselect()
+void ButtonClass::setPosition(sf::Vector2f _position)
 {
-	changeTexture(Type::Normal);
-	selected = false;
+	position = _position;
 }
 
-void Button::activate()
+void ButtonClass::setTextureNormal(sf::Color _normalTexture)
 {
-	changeTexture(Type::Pressed);
 
-	if (callback)
-		callback();
-
-	deactivate();
-	soundManager.play("mouseClick");
+	button.setTexture(&textureNormal);
 }
 
-void Button::deactivate()
+void ButtonClass::setTextureHover(sf::Color _hoverTexture)
 {
-	changeTexture(Type::Selected);
+
+	button.setTexture(&textureHover);
 }
 
-void Button::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void ButtonClass::setTextureClicked(sf::Color _clickedTexture)
 {
-	states.transform *= getTransform();
-	target.draw(sprite, states);
-	target.draw(text, states);
+
+	button.setTexture(&textureClicked);
 }
 
-void Button::changeTexture(Type type)
+sf::Vector2f ButtonClass::getPosition()
 {
-	sf::IntRect textureRect(190 * type, 0, 190, 49);
-	sprite.setTextureRect(textureRect);
+	return (position);
 }
 
-void Button::centerText()
+sf::Vector2f ButtonClass::getDimensions()
 {
-	sf::FloatRect rect = text.getGlobalBounds();
-	text.setOrigin(rect.left, rect.top);
-	text.setPosition({ sprite.getLocalBounds().width / 2 - rect.width / 2,
-		sprite.getLocalBounds().height / 2 - rect.height / 2 });
+	return sf::Vector2f();
+}
+
+ButtonStates ButtonClass::getButtonState()
+{
+	return (buttonState);
 }

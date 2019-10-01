@@ -1,62 +1,46 @@
 #include "Label.h"
 
-using namespace gui;
-
-Label::Label()
+LabelClass::LabelClass()
 {
 }
 
-void Label::handleEvent(const sf::Event &event)
+LabelClass::LabelClass(sf::Vector2f _position, float _size, std::string _string, sf::Text::Style _style, sf::Color _color, std::string _fontPath)
 {
-	//auto rect = sprite.getGlobalBounds();
-	/*rect.left = getPosition().x;
-	rect.top = getPosition().y;
-	rect.width = sprite.getLocalBounds().width;
-	rect.height = sprite.getLocalBounds().height;*/
-}
-
-void Label::update(sf::Time dt)
-{
-}
-
-void Label::setTexture(const sf::Texture &texture)
-{
-	sprite.setTexture(texture);
-}
-
-void Label::setText(const std::string &text)
-{
-	this->text.setString(text);
-	//centerText();
-}
-
-void Label::setFont(const sf::Font &font)
-{
+	loadFont(_fontPath);
 	text.setFont(font);
+	text.setString(_string);
+	text.setCharacterSize(_size);
+	text.setFillColor(_color);
+	text.setStyle(_style);
+	text.setPosition(_position);
 }
 
-bool gui::Label::isMouseOver(const sf::Vector2i &mouse) const
+LabelClass::~LabelClass()
 {
-	sf::FloatRect rect;
-	rect.left = getPosition().x;
-	rect.top = getPosition().y;
-	rect.width = sprite.getLocalBounds().width;
-	rect.height = sprite.getLocalBounds().height;
-	return rect.contains(static_cast<sf::Vector2f>(mouse));
 }
 
-void Label::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void LabelClass::render(sf::RenderWindow & _window)
 {
-	states.transform *= getTransform();
-	if (sprite.getTexture())
-		target.draw(sprite, states);
-	else target.draw(text, states);
+	_window.draw(text);
 }
 
-void Label::centerText()
+void LabelClass::loadFont(std::string _font)
 {
-	sf::FloatRect rect = text.getGlobalBounds();
-	text.setOrigin(rect.left, rect.top);
-	text.setPosition({ sprite.getLocalBounds().width / 2 - rect.width / 2,
-		sprite.getLocalBounds().height / 2 - rect.height / 2 });
+	// Dont forget the file path!
+	//"Resources/Fonts/example.ttf"
+	if (!font.loadFromFile(_font))
+	{
+		//error
+		std::cout << "error loading font" << std::endl;
+	}
+}
+
+void LabelClass::setText(std::string _text)
+{
+	text.setString(_text);
+}
+
+sf::Text LabelClass::getText()
+{
+	return (text);
 }

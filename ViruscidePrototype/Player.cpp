@@ -1,12 +1,18 @@
 #include "Player.h"
 
 
-Player::Player(float xPos, float yPos)
+Player::Player(float start_xPos, float start_yPos, int i_playerNumber)
 {
+	// Assign passed in variables
+	playerNumber = i_playerNumber;
+	xPos = start_xPos;
+	yPos = start_yPos;
+	// Draw Calls
 	drawPlayer();
 	this->setPosition(xPos, yPos);
 	this->setOrigin(TILE_SIZE / 2, TILE_SIZE / 2);
 }
+
 
 Player::Player()
 {
@@ -26,6 +32,18 @@ void Player::drawPlayer()
 	this->setPoint(3, sf::Vector2f(TILE_SIZE / 2, TILE_SIZE - 25));
 	this->setPoint(4, sf::Vector2f(15, TILE_SIZE*0.75));
 	this->setPoint(5, sf::Vector2f(15, TILE_SIZE / 4));
-	this->setFillColor(sf::Color::Cyan);
+	this->setOutlineThickness(5);
+
+	if (playerNumber == 1)
+	{
+		this->setOutlineColor(sf::Color::Black);
+		this->setFillColor(sf::Color::Blue);
+	}
+	if (playerNumber == 2)
+	{
+		this->setOutlineColor(sf::Color::Black);
+		this->setFillColor(sf::Color::Magenta);
+	}
+	
 
 }
