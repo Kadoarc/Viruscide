@@ -10,6 +10,7 @@
 
 #include "Button.h"
 #include "Label.h"
+#include "MainMenu.h"
 
 Player player;
 
@@ -27,10 +28,8 @@ int main()
 	sf::Time collector = sf::Time::Zero;
 	float frameTime = 1.0f / 60.0f;
 
-	/*
-	ButtonClass testButton(sf::Vector2f(1280.0f, 720.0f), sf::Vector2f(425.0f, 133.0f), std::string("Resources/Images/ViruscideMenuPlayButton.png"),
-			std::string("Resources/Images/ViruscideMenuPlayButtonHover.png"), std::string("Resources/Images/ViruscideMenuPlayButtonClicked.png"));;
-	LabelClass testlabel(sf::Vector2f(500.0f, 500.0f), 42, "Test Label", sf::Text::Style::Regular, sf::Color::Red, "Resources/Fonts/galaxymonkey.ttf");*/
+	MainMenuClass mainMenu(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), sf::Vector2f(1920.0, 1080.0f),
+		"Resources/Images/ViruscideMenuScreen.png", "Resources/Images/ViruscideControlScreen.png");
 
 	while (window.isOpen())
 	{
@@ -49,7 +48,7 @@ int main()
 						game.RestartGame();
 					}
 
-				
+
 				}
 			}
 
@@ -79,12 +78,8 @@ int main()
 							{
 								eventFlag = Flags::gameInProgress;
 							}
-
 						}
-						
 					}
-
-
 				}
 
 				if (event.mouseButton.button == sf::Mouse::Right && eventFlag == Flags::towerUnderConstruction)
@@ -93,40 +88,37 @@ int main()
 					eventFlag = Flags::gameInProgress;
 				}
 			}
-
 		}
 
-		while (collector > TIME_PASED)
+		if (mainMenu.getMenuOpen())
 		{
-			if (game.GetIsGameOver())
-			{
-				collector -= TIME_PASED;
-				window.clear(sf::Color::Black);
-				game.RenderGameOver(window);
-				window.display();
-			}
-			else
-			{
-				collector -= TIME_PASED;
-				window.clear(sf::Color::Black);
-				game.GameCycle(window, eventFlag);
-				//testButton.update(event, window);
-				//testButton.render(window);
-				//testlabel.render(window);
-				window.display();
-
-				/*if (testButton.getButtonState() == clickedButton)
-				{
-					window.close();
-				}*/
-			}
-
+			window.clear();
+			mainMenu.updateRenderButtons(event, window);
+			window.display();
 		}
+		else
+		{
+			while (collector > TIME_PASED)
+			{
+				if (game.GetIsGameOver())
+				{
+					collector -= TIME_PASED;
+					window.clear(sf::Color::Black);
+					game.RenderGameOver(window);
+					window.display();
+				}
+				else
+				{
+					collector -= TIME_PASED;
+					window.clear(sf::Color::Black);
+					game.GameCycle(window, eventFlag);
+					window.display();
+				}
+			}
 
-		collector += clock.restart();
+			collector += clock.restart();
+		}
 	}
-
-
 
 	return(0);
 }
