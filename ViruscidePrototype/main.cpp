@@ -8,6 +8,9 @@
 #include "Level.h"
 #include "Player.h"
 
+#include "Button.h"
+#include "Label.h"
+
 Player player;
 
 
@@ -24,7 +27,10 @@ int main()
 	sf::Time collector = sf::Time::Zero;
 	float frameTime = 1.0f / 60.0f;
 
-
+	/*
+	ButtonClass testButton(sf::Vector2f(1280.0f, 720.0f), sf::Vector2f(425.0f, 133.0f), std::string("Resources/Images/ViruscideMenuPlayButton.png"),
+			std::string("Resources/Images/ViruscideMenuPlayButtonHover.png"), std::string("Resources/Images/ViruscideMenuPlayButtonClicked.png"));;
+	LabelClass testlabel(sf::Vector2f(500.0f, 500.0f), 42, "Test Label", sf::Text::Style::Regular, sf::Color::Red, "Resources/Fonts/galaxymonkey.ttf");*/
 
 	while (window.isOpen())
 	{
@@ -104,7 +110,15 @@ int main()
 				collector -= TIME_PASED;
 				window.clear(sf::Color::Black);
 				game.GameCycle(window, eventFlag);
+				//testButton.update(event, window);
+				//testButton.render(window);
+				//testlabel.render(window);
 				window.display();
+
+				/*if (testButton.getButtonState() == clickedButton)
+				{
+					window.close();
+				}*/
 			}
 
 		}
