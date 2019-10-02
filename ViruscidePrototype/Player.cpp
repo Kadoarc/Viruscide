@@ -11,6 +11,7 @@ Player::Player(float start_xPos, float start_yPos, int i_playerNumber)
 	drawPlayer();
 	this->setPosition(xPos, yPos);
 	this->setOrigin(TILE_SIZE / 2, TILE_SIZE / 2);
+	moveSpeed = 2;
 }
 
 
