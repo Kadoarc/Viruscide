@@ -6,6 +6,7 @@ public:
 	// Initialise X,Y Coordinates
 	float xPos;
 	float yPos;
+	float moveSpeed;
 	int playerNumber;
 
 

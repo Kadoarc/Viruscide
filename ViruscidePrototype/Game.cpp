@@ -113,23 +113,23 @@ void Game::UpdatePlayer()
 	// PLAYER ONE / WASD MOVEMENT
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		playerList.at(0)->xPos -= 1.0f;
+		playerList.at(0)->xPos -= playerList.at(0)->moveSpeed;
 		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		playerList.at(0)->yPos -= 1.0f;
+		playerList.at(0)->yPos -= playerList.at(0)->moveSpeed;
 		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		playerList.at(0)->yPos += 1.0f;
+		playerList.at(0)->yPos += playerList.at(0)->moveSpeed;
 		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		playerList.at(0)->xPos += 1.0f;
+		playerList.at(0)->xPos += playerList.at(0)->moveSpeed;
 		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
@@ -141,23 +141,23 @@ void Game::UpdatePlayer()
 	// PLAYER TWO / ARROW KEY MOVMENT
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
 	{
-		playerList.at(1)->xPos -= 1.0f;
+		playerList.at(1)->xPos -= playerList.at(0)->moveSpeed;
 		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
 	{
-		playerList.at(1)->yPos -= 1.0f;
+		playerList.at(1)->yPos -= playerList.at(0)->moveSpeed;
 		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
 	{
-		playerList.at(1)->yPos += 1.0f;
+		playerList.at(1)->yPos += playerList.at(0)->moveSpeed;
 		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
 	{
-		playerList.at(1)->xPos += 1.0f;
+		playerList.at(1)->xPos += playerList.at(0)->moveSpeed;
 		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
 	}
 		
