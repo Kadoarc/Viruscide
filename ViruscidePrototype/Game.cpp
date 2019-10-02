@@ -499,7 +499,6 @@ void Game::DrawText(sf::RenderWindow & window)
 	window.draw(tower1PriceTxt);
 	window.draw(tower2PriceTxt);
 	window.draw(tower3PriceTxt);
-
 }
 
 
