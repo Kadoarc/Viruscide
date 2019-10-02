@@ -4,6 +4,7 @@
 #include "Utils.h"
 #include <string>
 #include <iostream>
+#include "TextureManager.h"
 
 
 class Tower : public sf::ConvexShape
@@ -26,6 +27,7 @@ class Tower : public sf::ConvexShape
 	void SetRange();
 	void SetFireRate(float rate);
 	void SetTowerTraits(TowerType type);
+	TextureManager texMan;
 
 public:
 	sf::CircleShape* GetRange();

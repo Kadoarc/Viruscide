@@ -97,14 +97,16 @@ void Game::UpdateEnemies()
 
 void Game::UpdatePlayer()
 {
+
 	for (int i = 0; i < towerList.size(); i++)
 	{
-		if(playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()));
+		if(playerList.back()->getLocalBounds().intersects(towerList.at(i)->getLocalBounds()));
 		{
 			std::cout << "Player one Collision with Tower \n";
+			m_OverlappingTower = true;
 		}
 	}
-	if (playerList.back()->getGlobalBounds().intersects(playerList.at(0)->getGlobalBounds()))
+	if (playerList.back()->getLocalBounds().intersects(playerList.at(0)->getLocalBounds()))
 	{
 		std::cout << "Player one Collision with Player Two \n";
 	}
@@ -360,6 +362,9 @@ void Game::UpdateGUI()
 	tower1PriceTxt.setString(std::to_string(gui[0]->GetPrice()));
 	tower2PriceTxt.setString(std::to_string(gui[1]->GetPrice()));
 	tower3PriceTxt.setString(std::to_string(gui[2]->GetPrice()));
+	CoreTxt.setFont(font);
+	CoreTxt.setString("Core Health: ");
+	CoreTxt.setPosition(1670, 78);
 	coreHealthTxt.setString(std::to_string(GetCoreHealth()));
 	MoneyTxt.setString(std::to_string(GetMoney()));
 	tower1PriceTxt.setFont(font);
@@ -373,9 +378,10 @@ void Game::UpdateGUI()
 	coreHealthTxt.setPosition(1674, 100);
 	MoneyTxt.setPosition(1674, 6);
 	MoneyTxt.setFont(font);
-	tower1PriceTxt.setFillColor(sf::Color::Red);
-	coreHealthTxt.setFillColor(sf::Color::Red);
-	MoneyTxt.setFillColor(sf::Color::Red);
+tower1PriceTxt.setFillColor(sf::Color::Red);
+coreHealthTxt.setFillColor(sf::Color::Red);
+CoreTxt.setFillColor(sf::Color::Red);
+MoneyTxt.setFillColor(sf::Color::Red);
 }
 
 void Game::CancelTower()
@@ -469,6 +475,21 @@ void Game::ManageDamage()
 	}
 }
 
+Tower * Game::SearchInTowers(sf::Vector2f pos)
+{
+	for (int i = 0; i < towerList.size(); i++)
+	{
+		if (towerList[i]->getGlobalBounds().contains(pos.x, pos.y))
+		{
+			std::cout << "Entity found at  " << towerList[i]->getPosition().x << "and " << towerList[i]->getPosition().y << std::endl;
+			return towerList[i];
+		}
+	}
+}
+
+
+
+
 Flags Game::GameManager(Flags flag)
 {
 	if (coreHealth > 0)
@@ -515,7 +536,8 @@ void Game::GameCycle(sf::RenderWindow & window, Flags flag)
 	}
 	else
 	{
-	
+		ManageDamage();
+		ManageShooting();
 		UpdateAllStates(window);
 		Render(window, flag);
 	}
@@ -555,6 +577,7 @@ int Game::GetGridIndex(Grid * gridTile)
 void Game::DrawText(sf::RenderWindow & window)
 {
 	window.draw(MoneyTxt);
+	window.draw(CoreTxt);
 	window.draw(coreHealthTxt);
 	window.draw(tower1PriceTxt);
 	window.draw(tower2PriceTxt);
@@ -565,7 +588,7 @@ void Game::DrawText(sf::RenderWindow & window)
 
 
 
-Game::Game(std::vector<Grid*> worldMap) :map{ worldMap }, money{ 700 }, coreHealth{ 1 }, isGameOver{ false }, Level{ 1 }
+Game::Game(std::vector<Grid*> worldMap) :map{ worldMap }, money{ 700 }, coreHealth{ 10 }, isGameOver{ false }, Level{ 1 }
 {
 	// Add the players
 	// Player 1
@@ -576,6 +599,14 @@ Game::Game(std::vector<Grid*> worldMap) :map{ worldMap }, money{ 700 }, coreHeal
 	MakeGUI();
 }
 
+void Game::ControlTower()
+{
+	if (m_OverlappingTower = true && (sf::Keyboard::isKeyPressed(sf::Keyboard::E)))
+	{
+		
+	}
+}
+
 void Game::UpdateInput(const float & dt)
 {
 
@@ -583,7 +614,8 @@ void Game::UpdateInput(const float & dt)
 
 Game::Game()
 {
-
+	soundManager.loadFromFile("Splat", "Resources/Audio/Splat.wav");
+	soundManager.loadFromFile("Pew", "Resources/Audio/Pew.wav");
 }
 
 Game::~Game()

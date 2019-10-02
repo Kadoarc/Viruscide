@@ -98,6 +98,14 @@ Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, p
 	this->type = type;
 	if (type == TowerType::basic)
 	{
+		sf::Texture Tow1Tex;
+		Tow1Tex.loadFromFile("Resources/Images/Tower1.png");
+		
+		if (!Tow1Tex.loadFromFile("Tower1.png"))
+		{
+			std::cout << "Not Loaded";
+		}
+		
 		this->setFillColor(sf::Color(128, 128, 128));
 	}
 	else

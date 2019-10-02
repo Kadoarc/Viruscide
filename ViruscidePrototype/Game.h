@@ -8,7 +8,7 @@
 #include "Grid.h"
 #include "Player.h"
 #include "Bullet.h"
-
+#include "SoundManager.h"
 
 
 class Game
@@ -21,12 +21,15 @@ public:
 	std::vector<Tower*> gui;
 	std::vector<Player*> playerList;
 	std::vector<Bullet*> bulletList;
+	SoundManager soundManager;
 	int money;
 	int coreHealth;
 	int Level;
 	sf::Font font;
 	void loadFont();
 	void MakeGUI();
+	sf::Text CoreTxt;
+	sf::Text MoneyTitle;
 	sf::Text coreHealthTxt;
 	sf::Text MoneyTxt;
 	sf::Text gameOverTxt;
@@ -58,6 +61,7 @@ public:
 	void ActivateTowerPlacement();
 	void ManageShooting();
 	void ManageDamage();
+	Tower* SearchInTowers(sf::Vector2f pos);
 	Flags GameManager(Flags flag);
 	void GameCycle(sf::RenderWindow &window, Flags flag);
 	void UpdateAllStates(sf::RenderWindow &window);
@@ -65,9 +69,10 @@ public:
 	int GetGridIndex(Grid* gridTile);
 	void DrawText(sf::RenderWindow &window);
 	Game(std::vector<Grid*> worldMap);
-	
+	void ControlTower();
+	bool m_OverlappingTower = false;
 	void UpdateInput(const float &dt);
 private:
-
+ 
 };
 
