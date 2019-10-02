@@ -101,7 +101,21 @@ void Game::UpdatePlayer()
 	{
 		if(playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()));
 		{
-			std::cout << "Player one Collision with Tower \n";
+			std::cout << "Player: " << playerList.at(i) << " Collision with Tower: " << towerList.at(i) << std::endl;
+			std::cout << "Player Height = " << playerList.at(i)->getGlobalBounds().height << std::endl;
+			std::cout << "Player Left = " << playerList.at(i)->getGlobalBounds().left << std::endl;
+			std::cout << "Player Top = " << playerList.at(i)->getGlobalBounds().top << std::endl;
+			std::cout << "Player Width = " << playerList.at(i)->getGlobalBounds().width << std::endl;
+			std::cout << "Player Position X = " << playerList.at(i)->getPosition().x << std::endl;
+			std::cout << "Player Position Y = " << playerList.at(i)->getPosition().y << std::endl;
+
+			std::cout << "Tower: " << towerList.at(i) << std::endl;
+			std::cout << "Tower Height = " << towerList.at(i)->getGlobalBounds().height << std::endl;
+			std::cout << "Tower Left = " << towerList.at(i)->getGlobalBounds().left << std::endl;
+			std::cout << "Tower Top = " << towerList.at(i)->getGlobalBounds().top << std::endl;
+			std::cout << "Tower Width = " << towerList.at(i)->getGlobalBounds().width<< std::endl;
+			std::cout << "Tower Position X = " << towerList.at(i)->getPosition().x << std::endl;
+			std::cout << "Tower Position Y = " << towerList.at(i)->getPosition().y << std::endl;
 		}
 	}
 	if (playerList.back()->getGlobalBounds().intersects(playerList.at(0)->getGlobalBounds()))
@@ -511,7 +525,7 @@ Game::Game(std::vector<Grid*> worldMap) :map{ worldMap }, money{ 700 }, coreHeal
 	// Player 1
 	playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 1));
 	// Player 2
-	playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 2));
+	//playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 2));
 	loadFont();
 	MakeGUI();
 }
