@@ -185,6 +185,14 @@ void Game::ResetLevel()
 	Level = 1;
 }
 
+void Game::UpdateBullets()
+{
+	for (int i = 0; i < bulletList.size(); i++)
+	{
+		bulletList[i]->Update();
+	}
+}
+
 int Game::GetCoreHealth()
 {
 	return coreHealth;
@@ -194,6 +202,7 @@ void Game::RestartGame()
 {
 	towerList.clear();
 	enemyList.clear();
+	bulletList.clear();
 	for (int i = 0; i < map.size(); i++)
 	{
 		if (!map[i]->GetIsEmpty())
@@ -339,6 +348,10 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		window.draw(*playerList[l]);
 	}
 	
+	for (int n = 0; n < bulletList.size(); n++)
+	{
+		window.draw(*bulletList[n]);
+	}
 	DrawText(window);
 }
 
@@ -415,6 +428,47 @@ void Game::ActivateTowerPlacement()
 	underConstruction = nullptr;
 }
 
+void Game::ManageShooting()
+{
+	for (int i = 0; i < towerList.size(); i++)
+	{
+		if (towerList[i]->GetIsBuilt() && towerList[i]->GetIsReadyToFire())
+		{
+			for (int j = 0; j < enemyList.size(); j++)
+			{
+				if (towerList[i]->GetRange()->getGlobalBounds().contains(enemyList[j]->getPosition()) && towerList[i]->GetIsReadyToFire())
+				{
+					bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+					towerList[i]->SetIsReadyToFire(false);
+				}
+			}
+		}
+	}
+}
+
+void Game::ManageDamage()
+{
+	for (int i = 0; i < enemyList.size(); i++)
+	{
+
+		for (int j = 0; j < bulletList.size(); j++)
+		{
+
+			if (enemyList[i]->getGlobalBounds().contains(bulletList[j]->getPosition()))// crash
+			{
+				enemyList[i]->GiveDamage(bulletList[j]);
+				bulletList.erase(bulletList.begin() + j);
+			}
+		}
+		if (enemyList[i]->GetHP() <= 0)
+		{
+			GiveMoney(enemyList[i]->GetValue());
+			enemyList.erase(enemyList.begin() + i);
+
+		}
+	}
+}
+
 Flags Game::GameManager(Flags flag)
 {
 	if (coreHealth > 0)
@@ -474,7 +528,13 @@ void Game::UpdateAllStates(sf::RenderWindow & window)
 	UpdatePlayer();
 	UpdateTowers(window);
 	UpdateEnemies();
+	UpdateBullets();
 	UpdateGUI();
+}
+
+void Game::GiveMoney(int amount)
+{
+	money += amount;
 }
 
 

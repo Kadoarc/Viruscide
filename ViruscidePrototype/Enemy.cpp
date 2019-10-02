@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "Game.h"
+#include "Bullet.h"
 
 
 void Enemy::DrawEnemy()
@@ -55,6 +56,26 @@ void Enemy::Draw()
 {
 }
 
+void Enemy::GiveDamage(Bullet* bullet)
+{
+	this ->Health -= bullet->GetDamage();
+
+	if (bullet->GetElementalDamage() > 0 && !this->isHit)
+	{
+		this->Health -= bullet->GetElementalDamage();
+		if (bullet->GetElement() == TowerType::basic)
+		{
+			isHit = true;
+			OTDamage = bullet->GetElementalDamage();
+		}
+		else
+		{
+			isHit = true;
+			Speed /= 2;
+		}
+	}
+}
+
 bool Enemy::GetHasWon()
 {
 	return hasWon;
@@ -62,6 +83,7 @@ bool Enemy::GetHasWon()
 
 void Enemy::Update()
 {
+	Health -= OTDamage;
 
 	if (nextPath)
 	{

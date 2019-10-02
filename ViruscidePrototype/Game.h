@@ -7,6 +7,7 @@
 #include "Enemy.h"
 #include "Grid.h"
 #include "Player.h"
+#include "Bullet.h"
 
 
 
@@ -19,6 +20,7 @@ public:
 	std::vector<Enemy*> enemyList;
 	std::vector<Tower*> gui;
 	std::vector<Player*> playerList;
+	std::vector<Bullet*> bulletList;
 	int money;
 	int coreHealth;
 	int Level;
@@ -39,6 +41,7 @@ public:
 	void UpdateTowers(sf::RenderWindow &window);
 	void RenderGameOver(sf::RenderWindow &window);
 	void ResetLevel();
+	void UpdateBullets();
 	int GetCoreHealth();
 	void RestartGame();
 	std::vector<Grid*> map;
@@ -53,10 +56,12 @@ public:
 	void WaveGeneration(int difficulty);
 	void SpendMoney(int amount);
 	void ActivateTowerPlacement();
+	void ManageShooting();
+	void ManageDamage();
 	Flags GameManager(Flags flag);
 	void GameCycle(sf::RenderWindow &window, Flags flag);
 	void UpdateAllStates(sf::RenderWindow &window);
-
+	void GiveMoney(int amount);
 	int GetGridIndex(Grid* gridTile);
 	void DrawText(sf::RenderWindow &window);
 	Game(std::vector<Grid*> worldMap);
