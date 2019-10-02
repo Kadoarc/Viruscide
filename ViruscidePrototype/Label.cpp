@@ -4,14 +4,14 @@ LabelClass::LabelClass()
 {
 }
 
-LabelClass::LabelClass(sf::Vector2f _position, float _size, std::string _string, sf::Text::Style _style, sf::Color _color, std::string _fontPath)
+LabelClass::LabelClass(sf::Vector2f _position, float _size, std::string _string, sf::Color _color, std::string _fontPath)
 {
 	loadFont(_fontPath);
-	text.setFont(font);
+	//text.setFont(font);
 	text.setString(_string);
 	text.setCharacterSize(_size);
 	text.setFillColor(_color);
-	text.setStyle(_style);
+	text.setOrigin(text.getGlobalBounds().width / 2, text.getGlobalBounds().height / 2);
 	text.setPosition(_position);
 }
 
@@ -33,6 +33,8 @@ void LabelClass::loadFont(std::string _font)
 		//error
 		std::cout << "error loading font" << std::endl;
 	}
+
+	text.setFont(font);
 }
 
 void LabelClass::setText(std::string _text)

@@ -2,7 +2,7 @@
 
 void Game::loadFont()
 {
-	if (!font.loadFromFile("arial.ttf"))
+	if (!font.loadFromFile("Resources/Fonts/galaxymonkey.ttf"))
 	{
 		std::cout << "Font loading Error " << std::endl;
 	}
@@ -175,7 +175,8 @@ void Game::RenderGameOver(sf::RenderWindow & window)
 {
 	gameOverTxt.setString("game over press space to start again? ");
 	gameOverTxt.setFont(font);
-	gameOverTxt.setPosition(FullHdresolution::x / 2, FullHdresolution::y / 2);
+	gameOverTxt.setOrigin(gameOverTxt.getGlobalBounds().width / 2.0f, gameOverTxt.getGlobalBounds().height / 2.0f);
+	gameOverTxt.setPosition(SCREEN_WIDTH / 2.0f, SCREEN_WIDTH / 2.0f);
 	gameOverTxt.setFillColor(sf::Color::Red);
 	window.draw(gameOverTxt);
 }

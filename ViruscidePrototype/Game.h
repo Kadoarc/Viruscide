@@ -7,7 +7,7 @@
 #include "Enemy.h"
 #include "Grid.h"
 #include "Player.h"
-
+#include "Label.h"
 
 
 class Game
