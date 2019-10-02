@@ -1,90 +1,68 @@
 #include "MainMenu.h"
+#include"Enemy.h"
+#include<iostream>
+#include"../Logging/Logging.h"
 
-MainMenuClass::MainMenuClass()
+MainMenu::MainMenu()
+{
+	startButton.setText("Start");
+	startButton.setSize(Globals::mainMenuButtonSize);
+	startButton.setCenterPosition(sf::Vector2f(Globals::windowSize.x / 2, Globals::windowSize.y / 2 - Globals::mainMenuButtonSize.y * 4));
+	startButton.setTextPosition(startButton.getPosition());
+
+	exitButton.setText("Exit");
+	exitButton.setSize(Globals::mainMenuButtonSize);
+	exitButton.setCenterPosition(sf::Vector2f(startButton.getCenter().x, startButton.getCenter().y + Globals::mainMenuButtonSize.y * 1.5));
+	exitButton.setTextPosition(exitButton.getPosition());
+
+	gameName.setColour(sf::Color::Transparent);
+	gameName.setText("VIRUSCIDE");
+	gameName.setTextPosition(sf::Vector2f(Globals::windowSize.x / 4, Globals::rasterTop));
+	gameName.setTextSize(Globals::TextSize::big);
+}
+
+MainMenu::~MainMenu()
 {
 }
 
-MainMenuClass::MainMenuClass(sf::Vector2f _position, sf::Vector2f _size, std::string _texturePath, std::string _controlScreenPath)
+void MainMenu::update(sf::RenderWindow & window)
 {
-	if (!texture.loadFromFile(_texturePath))
-	{
-		std::cout << "Error Loading Main Menu Background Image" << std::endl;
-	}
-
-	if (!controlsTexture.loadFromFile(_controlScreenPath))
-	{
-		std::cout << "Error Loading Main Menu Background Image" << std::endl;
-	}
-
-	menuBackground = sf::RectangleShape(_size);
-	menuBackground.setTexture(&texture);
-	menuBackground.setOrigin(menuBackground.getGlobalBounds().width / 2, menuBackground.getGlobalBounds().height / 2);
-	menuBackground.setPosition(_position);
-
-	controlsBackground = sf::RectangleShape(_size);
-	controlsBackground.setTexture(&controlsTexture);
-	controlsBackground.setOrigin(controlsBackground.getGlobalBounds().width / 2, controlsBackground.getGlobalBounds().height / 2);
-	controlsBackground.setPosition(_position);
-
-	PlayButton = ButtonClass(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), sf::Vector2f(425.0f, 133.0f), std::string("Resources/Images/ViruscideMenuPlayButton.png"),
-		std::string("Resources/Images/ViruscideMenuPlayButtonHover.png"), std::string("Resources/Images/ViruscideMenuPlayButtonClicked.png"));
-	ControlsButton = ButtonClass(sf::Vector2f(SCREEN_WIDTH / 2, (SCREEN_HEIGHT / 2) + 153.0f), sf::Vector2f(425.0f, 133.0f), std::string("Resources/Images/ViruscideControlsButtons.png"),
-		std::string("Resources/Images/ViruscideControlsButtonsHover.png"), std::string("Resources/Images/ViruscideControlsButtonsClicked.png"));
-	QuitButton = ButtonClass(sf::Vector2f(SCREEN_WIDTH / 2, (SCREEN_HEIGHT / 2) + 306.0f), sf::Vector2f(425.0f, 133.0f), std::string("Resources/Images/ViruscideMenuQuitButton.png"),
-		std::string("Resources/Images/ViruscideMenuQuitButtonHover.png"), std::string("Resources/Images/ViruscideMenuQuitButtonClicked.png"));
-
-	BackButton = ButtonClass(sf::Vector2f(SCREEN_WIDTH / 2, (SCREEN_HEIGHT / 2) + 306.0f), sf::Vector2f(425.0f, 133.0f), std::string("Resources/Images/ViruscideBackButton.png"),
-		std::string("Resources/Images/ViruscideBackButtonHover.png"), std::string("Resources/Images/ViruscideBackButtonClicked.png"));
+	handleEvent(window);
 }
 
-MainMenuClass::~MainMenuClass()
+void MainMenu::draw(sf::RenderWindow & window)
 {
+	window.draw(startButton);
+	window.draw(exitButton);
+	window.draw(gameName);
+
 }
 
-void MainMenuClass::updateRenderButtons(sf::Event _event, sf::RenderWindow & _window)
+void MainMenu::handleEvent(sf::RenderWindow & window)
 {
-	PlayButton.update(_event, _window);
-	ControlsButton.update(_event, _window);
-	QuitButton.update(_event, _window);
+	sf::RectangleShape mouseRect;
+	sf::Vector2f mousePositionOnWindow = mouseRect.getPosition();
+	mousePositionOnWindow = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
+	mouseRect.setPosition(mousePositionOnWindow);
 
-	BackButton.update(_event, _window);
 
-	if (PlayButton.getButtonState() == clickedButton)
-	{
-		menuOpen = false;
-	}
-	if (ControlsButton.getButtonState() == clickedButton)
-	{
-		controlsOpen = true;
-	}
-	if (QuitButton.getButtonState() == clickedButton)
-	{
-		_window.close();
-	}
-	if (BackButton.getButtonState() == clickedButton)
-	{
-		controlsOpen = false;
-	}
-	
-	_window.draw(menuBackground);
-	
-	PlayButton.render(_window);
-	ControlsButton.render(_window);
-	QuitButton.render(_window);
 
-	if (controlsOpen)
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
-		renderControls(_window);
-		BackButton.render(_window);
+		Logger logger(std::cout);
+
+		if (startButton.isCollisonWithPoint(sf::Vector2f(sf::Mouse::getPosition(window))))
+		{
+			Application::getInstance()->setState(std::make_unique<LevelSelector>());
+
+			logger.log("Start button is pressed!", Logger::Level::Info);
+		}
+
+		if (exitButton.isCollisonWithPoint(sf::Vector2f(sf::Mouse::getPosition(window))))
+		{
+			logger.log("Exit button is pressed!", Logger::Level::Info);
+
+			window.close();
+		}
 	}
-}
-
-void MainMenuClass::renderControls(sf::RenderWindow& _window)
-{
-	_window.draw(controlsBackground);
-}
-
-bool MainMenuClass::getMenuOpen()
-{
-	return (menuOpen);
 }

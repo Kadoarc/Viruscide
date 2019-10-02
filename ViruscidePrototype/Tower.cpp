@@ -1,140 +1,193 @@
 #include "Tower.h"
+#include"../Logging/Logging.h"
 
-
-
-
-void Tower::SetRange()
-{
-	range += range / 5;
-}
-
-
-void Tower::SetTowerTraits(TowerType type)
-{
-
-	switch (type)
-	{
-	case normal:
-		
-		Price = 200;
-		break;
-
-	case rapid:
-		Price = 300;
-		break;
-
-	case ultimate:
-		Price = 400;
-		break;
-
-	default:
-		break;
-	}
-}
 Tower::Tower()
+	: UnMoveableEntity(sf::Vector2f(0, 0), Globals::towerSize), m_damage(Globals::defaultTowerDamage)
 {
+	setFillColor();
+	m_mainTower.setSize(Globals::towerMainSize);
+	this->visible = Globals::enableTowerRange;
 }
-
-Tower::Tower(int xPos, int yPos, TowerType type) :damage{ 10 }, range{ 120 }, Price{ 100 }, fireRate{ 2 }
+Tower::Tower(const sf::Vector2f& position, const sf::Vector2f& size, const float damage)
+	: UnMoveableEntity(position, size), m_damage(damage)
 {
-	this->setPointCount(3);
-	this->setPoint(0, sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 4));
-	this->setPoint(1, sf::Vector2f(TILE_SIZE*0.75, TILE_SIZE*0.75));
-	this->setPoint(2, sf::Vector2f(TILE_SIZE*0.25, TILE_SIZE*0.75));
-	this->setOrigin(sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 2));
-	this->setPosition(sf::Vector2f(xPos, yPos));
-
-	if (type == TowerType::basic)
-	{
-		//this->setFillColor(sf::Color(128, 128, 128));
-	}
-
-	else if (type == TowerType::rapid)
-	{
-		this->setFillColor(sf::Color(128, 128, 0));
-	}
-	else if (type == TowerType::ultimate)
-	{
-		this->setFillColor(sf::Color(0, 128, 128));
-	}
-	
-	rangeHelper = new sf::CircleShape(range);
-	SetTowerTraits(type);
+	setFillColor();
+	m_mainTower.setSize(Globals::towerMainSize);
+	m_mainTower.setCenterPosition(this->getCenter());
+	this->visible = Globals::enableTowerRange;
 }
-
-
 Tower::~Tower()
 {
 }
 
-TowerType Tower::GetType()
+void Tower::setCenterPosition(const sf::Vector2f& newPosition)
 {
-	return type;
+	Entity::setCenterPosition(newPosition);
+	m_mainTower.setCenterPosition(this->getCenter());
 }
-
-std::string Tower::GetName()
+void Tower::setPosition(const sf::Vector2f & newPosition)
 {
-	return name;
+	Entity::setPosition(newPosition);
+	m_mainTower.setPosition(this->getPosition());
 }
-
-sf::CircleShape * Tower::GetRange()
+void Tower::setFillColor()
 {
-	return rangeHelper;
-}
-
-sf::CircleShape * Tower::DrawPlacementAssist(sf::RenderWindow & window)
-{
-	rangeHelper->setRadius(range);
-	rangeHelper->setFillColor(sf::Color::Transparent);
-	rangeHelper->setOutlineColor(this->getFillColor());
-	rangeHelper->setOutlineThickness(3);
-	rangeHelper->setOrigin(sf::Vector2f(120, 120));
-	rangeHelper->setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
-	return rangeHelper;
-}
-
-
-int Tower::GetPrice()
-{
-	return Price;
-}
-
-
-void Tower::SetState()
-{
-	isBuilt = true;
-	rangeHelper->setRadius(range);
-	rangeHelper->setFillColor(sf::Color::Transparent);
-	rangeHelper->setOutlineColor(this->getFillColor());
-	rangeHelper->setOutlineThickness(3);
-	rangeHelper->setOrigin(sf::Vector2f(120, 120));
-	rangeHelper->setPosition(this->getPosition().x, this->getPosition().y);
-
-}
-
-bool Tower::GetIsBuilt()
-{
-	return isBuilt;
-}
-
-void Tower::Update(sf::RenderWindow & window)
-{
-	if (isBuilt)
+	if (Globals::intersectionBorder)
 	{
-		if (collector < sf::seconds(1))
-		{
-			collector += TIME_PASED;
-		}
-		else
-		{
-			collector = clock.restart();
-	
-		}
-
+		this->hitbox.setOutlineThickness(Globals::intersectionOutLineThickness);
+		this->hitbox.setOutlineColor(Globals::Color::towerColor);
+		this->hitbox.setFillColor(sf::Color::Transparent);
 	}
 	else
 	{
-		this->setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+		this->hitbox.setFillColor(Globals::Color::towerColor);
+	}
+
+	this->m_mainTower.setColour(Globals::Color::shadowColorOn);
+
+}
+bool Tower::isAttacking() const
+{
+	return this->m_isAttacking;
+}
+float Tower::getDamage() const
+{
+	return this->m_damage;
+}
+bool Tower::isMainTowerVisible() const
+{
+	return this->m_mainTower.isVisible();
+}
+void Tower::fireBullet()
+{
+	sf::Time elapsedTime = m_updateClock.getElapsedTime();
+
+
+	if (elapsedTime > m_fireRate)
+	{
+		/* Reset our timer */
+		m_updateClock.restart();
+
+		/* Notify that we are seeking our intruder */
+		if (!m_isAttacking)
+			m_isAttacking = true;
+
+		Bullet newBullet(this->getCenter(), *m_intruder, Globals::defaultBulletSpeed);
+
+		newBullet.setColour(Globals::Color::bulletColor);
+		newBullet.setSize(m_bulletSize);
+
+		m_bulletArray.push_back(newBullet);
 	}
 
 }
+void Tower::draw(sf::RenderTarget & target, sf::RenderStates states) const
+{
+	/* Super */
+	Entity::draw(target, states);
+
+	target.draw(m_mainTower);
+
+	for (const Bullet& b : m_bulletArray)
+		target.draw(b);
+
+}
+void Tower::setBulletSize(const sf::Vector2f & newSize)
+{
+	this->m_bulletSize = newSize;
+}
+void Tower::setDamage(const int16_t newDamage)
+{
+	this->m_damage = newDamage;
+}
+void Tower::setMainTowerVisible(const bool visible)
+{
+	m_mainTower.setVisible(visible);
+}
+void Tower::setFireRate(float fireRate)
+{
+	m_fireRate = sf::seconds(fireRate);
+}
+void Tower::setIntruder(std::shared_ptr<Enemy> intruder)
+{
+	m_intruder = intruder;
+	//this->m_intruder = &intruder;
+	m_isAttacking = true;
+}
+void Tower::setPlayerCollide(std::shared_ptr<Player> player)
+{
+	m_player = player;
+	m_isOccupied = true;
+}
+void Tower::update()
+{
+	/* Check we actually have an indruder and this wasn't called by accident */
+	if (m_intruder == nullptr)
+		return;
+
+	/* If the intruder got out of range, stop shooting */
+	if (!this->isCollision(*m_intruder))
+	{
+		m_isAttacking = false;
+
+		/* Clear the bullet array */
+		m_bulletArray.clear();
+
+		return;
+	}
+
+	/* If our intruder is dded, stop shooting him */
+	if (m_intruder->getHealth() <= 0)
+	{
+		m_isAttacking = false;
+
+		/* Clear the bullet array */
+		m_bulletArray.clear();
+
+		return;
+	}
+
+	/* First, look if we have a intruder, then fire a new bullet at it */
+	if (m_intruder->getHealth() > 0)
+		fireBullet();
+
+	/* Go through all of our bullets and see which ones got their target */
+	for (int i = 0; i < m_bulletArray.size(); ++i)
+	{
+		m_bulletArray[i].update();
+
+		if (m_bulletArray[i].isDestinationAchieved())
+		{
+			/* Remove the bullet from the array */
+			m_bulletArray.erase(m_bulletArray.begin() + i);
+
+			/* Substract the damage taken from the intruders health */
+			m_intruder->setHealth(m_intruder->getHealth() - Globals::defaultTowerDamage);
+		}
+	}
+	if (m_player == nullptr)
+		return;
+
+	if (!this->isCollision(*m_player))
+	{
+		m_isOccupied = false;
+
+	}
+	if (this->isCollision(*m_player))
+	{
+		m_isOccupied = true;
+
+	}
+}
+void Tower::setMainColour(const sf::Color & newColor)
+{
+	this->m_mainTower.setColour(newColor);
+}
+
+sf::RectangleShape Tower::getMainHitbox() const
+{
+	return this->m_mainTower.getHitbox();
+}
+
+
+

@@ -1,38 +1,33 @@
 #pragma once
-#include <SFML\Graphics.hpp>
-#include <string>
-#include "Utils.h"
-#include "Grid.h"
-#include <math.h>
+#include"MoveableEntity.h" 
 
-
-class Enemy : public sf::ConvexShape
+class Enemy : public MoveableEntity
 {
-	int Health;
-	double Speed;
-	bool IsAtCore;
-	bool hasWon;
-	bool isHit;
-	void DrawEnemy();
-	float OTDamage;
-	int value;
-
-
 public:
-	Grid* nextPath;
-	Grid* previousPath;
-	Grid* currentPath;
-	bool isAtDestination;
-	Enemy(int xPos, int yPos);
+
+	Enemy(const sf::Vector2f& position, const sf::Vector2f& size, const float speed, const sf::Vector2i& movementDirection, const uint16_t health);
 	Enemy();
 	~Enemy();
-	bool GetIsAtCore();
-	void SetIsAtCore();
-	void Draw();
-	bool GetHasWon();
-	void Update();
-	int GetHP();
-	int GetValue();
-	int GetSpeed();
+
+private:
+
+	int16_t m_health;
+	bool m_alive = true;
+	bool m_isDuringCollision = false;
+	int16_t m_startingHealth;
+	sf::Color m_startingColor;
+
+public:
+
+	int16_t getHealth() const;
+	int16_t getStartingHealth() const;
+	bool isAlive() const;
+	bool isInCollision() const;
+
+	void setColour(const sf::Color & newColor);
+	void setHealth(const int16_t health);
+	void setAlive(const bool alive);
+	void setIsDuringCollision(const bool isCollision);
+
 };
 

@@ -4,15 +4,15 @@ using namespace std;
 
 
 #pragma once
-class Player : public MoveableEntity
+class Player2 : public MoveableEntity
 {
 
 public:
 	float xPos;
 	float yPos;
-	Player(const sf::Vector2f& position, const sf::Vector2f& size, const float speed, const sf::Vector2i& movementDirection);
-	Player();
-	~Player();
+	Player2(const sf::Vector2f& position, const sf::Vector2f& size, const float speed, const sf::Vector2i& movementDirection);
+	Player2();
+	~Player2();
 	void drawPlayer();
 	void movePlayer();
 	void moveNorth();
@@ -22,7 +22,7 @@ public:
 private:
 	sf::Color m_startingColor;
 	bool m_OverlappingTower = false;
-	Entity m_player1;
+	Entity m_player2;
 
 
 public:

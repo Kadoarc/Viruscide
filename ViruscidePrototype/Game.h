@@ -1,68 +1,71 @@
 #pragma once
-#include <vector>
+#include "IStateClass.h"
 #include <SFML/Graphics.hpp>
-#include "Tower.h"
-#include <iostream>
-#include <string>
+#include <thread>
+#include <time.h>
+#include <stdlib.h>
+
 #include "Enemy.h"
-#include "Grid.h"
+#include "Intersection.h"
+#include "Tower.h"
+#include "Level.h"
+#include "Shop.h"
+#include "EndScreen.h"
 #include "Player.h"
+#include "Player2.h"
 
-
-
-class Game
+class Game : public IStateClass
 {
 public:
-	Game();
+	Game(const std::string &path);
 	~Game();
-	std::vector<Tower*> towerList;
-	std::vector<Enemy*> enemyList;
-	std::vector<Tower*> gui;
-	std::vector<Player*> playerList;
-	int money;
-	int coreHealth;
-	int Level;
-	sf::Font font;
-	void loadFont();
-	void MakeGUI();
-	sf::Text coreHealthTxt;
-	sf::Text MoneyTxt;
-	sf::Text gameOverTxt;
-	sf::Text tower1PriceTxt;
-	sf::Text tower2PriceTxt;
-	sf::Text tower3PriceTxt;
-	bool isGameOver;
-	int GetMoney();
-	Tower* underConstruction;
-	void UpdateEnemies();
-	void UpdatePlayer();
-	void UpdateTowers(sf::RenderWindow &window);
-	void RenderGameOver(sf::RenderWindow &window);
-	void ResetLevel();
-	int GetCoreHealth();
-	void RestartGame();
-	std::vector<Grid*> map;
-	bool HasMoney();
-	bool GetIsGameOver();
-	bool ContainsMouse(sf::Vector2i &position);
-	bool Construction(sf::Vector2i pos);
-	bool CheckPlacement(sf::Vector2i placement);
-	void Render(sf::RenderWindow &window, Flags flag);
-	void UpdateGUI();
-	void CancelTower();
-	void WaveGeneration(int difficulty);
-	void SpendMoney(int amount);
-	void ActivateTowerPlacement();
-	Flags GameManager(Flags flag);
-	void GameCycle(sf::RenderWindow &window, Flags flag);
-	void UpdateAllStates(sf::RenderWindow &window);
 
-	int GetGridIndex(Grid* gridTile);
-	void DrawText(sf::RenderWindow &window);
-	Game(std::vector<Grid*> worldMap);
-	
-	void UpdateInput(const float &dt);
 private:
 
+
+	Level m_currentLevel;
+	std::vector<std::shared_ptr<Enemy>> m_enemyArray;
+	std::vector<Tower> m_towerArray;
+	std::vector<Player> m_playerArray;
+
+	Shop m_shop;
+	int32_t m_gold = Globals::startingGoldAmount;
+	int32_t m_lifePoints = Globals::startingPlayerHp;
+	Player player1;
+	Player2 player2;
+	Tower m_shadowEntity;
+	bool m_canPlaceShadowEntity;
+	bool m_towerOccupied;
+
+	/* Enemy Spawn Rate */
+	bool m_gameIsWon = false;
+	uint32_t m_noOfEnemiesKilled = 0;
+	sf::Time m_spawnRate = sf::seconds(Globals::defaultEnemySpawnRate);
+	sf::Clock m_updateClock;
+
+public:
+	void update(sf::RenderWindow &window) override;
+	void draw(sf::RenderWindow &window) override;
+	void handleEvent(sf::RenderWindow &window) override;
+
+private:
+
+	/* Enemy stuff */
+	void updatePlayer();
+	void updateShadowEntity();
+	void updateTowers();
+	void updateEnemies();
+	void updateEnemiesMovements();
+	void updateEnemiesPositions();
+	bool checkWinLossConditions();
+	bool updateEnemyCollision(std::shared_ptr<Enemy> enemy);
+	void OccupyTower();
+	sf::Vector2i getMovementDirection(const short entrance) const;
+
+	/* Shop stuff */
+	void handleShopPressed(const sf::Vector2f& mousePos);
+	bool buyTower(const int price);
+
+	void readLevel(const std::string& level);
 };
 

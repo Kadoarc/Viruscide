@@ -1,167 +1,78 @@
 #include "Button.h"
+#include "..\Logging\Logging.h"
+#include<fstream>
 
-ButtonClass::ButtonClass()
+Button::Button()
+	: Entity(sf::Vector2f(0, 0), sf::Vector2f(50, 30))
+{
+	setUpButton();
+}
+
+Button::Button(const sf::Vector2f& position, const sf::Vector2f& size)
+	: Entity(position, size)
+{
+	setUpButton();
+}
+
+Button::~Button()
 {
 }
 
-ButtonClass::ButtonClass(sf::Vector2f _position, sf::Vector2f _size , std::string _textureNormalPath, 
-	std::string _textureHoverPath, std::string _textureClickedPath)
+void Button::setUpButton()
 {
-	//set position var
-	position = _position;
+	setColour(Globals::Color::defaultButtonColor);
 
-	//set button state
-	buttonState = normalButton;
-
-	//load button texture
-	loadTextures(_textureNormalPath, _textureHoverPath, _textureClickedPath);
-
-	button = sf::RectangleShape(_size);
-	button.setTexture(&textureNormal);
-	button.setOrigin(button.getGlobalBounds().width / 2, button.getGlobalBounds().height / 2);
-	button.setPosition(position);
-}
-
-ButtonClass::~ButtonClass()
-{
-}
-
-void ButtonClass::update(sf::Event _event, sf::RenderWindow & _window)
-{
-	sf::Vector2i mousePosition = sf::Mouse::getPosition(_window);
-
-	bool mouseOnButton = mousePosition.x >= button.getPosition().x - button.getGlobalBounds().width / 2
-		&& mousePosition.x <= button.getPosition().x + button.getGlobalBounds().width / 2
-		&& mousePosition.y >= button.getPosition().y - button.getGlobalBounds().height / 2
-		&& mousePosition.y <= button.getPosition().y + button.getGlobalBounds().height / 2;
-
-	if (_event.type == sf::Event::MouseMoved)
+	if (!font.loadFromFile(Globals::Fonts::defaultFont))
 	{
-		if (mouseOnButton)
-		{
-			buttonState = hoverButton;
-		}
-		else
-		{
-			buttonState = normalButton;
-		}
+		throw "Could not load font!";
+
+		Logger logger(std::cout);
+		logger.log("Error loading font from file", Logger::Level::Error);
 	}
 
-	if (_event.type == sf::Event::MouseButtonPressed)
-	{
-		switch (_event.mouseButton.button)
-		{
-		case sf::Mouse::Left:
-		{
-			if (mouseOnButton)
-			{
-				buttonState = clickedButton;
-			}
-			else
-			{
-				buttonState = normalButton;
-			}
-		}
-		break;
-		}
-	}	
-
-	if (_event.type == sf::Event::MouseButtonReleased)
-	{
-		switch (_event.mouseButton.button)
-		{
-		case sf::Mouse::Left:
-		{
-			if (mouseOnButton)
-			{
-				buttonState = hoverButton;
-			}
-			else
-			{
-				buttonState = normalButton;
-			}
-		}
-		break;
-		}
-	}
-
-	switch (buttonState)
-	{
-	case normalButton:
-	{
-		button.setTexture(&textureNormal);
-	}
-	break;
-	case hoverButton:
-	{
-		button.setTexture(&textureHover);
-	}
-	break;
-	case clickedButton:
-	{
-		button.setTexture(&textureClicked);
-	}
-	break;
-	}
+	text.setFont(font);
+	text.setString("Default String!");
+	text.setFillColor(sf::Color::White);
+	text.setCharacterSize(24);
 }
 
-void ButtonClass::render(sf::RenderWindow & _window)
+sf::Font Button::getFont() const
 {
-	_window.draw(button);
+	return font;
 }
 
-void ButtonClass::loadTextures(std::string _textureNormalPath, std::string _textureHoverPath, std::string _textureClickedPath)
+void Button::setFont(const sf::Font& f)
 {
-	if (!textureNormal.loadFromFile(_textureNormalPath))
-	{
-		std::cout << "Error loading normal button texture" << std::endl;
-	}
-
-	if (!textureHover.loadFromFile(_textureHoverPath))
-	{
-		std::cout << "Error loading Hover button texture" << std::endl;
-	}
-
-	if (!textureClicked.loadFromFile(_textureClickedPath))
-	{
-		std::cout << "Error loading Clicked button texture" << std::endl;
-	}
+	text.setFont(f);
 }
 
-void ButtonClass::setPosition(sf::Vector2f _position)
+void Button::setTextSize(unsigned int size)
 {
-	position = _position;
+	text.setCharacterSize(size);
 }
 
-void ButtonClass::setTextureNormal(sf::Color _normalTexture)
+void Button::setTextPosition(const sf::Vector2f & position)
 {
-
-	button.setTexture(&textureNormal);
+	text.setPosition(position);
 }
 
-void ButtonClass::setTextureHover(sf::Color _hoverTexture)
+void Button::setTextColor(const sf::Color& color)
 {
-
-	button.setTexture(&textureHover);
+	text.setFillColor(color);
 }
 
-void ButtonClass::setTextureClicked(sf::Color _clickedTexture)
+sf::Text Button::getText() const
 {
-
-	button.setTexture(&textureClicked);
+	return text;
 }
 
-sf::Vector2f ButtonClass::getPosition()
+void Button::setText(const std::string & text)
 {
-	return (position);
+	this->text.setString(text);
 }
-
-sf::Vector2f ButtonClass::getDimensions()
+void Button::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	return sf::Vector2f();
-}
-
-ButtonStates ButtonClass::getButtonState()
-{
-	return (buttonState);
+	//target.draw(this->hitbox);
+	Entity::draw(target, states);
+	target.draw(this->text);
 }

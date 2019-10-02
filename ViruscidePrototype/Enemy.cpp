@@ -1,109 +1,74 @@
 #include "Enemy.h"
-#include "Game.h"
 
 
-void Enemy::DrawEnemy()
+Enemy::Enemy(const sf::Vector2f& position,
+	const sf::Vector2f& size,
+	const float speed,
+	const sf::Vector2i& movementDirection,
+	const uint16_t health)
+
+	: MoveableEntity(position, size, speed, movementDirection), m_health(health)
 {
-	/*
-		sf::Texture texture;
-	texture.loadFromFile("resources/images/Bacteria.png");
-	sf::Sprite sprite(texture, sf::IntRect(0, 0, 10, 10));
-	*/
-
-	
-	
-	this->setPointCount(6);
-		this->setPoint(0, sf::Vector2f(TILE_SIZE / 2, 25));
-		this->setPoint(1, sf::Vector2f(TILE_SIZE - 30, TILE_SIZE / 4));
-		this->setPoint(2, sf::Vector2f(TILE_SIZE - 30, TILE_SIZE*0.75));
-		this->setPoint(3, sf::Vector2f(TILE_SIZE / 2, TILE_SIZE - 25));
-		this->setPoint(4, sf::Vector2f(15, TILE_SIZE*0.75));
-		this->setPoint(5, sf::Vector2f(15, TILE_SIZE / 4));
-		this->setFillColor(sf::Color::Cyan);
-
-		
-
-}
-Enemy::Enemy(int xPos, int yPos) :Health{ 20 }, Speed{ 4 }, value{ 50 }, previousPath{ nullptr }, nextPath{ nullptr }, isAtDestination{ true }, currentPath{ nullptr }, IsAtCore{ false }, hasWon{ false }, OTDamage{ 0 }
-{
-	DrawEnemy();
-	this->setPosition(xPos, yPos);
-	this->setOrigin(TILE_SIZE / 2, TILE_SIZE / 2);
-	
+	this->setColour(Globals::Color::enemyColor);
+	m_startingHealth = this->m_health;
 }
 
 Enemy::Enemy()
+	: MoveableEntity(sf::Vector2f(0, 0), Globals::enemySize,
+		Globals::EnemyTypes::enemyObjects[Globals::enemyType::defaultType].moveSpeed,
+		sf::Vector2i(0, 0)),
+	m_health(Globals::EnemyTypes::enemyObjects[Globals::enemyType::defaultType].hp)
 {
+	this->setColour(Globals::Color::enemyColor);
+	m_startingHealth = this->m_health;
 }
-
 
 Enemy::~Enemy()
 {
 }
 
-bool Enemy::GetIsAtCore()
+int16_t Enemy::getHealth() const
 {
-	return false;
+	return this->m_health;
 }
 
-void Enemy::SetIsAtCore()
+int16_t Enemy::getStartingHealth() const
 {
-
+	return m_startingHealth;
 }
 
-void Enemy::Draw()
+bool Enemy::isAlive() const
 {
+	return this->m_alive;
 }
 
-bool Enemy::GetHasWon()
+bool Enemy::isInCollision() const
 {
-	return hasWon;
+	return this->m_isDuringCollision;
 }
 
-void Enemy::Update()
+void Enemy::setColour(const sf::Color & newColor)
 {
-
-	if (nextPath)
-	{
-		sf::Vector2f direction = nextPath->getPosition() - this->getPosition();
-		float length = (float)sqrt(pow(direction.x, 2) + pow(direction.y, 2));
-		if (length < 5)
-		{
-			isAtDestination = true;
-			if (currentPath)
-			{
-				previousPath = currentPath;
-			}
-
-			currentPath = nextPath;
-			nextPath = nullptr;
-			return;
-		}
-
-		direction.x /= length;
-		direction.y /= length;
-		direction.x *= GetSpeed();
-		direction.y *= GetSpeed();
-		this->setPosition(this->getPosition() + direction);
-	}
-	else
-	{
-		this->hasWon = true;
-	}
+	Entity::setColour(newColor);
+	m_startingColor = newColor;
 }
 
-int Enemy::GetHP()
+void Enemy::setHealth(const int16_t health)
 {
-	return Health;
+	this->m_health = health;
+	sf::Color color = m_startingColor;
+	color.a = (this->m_health*color.a) / m_startingHealth;
+
+	Entity::setColour(color);
 }
 
-int Enemy::GetValue()
+void Enemy::setAlive(const bool alive)
 {
-	return value;
+	this->m_alive = alive;
 }
 
-
-int Enemy::GetSpeed()
+void Enemy::setIsDuringCollision(const bool isDuringCollision)
 {
-	return Speed;
+	this->m_isDuringCollision = isDuringCollision;
 }
+

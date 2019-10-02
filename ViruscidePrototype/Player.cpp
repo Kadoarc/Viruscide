@@ -1,22 +1,20 @@
 #include "Player.h"
 
 
-Player::Player(float start_xPos, float start_yPos, int i_playerNumber)
-{
-	// Assign passed in variables
-	playerNumber = i_playerNumber;
-	xPos = start_xPos;
-	yPos = start_yPos;
-	// Draw Calls
-	drawPlayer();
-	this->setPosition(xPos, yPos);
-	this->setOrigin(TILE_SIZE / 2, TILE_SIZE / 2);
-}
 
+Player::Player(const sf::Vector2f & position, const sf::Vector2f & size, const float speed, const sf::Vector2i & movementDirection)
+	:MoveableEntity(position, size, speed, movementDirection)
+{
+	this->setColour(Globals::Color::playerColor);
+
+}
 
 Player::Player()
+	: MoveableEntity(sf::Vector2f(0, 0), Globals::playerSize, (5.0f), sf::Vector2i(0, 0))
 {
+	this->setColour(Globals::Color::playerColor);
 }
+
 
 
 Player::~Player()
@@ -25,25 +23,54 @@ Player::~Player()
 
 void Player::drawPlayer()
 {
-	this->setPointCount(6);
-	this->setPoint(0, sf::Vector2f(TILE_SIZE / 2, 25));
-	this->setPoint(1, sf::Vector2f(TILE_SIZE - 30, TILE_SIZE / 4));
-	this->setPoint(2, sf::Vector2f(TILE_SIZE - 30, TILE_SIZE*0.75));
-	this->setPoint(3, sf::Vector2f(TILE_SIZE / 2, TILE_SIZE - 25));
-	this->setPoint(4, sf::Vector2f(15, TILE_SIZE*0.75));
-	this->setPoint(5, sf::Vector2f(15, TILE_SIZE / 4));
-	this->setOutlineThickness(5);
 
-	if (playerNumber == 1)
-	{
-		this->setOutlineColor(sf::Color::Black);
-		this->setFillColor(sf::Color::Blue);
-	}
-	if (playerNumber == 2)
-	{
-		this->setOutlineColor(sf::Color::Black);
-		this->setFillColor(sf::Color::Magenta);
-	}
-	
+	this->setColour(Globals::Color::playerColor);
+}
 
+void Player::movePlayer()
+{
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+	{
+		std::cout << "E pressed \n";
+	}
+}
+
+void Player::moveNorth()
+{
+	yPos -= 1.0f;
+	setXYPosition(xPos, yPos);
+}
+
+void Player::moveEast()
+{
+	xPos += 1.0f;
+	setXYPosition(xPos, yPos);
+}
+
+void Player::moveWest()
+{
+	xPos -= 1.0f;
+	setXYPosition(xPos, yPos);
+}
+
+void Player::moveSouth()
+{
+	yPos += 1.0f;
+	setXYPosition(xPos, yPos);
+}
+
+bool Player::OverlapTower() const
+{
+	return false;
+}
+
+void Player::setOverlapTower(const bool isOverlapping)
+{
+
+}
+
+sf::RectangleShape Player::getMainHitbox() const
+{
+	return this->m_player1.getHitbox();
 }
