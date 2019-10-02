@@ -4,7 +4,7 @@
 #include "Utils.h"
 #include "Grid.h"
 #include <math.h>
-
+class Bullet;
 
 class Enemy : public sf::ConvexShape
 {
@@ -29,6 +29,7 @@ public:
 	bool GetIsAtCore();
 	void SetIsAtCore();
 	void Draw();
+	void GiveDamage(Bullet* bullet);
 	bool GetHasWon();
 	void Update();
 	int GetHP();

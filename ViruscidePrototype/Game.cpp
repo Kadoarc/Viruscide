@@ -97,28 +97,16 @@ void Game::UpdateEnemies()
 
 void Game::UpdatePlayer()
 {
+
 	for (int i = 0; i < towerList.size(); i++)
 	{
-		if(playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()));
+		if(playerList.back()->getLocalBounds().intersects(towerList.at(i)->getLocalBounds()));
 		{
-			std::cout << "Player: " << playerList.at(i) << " Collision with Tower: " << towerList.at(i) << std::endl;
-			std::cout << "Player Height = " << playerList.at(i)->getGlobalBounds().height << std::endl;
-			std::cout << "Player Left = " << playerList.at(i)->getGlobalBounds().left << std::endl;
-			std::cout << "Player Top = " << playerList.at(i)->getGlobalBounds().top << std::endl;
-			std::cout << "Player Width = " << playerList.at(i)->getGlobalBounds().width << std::endl;
-			std::cout << "Player Position X = " << playerList.at(i)->getPosition().x << std::endl;
-			std::cout << "Player Position Y = " << playerList.at(i)->getPosition().y << std::endl;
-
-			std::cout << "Tower: " << towerList.at(i) << std::endl;
-			std::cout << "Tower Height = " << towerList.at(i)->getGlobalBounds().height << std::endl;
-			std::cout << "Tower Left = " << towerList.at(i)->getGlobalBounds().left << std::endl;
-			std::cout << "Tower Top = " << towerList.at(i)->getGlobalBounds().top << std::endl;
-			std::cout << "Tower Width = " << towerList.at(i)->getGlobalBounds().width<< std::endl;
-			std::cout << "Tower Position X = " << towerList.at(i)->getPosition().x << std::endl;
-			std::cout << "Tower Position Y = " << towerList.at(i)->getPosition().y << std::endl;
+			std::cout << "Player one Collision with Tower \n";
+			m_OverlappingTower = true;
 		}
 	}
-	if (playerList.back()->getGlobalBounds().intersects(playerList.at(0)->getGlobalBounds()))
+	if (playerList.back()->getLocalBounds().intersects(playerList.at(0)->getLocalBounds()))
 	{
 		std::cout << "Player one Collision with Player Two \n";
 	}
@@ -127,23 +115,23 @@ void Game::UpdatePlayer()
 	// PLAYER ONE / WASD MOVEMENT
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		playerList.at(0)->xPos -= playerList.at(0)->moveSpeed;
+		playerList.at(0)->xPos -= 1.0f;
 		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		playerList.at(0)->yPos -= playerList.at(0)->moveSpeed;
+		playerList.at(0)->yPos -= 1.0f;
 		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		playerList.at(0)->yPos += playerList.at(0)->moveSpeed;
+		playerList.at(0)->yPos += 1.0f;
 		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		playerList.at(0)->xPos += playerList.at(0)->moveSpeed;
+		playerList.at(0)->xPos += 1.0f;
 		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
@@ -155,23 +143,23 @@ void Game::UpdatePlayer()
 	// PLAYER TWO / ARROW KEY MOVMENT
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
 	{
-		playerList.at(1)->xPos -= playerList.at(0)->moveSpeed;
+		playerList.at(1)->xPos -= 1.0f;
 		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
 	{
-		playerList.at(1)->yPos -= playerList.at(0)->moveSpeed;
+		playerList.at(1)->yPos -= 1.0f;
 		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
 	{
-		playerList.at(1)->yPos += playerList.at(0)->moveSpeed;
+		playerList.at(1)->yPos += 1.0f;
 		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
 	{
-		playerList.at(1)->xPos += playerList.at(0)->moveSpeed;
+		playerList.at(1)->xPos += 1.0f;
 		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
 	}
 		
@@ -199,6 +187,14 @@ void Game::ResetLevel()
 	Level = 1;
 }
 
+void Game::UpdateBullets()
+{
+	for (int i = 0; i < bulletList.size(); i++)
+	{
+		bulletList[i]->Update();
+	}
+}
+
 int Game::GetCoreHealth()
 {
 	return coreHealth;
@@ -208,6 +204,7 @@ void Game::RestartGame()
 {
 	towerList.clear();
 	enemyList.clear();
+	bulletList.clear();
 	for (int i = 0; i < map.size(); i++)
 	{
 		if (!map[i]->GetIsEmpty())
@@ -353,6 +350,10 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		window.draw(*playerList[l]);
 	}
 	
+	for (int n = 0; n < bulletList.size(); n++)
+	{
+		window.draw(*bulletList[n]);
+	}
 	DrawText(window);
 }
 
@@ -361,6 +362,9 @@ void Game::UpdateGUI()
 	tower1PriceTxt.setString(std::to_string(gui[0]->GetPrice()));
 	tower2PriceTxt.setString(std::to_string(gui[1]->GetPrice()));
 	tower3PriceTxt.setString(std::to_string(gui[2]->GetPrice()));
+	CoreTxt.setFont(font);
+	CoreTxt.setString("Core Health: ");
+	CoreTxt.setPosition(1670, 78);
 	coreHealthTxt.setString(std::to_string(GetCoreHealth()));
 	MoneyTxt.setString(std::to_string(GetMoney()));
 	tower1PriceTxt.setFont(font);
@@ -374,9 +378,10 @@ void Game::UpdateGUI()
 	coreHealthTxt.setPosition(1674, 100);
 	MoneyTxt.setPosition(1674, 6);
 	MoneyTxt.setFont(font);
-	tower1PriceTxt.setFillColor(sf::Color::Red);
-	coreHealthTxt.setFillColor(sf::Color::Red);
-	MoneyTxt.setFillColor(sf::Color::Red);
+tower1PriceTxt.setFillColor(sf::Color::Red);
+coreHealthTxt.setFillColor(sf::Color::Red);
+CoreTxt.setFillColor(sf::Color::Red);
+MoneyTxt.setFillColor(sf::Color::Red);
 }
 
 void Game::CancelTower()
@@ -429,6 +434,62 @@ void Game::ActivateTowerPlacement()
 	underConstruction = nullptr;
 }
 
+void Game::ManageShooting()
+{
+	for (int i = 0; i < towerList.size(); i++)
+	{
+		if (towerList[i]->GetIsBuilt() && towerList[i]->GetIsReadyToFire())
+		{
+			for (int j = 0; j < enemyList.size(); j++)
+			{
+				if (towerList[i]->GetRange()->getGlobalBounds().contains(enemyList[j]->getPosition()) && towerList[i]->GetIsReadyToFire())
+				{
+					bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+					towerList[i]->SetIsReadyToFire(false);
+				}
+			}
+		}
+	}
+}
+
+void Game::ManageDamage()
+{
+	for (int i = 0; i < enemyList.size(); i++)
+	{
+
+		for (int j = 0; j < bulletList.size(); j++)
+		{
+
+			if (enemyList[i]->getGlobalBounds().contains(bulletList[j]->getPosition()))// crash
+			{
+				enemyList[i]->GiveDamage(bulletList[j]);
+				bulletList.erase(bulletList.begin() + j);
+			}
+		}
+		if (enemyList[i]->GetHP() <= 0)
+		{
+			GiveMoney(enemyList[i]->GetValue());
+			enemyList.erase(enemyList.begin() + i);
+
+		}
+	}
+}
+
+Tower * Game::SearchInTowers(sf::Vector2f pos)
+{
+	for (int i = 0; i < towerList.size(); i++)
+	{
+		if (towerList[i]->getGlobalBounds().contains(pos.x, pos.y))
+		{
+			std::cout << "Entity found at  " << towerList[i]->getPosition().x << "and " << towerList[i]->getPosition().y << std::endl;
+			return towerList[i];
+		}
+	}
+}
+
+
+
+
 Flags Game::GameManager(Flags flag)
 {
 	if (coreHealth > 0)
@@ -475,7 +536,8 @@ void Game::GameCycle(sf::RenderWindow & window, Flags flag)
 	}
 	else
 	{
-	
+		ManageDamage();
+		ManageShooting();
 		UpdateAllStates(window);
 		Render(window, flag);
 	}
@@ -488,7 +550,13 @@ void Game::UpdateAllStates(sf::RenderWindow & window)
 	UpdatePlayer();
 	UpdateTowers(window);
 	UpdateEnemies();
+	UpdateBullets();
 	UpdateGUI();
+}
+
+void Game::GiveMoney(int amount)
+{
+	money += amount;
 }
 
 
@@ -509,6 +577,7 @@ int Game::GetGridIndex(Grid * gridTile)
 void Game::DrawText(sf::RenderWindow & window)
 {
 	window.draw(MoneyTxt);
+	window.draw(CoreTxt);
 	window.draw(coreHealthTxt);
 	window.draw(tower1PriceTxt);
 	window.draw(tower2PriceTxt);
@@ -519,15 +588,23 @@ void Game::DrawText(sf::RenderWindow & window)
 
 
 
-Game::Game(std::vector<Grid*> worldMap) :map{ worldMap }, money{ 700 }, coreHealth{ 1 }, isGameOver{ false }, Level{ 1 }
+Game::Game(std::vector<Grid*> worldMap) :map{ worldMap }, money{ 700 }, coreHealth{ 10 }, isGameOver{ false }, Level{ 1 }
 {
 	// Add the players
 	// Player 1
 	playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 1));
 	// Player 2
-	//playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 2));
+	playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 2));
 	loadFont();
 	MakeGUI();
+}
+
+void Game::ControlTower()
+{
+	if (m_OverlappingTower = true && (sf::Keyboard::isKeyPressed(sf::Keyboard::E)))
+	{
+		
+	}
 }
 
 void Game::UpdateInput(const float & dt)
@@ -537,7 +614,8 @@ void Game::UpdateInput(const float & dt)
 
 Game::Game()
 {
-
+	soundManager.loadFromFile("Splat", "Resources/Audio/Splat.wav");
+	soundManager.loadFromFile("Pew", "Resources/Audio/Pew.wav");
 }
 
 Game::~Game()

@@ -13,6 +13,7 @@ public:
 	void play(const std::string &name);
 
 private:
-
+	std::map<std::string, sf::SoundBuffer> soundBuffers;
+	std::list<sf::Sound> sounds;
 };
 
