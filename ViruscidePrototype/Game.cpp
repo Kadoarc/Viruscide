@@ -340,11 +340,6 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		window.draw(*towerList[j]);
 	}
 
-	// Render Enemies
-	for (int k = 0; k < enemyList.size(); k++)
-	{
-		window.draw(enemyList[k]->getSprite());
-	}
 
 	// Render GUI
 	for (int m = 0; m < gui.size(); m++)
@@ -368,8 +363,15 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 	// Render Items
 	for (int p = 0; p < itemList.size(); p++)
 	{
-		window.draw(*itemList[p]);
+		window.draw(itemList[p]->getSprite());
 	}
+
+	// Render Enemies
+	for (int k = 0; k < enemyList.size(); k++)
+	{
+		window.draw(enemyList[k]->getSprite());
+	}
+
 
 	// Render Window
 	DrawText(window);
