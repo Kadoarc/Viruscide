@@ -458,6 +458,7 @@ void Game::ManageShooting()
 				if (towerList[i]->GetRange()->getGlobalBounds().contains(enemyList[j]->getPosition()) && towerList[i]->GetIsReadyToFire())
 				{
 					bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+					soundManager.playPew();
 					towerList[i]->SetIsReadyToFire(false);
 				}
 			}
@@ -482,6 +483,7 @@ void Game::ManageDamage()
 		if (enemyList[i]->GetHP() <= 0)
 		{
 			// Iterate the Kill Counter
+			soundManager.playSplat();
 			killCounter++;
 			std::cout << "Enemy Kill Counter: " << killCounter << std::endl;
 			// If % 5 then spawn an item drop
@@ -617,6 +619,10 @@ Game::Game(std::vector<Grid*> worldMap) :map{ worldMap }, money{ 700 }, coreHeal
 	playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 2));
 	loadFont();
 	MakeGUI();
+
+	//load audio
+	soundManager = SoundManager();
+	soundManager.loadFiles();
 }
 
 void Game::ControlTower()
@@ -634,8 +640,7 @@ void Game::UpdateInput(const float & dt)
 
 Game::Game()
 {
-	soundManager.loadFromFile("Splat", "Resources/Audio/Splat.wav");
-	soundManager.loadFromFile("Pew", "Resources/Audio/Pew.wav");
+	
 }
 
 Game::~Game()
