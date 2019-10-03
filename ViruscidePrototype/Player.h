@@ -1,6 +1,6 @@
 #pragma once
 #include "Utils.h"
-class Player : public sf::ConvexShape
+class Player
 {
 public:
 	// Initialise X,Y Coordinates
@@ -10,12 +10,15 @@ public:
 	int playerNumber;
 
 
-	Player(float start_xPos, float start_yPos, int i_playerNumber);
+	Player(float start_xPos, float start_yPos, int i_playerNumber, sf::RenderWindow& _window);
 	Player();
 	~Player();
-	void drawPlayer();
+	void drawPlayer(sf::RenderWindow& _window);
 
-	void movePlayer(char direction, float moveSpeed)
+	void setPosition(float _x, float _y);
+	sf::FloatRect getLocalBounds();
+
+	/*void movePlayer(char direction, float moveSpeed)
 	{
 		if (direction == 'u')
 		{
@@ -30,8 +33,13 @@ public:
 		else if (direction == 'r') {
 			move(moveSpeed, 0);
 		}
-	}
+	}*/
 
+private:
+	sf::Sprite player1Sprite;
+	sf::Sprite player2Sprite;
+	sf::Texture player1Texture;
+	sf::Texture player2Texture;
 };
 
 

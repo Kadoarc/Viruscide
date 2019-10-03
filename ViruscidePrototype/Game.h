@@ -74,7 +74,7 @@ public:
 	void GiveMoney(int amount);
 	int GetGridIndex(Grid* gridTile);
 	void DrawText(sf::RenderWindow &window);
-	Game(std::vector<Grid*> worldMap);
+	Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window);
 	void ControlTower();
 	bool m_OverlappingTower = false;
 	void UpdateInput(const float &dt);
