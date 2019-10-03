@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "SoundManager.h"
+#include "ItemDrop.h"
 
 
 class Game
@@ -16,15 +17,19 @@ class Game
 public:
 	Game();
 	~Game();
+
 	std::vector<Tower*> towerList;
 	std::vector<Enemy*> enemyList;
 	std::vector<Tower*> gui;
 	std::vector<Player*> playerList;
 	std::vector<Bullet*> bulletList;
+	std::vector<ItemDrop*> itemList;
+
 	SoundManager soundManager;
 	int money;
 	int coreHealth;
 	int Level;
+	int killCounter;
 	sf::Font font;
 	void loadFont();
 	void MakeGUI();

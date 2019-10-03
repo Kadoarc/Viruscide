@@ -102,13 +102,13 @@ void Game::UpdatePlayer()
 	{
 		if(playerList.back()->getLocalBounds().intersects(towerList.at(i)->getLocalBounds()));
 		{
-			std::cout << "Player one Collision with Tower \n";
+			//std::cout << "Player one Collision with Tower \n";
 			m_OverlappingTower = true;
 		}
 	}
 	if (playerList.back()->getLocalBounds().intersects(playerList.at(0)->getLocalBounds()))
 	{
-		std::cout << "Player one Collision with Player Two \n";
+		//std::cout << "Player one Collision with Player Two \n";
 	}
 
 
@@ -185,6 +185,7 @@ void Game::RenderGameOver(sf::RenderWindow & window)
 void Game::ResetLevel()
 {
 	Level = 1;
+	killCounter = 0;
 }
 
 void Game::UpdateBullets()
@@ -216,6 +217,7 @@ void Game::RestartGame()
 	coreHealth = 11;
 	isGameOver = false;
 	money = 300;
+	killCounter = 0;
 }
 
 bool Game::HasMoney()
@@ -327,6 +329,7 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		window.draw(*map[i]);
 	}
 
+	// Render Towers
 	for (int j = 0; j < towerList.size(); j++)
 	{
 		if (!towerList[j]->GetIsBuilt())
@@ -335,25 +338,39 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		}
 		window.draw(*towerList[j]);
 	}
+
+	// Render Enemies
 	for (int k = 0; k < enemyList.size(); k++)
 	{
 		window.draw(*enemyList[k]);
 	}
 
+	// Render GUI
 	for (int m = 0; m < gui.size(); m++)
 	{
 		window.draw(*gui[m]);
 	}
 
+	// Render Players
 	for (int l = 0; l < playerList.size(); l++)
 	{
 		window.draw(*playerList[l]);
 	}
 	
+	// Render Bullets
 	for (int n = 0; n < bulletList.size(); n++)
 	{
 		window.draw(*bulletList[n]);
 	}
+	
+
+	// Render Items
+	for (int p = 0; p < itemList.size(); p++)
+	{
+		window.draw(*itemList[p]);
+	}
+
+	// Render Window
 	DrawText(window);
 }
 
@@ -413,14 +430,9 @@ void Game::WaveGeneration(int difficulty)
 			{
 				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y));
 			}
-
-
-
 		}
 
 	}
-
-
 }
 
 void Game::SpendMoney(int amount)
@@ -468,9 +480,16 @@ void Game::ManageDamage()
 		}
 		if (enemyList[i]->GetHP() <= 0)
 		{
+			// Iterate the Kill Counter
+			killCounter++;
+			std::cout << "Enemy Kill Counter: " << killCounter << std::endl;
+			// If % 5 then spawn an item drop
+			if (killCounter % 5 == 0)
+			{
+				itemList.push_back(new ItemDrop(enemyList.at(i)->getPosition().x, enemyList.at(i)->getPosition().y, 1));
+			}
 			GiveMoney(enemyList[i]->GetValue());
 			enemyList.erase(enemyList.begin() + i);
-
 		}
 	}
 }
