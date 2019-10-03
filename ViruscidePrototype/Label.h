@@ -2,7 +2,7 @@
 
 #include "Utils.h"
 
-class LabelClass
+class LabelClass 
 {
 public:
 	LabelClass();
@@ -15,7 +15,6 @@ public:
 	sf::Text getText();
 
 private:
-	sf::Font font;
 	sf::Text text;
 	int textSize;
 };

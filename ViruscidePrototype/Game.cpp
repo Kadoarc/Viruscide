@@ -327,7 +327,7 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 	}
 	for (int k = 0; k < enemyList.size(); k++)
 	{
-		window.draw(*enemyList[k]);
+		window.draw(enemyList[k]->getSprite());
 	}
 
 	for (int m = 0; m < gui.size(); m++)

@@ -6,14 +6,16 @@
 #include <math.h>
 
 
-class Enemy : public sf::ConvexShape
+class Enemy
 {
+	sf::Sprite enemySprite;
+	sf::Texture enemyTexture;
+
 	int Health;
 	double Speed;
 	bool IsAtCore;
 	bool hasWon;
 	bool isHit;
-	void DrawEnemy();
 	float OTDamage;
 	int value;
 
@@ -29,10 +31,12 @@ public:
 	bool GetIsAtCore();
 	void SetIsAtCore();
 	void Draw();
+	void DrawEnemy(sf::RenderWindow& _window);
 	bool GetHasWon();
 	void Update();
 	int GetHP();
 	int GetValue();
 	int GetSpeed();
+	sf::Sprite getSprite();
 };
 

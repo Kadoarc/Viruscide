@@ -11,6 +11,7 @@
 #include "Button.h"
 #include "Label.h"
 #include "MainMenu.h"
+#include "GameOver.h"
 
 Player player;
 
@@ -30,6 +31,7 @@ int main()
 
 	MainMenuClass mainMenu(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), sf::Vector2f(1920.0, 1080.0f),
 		"Resources/Images/ViruscideMenuScreen.png", "Resources/Images/ViruscideControlScreen.png");
+	GameOverScreenClass gameOver;
 
 	while (window.isOpen())
 	{
@@ -104,7 +106,8 @@ int main()
 				{
 					collector -= TIME_PASED;
 					window.clear(sf::Color::Black);
-					game.RenderGameOver(window);
+					//game.RenderGameOver(window);
+					gameOver.render(window);
 					window.display();
 				}
 				else

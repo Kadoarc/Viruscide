@@ -8,6 +8,7 @@ LabelClass::LabelClass(sf::Vector2f _position, float _size, std::string _string,
 {
 	loadFont(_fontPath);
 	//text.setFont(font);
+	text = sf::Text();
 	text.setString(_string);
 	text.setCharacterSize(_size);
 	text.setFillColor(_color);
@@ -26,6 +27,7 @@ void LabelClass::render(sf::RenderWindow & _window)
 
 void LabelClass::loadFont(std::string _font)
 {
+	sf::Font font;
 	// Dont forget the file path!
 	//"Resources/Fonts/example.ttf"
 	if (!font.loadFromFile(_font))
