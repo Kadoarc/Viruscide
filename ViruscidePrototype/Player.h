@@ -17,6 +17,7 @@ public:
 
 	void setPosition(float _x, float _y);
 	sf::FloatRect getLocalBounds();
+	sf::FloatRect getGlobalBounds();
 
 	/*void movePlayer(char direction, float moveSpeed)
 	{

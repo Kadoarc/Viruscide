@@ -87,3 +87,8 @@ sf::FloatRect Player::getLocalBounds()
 {
 	return (player1Sprite.getLocalBounds());
 }
+
+sf::FloatRect Player::getGlobalBounds()
+{
+	return (player1Sprite.getGlobalBounds());
+}
