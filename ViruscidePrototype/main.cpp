@@ -22,7 +22,7 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(FullHdresolution::x, FullHdresolution::y), "Viruscide");;
 	Level gameLevel;
 	gameLevel.CreateLevel();
-	Game game(gameLevel.GetMap());
+	Game game(gameLevel.GetMap(), window);
 	sf::Event event;
 	Flags eventFlag = Flags::gameInProgress;
 	sf::Clock clock;

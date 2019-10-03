@@ -368,7 +368,8 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 	// Render Players
 	for (int l = 0; l < playerList.size(); l++)
 	{
-		window.draw(*playerList[l]);
+		//window.draw(*playerList[l]);
+		playerList[l]->drawPlayer(window);
 	}
 	
 	// Render Bullets
@@ -630,13 +631,13 @@ void Game::DrawText(sf::RenderWindow & window)
 
 
 
-Game::Game(std::vector<Grid*> worldMap) :map{ worldMap }, money{ 700 }, coreHealth{ 10 }, isGameOver{ false }, Level{ 1 }
+Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window) :map{ worldMap }, money{ 700 }, coreHealth{ 10 }, isGameOver{ false }, Level{ 1 }
 {
 	// Add the players
 	// Player 1
-	playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 1));
+	playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 1, _window));
 	// Player 2
-	playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 2));
+	playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 2, _window));
 	loadFont();
 	MakeGUI();
 
