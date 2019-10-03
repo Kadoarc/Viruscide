@@ -2,11 +2,11 @@
 
 #include "Utils.h"
 
-class LabelClass
+class LabelClass 
 {
 public:
 	LabelClass();
-	LabelClass(sf::Vector2f _position ,float _size, std::string _string, sf::Text::Style _style, sf::Color _color, std::string _fontPath);
+	LabelClass(sf::Vector2f _position ,float _size, std::string _string, sf::Color _color, std::string _fontPath);
 	~LabelClass();
 
 	void render(sf::RenderWindow& _window);
@@ -15,7 +15,6 @@ public:
 	sf::Text getText();
 
 private:
-	sf::Font font;
 	sf::Text text;
 	int textSize;
 };
