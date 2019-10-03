@@ -6,8 +6,11 @@
 #include <math.h>
 
 
-class ItemDrop : public sf::ConvexShape
+class ItemDrop
 {
+	sf::Sprite itemSprite;
+	sf::Texture itemTexture;
+
 	int Value;
 	int xPos;
 	int yPos;
@@ -19,4 +22,8 @@ public:
 	ItemDrop();
 	~ItemDrop();
 	void drawItem();
+
+	sf::Sprite getSprite();
+	sf::Vector2f getPosition();
+	sf::FloatRect getGlobalBounds();
 };

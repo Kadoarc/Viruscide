@@ -27,7 +27,7 @@ void Bullet::Update()
 
 }
 
-Bullet::Bullet(Tower* originTower, Enemy* destination) : speed{ 4 }, elementalDamage{ 0 }, missed{ false }
+Bullet::Bullet(Tower* originTower, Enemy* destination) : speed{ 8 }, elementalDamage{ 0 }, missed{ false }
 {
 	this->destination = destination;
 	this->setRadius(10);
