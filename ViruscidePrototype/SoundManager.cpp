@@ -21,3 +21,28 @@ void SoundManager::play(const std::string & name)
 	sound.play();
 }
 
+void SoundManager::loadFiles()
+{
+	if (!soundBufferPew.loadFromFile("Resources/Audio/Pew.wav"))
+	{
+		std::cout << "Error loading Pew.wav" << std::endl;
+	}
+
+	if (!soundBufferSplat.loadFromFile("Resources/Audio/Splat.wav"))
+	{
+		std::cout << "Error loading Splate.wav" << std::endl;
+	}
+
+	soundPew.setBuffer(soundBufferPew);
+	soundSplat.setBuffer(soundBufferSplat);
+}
+
+void SoundManager::playSplat()
+{
+	soundSplat.play();
+}
+
+void SoundManager::playPew()
+{
+	soundPew.play();
+}
