@@ -4,6 +4,7 @@
 #include "Utils.h"
 #include "Grid.h"
 #include <math.h>
+class Bullet;
 
 
 class Enemy
@@ -32,11 +33,14 @@ public:
 	void SetIsAtCore();
 	void Draw();
 	void DrawEnemy(sf::RenderWindow& _window);
+	void GiveDamage(Bullet* bullet);
 	bool GetHasWon();
 	void Update();
 	int GetHP();
 	int GetValue();
 	int GetSpeed();
 	sf::Sprite getSprite();
+	sf::Vector2f getPosition();
+	sf::FloatRect getGlobalBounds();
 };
 

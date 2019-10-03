@@ -8,6 +8,9 @@
 #include "Grid.h"
 #include "Player.h"
 #include "Label.h"
+#include "Bullet.h"
+#include "SoundManager.h"
+#include "ItemDrop.h"
 
 
 class Game
@@ -15,16 +18,24 @@ class Game
 public:
 	Game();
 	~Game();
+
 	std::vector<Tower*> towerList;
 	std::vector<Enemy*> enemyList;
 	std::vector<Tower*> gui;
 	std::vector<Player*> playerList;
+	std::vector<Bullet*> bulletList;
+	std::vector<ItemDrop*> itemList;
+
+	SoundManager soundManager;
 	int money;
 	int coreHealth;
 	int Level;
+	int killCounter;
 	sf::Font font;
 	void loadFont();
 	void MakeGUI();
+	sf::Text CoreTxt;
+	sf::Text MoneyTitle;
 	sf::Text coreHealthTxt;
 	sf::Text MoneyTxt;
 	sf::Text gameOverTxt;
@@ -39,6 +50,7 @@ public:
 	void UpdateTowers(sf::RenderWindow &window);
 	void RenderGameOver(sf::RenderWindow &window);
 	void ResetLevel();
+	void UpdateBullets();
 	int GetCoreHealth();
 	void RestartGame();
 	std::vector<Grid*> map;
@@ -53,16 +65,20 @@ public:
 	void WaveGeneration(int difficulty);
 	void SpendMoney(int amount);
 	void ActivateTowerPlacement();
+	void ManageShooting();
+	void ManageDamage();
+	Tower* SearchInTowers(sf::Vector2f pos);
 	Flags GameManager(Flags flag);
 	void GameCycle(sf::RenderWindow &window, Flags flag);
 	void UpdateAllStates(sf::RenderWindow &window);
-
+	void GiveMoney(int amount);
 	int GetGridIndex(Grid* gridTile);
 	void DrawText(sf::RenderWindow &window);
 	Game(std::vector<Grid*> worldMap);
-	
+	void ControlTower();
+	bool m_OverlappingTower = false;
 	void UpdateInput(const float &dt);
 private:
-
+ 
 };
 

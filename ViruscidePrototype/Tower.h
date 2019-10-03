@@ -6,41 +6,49 @@
 #include <iostream>
 #include "TextureManager.h"
 
+
 class Tower : public sf::ConvexShape
 {
 	std::string name = "Basic Tower";
 	sf::CircleShape *rangeHelper;
+	int level;
 	float damage;
-	float fireRate;
+	float elementalDamge;
 	float range;
+	float fireRate;
 	bool isReadyToFire = true;
 	bool isSelected = false;
 	bool isBuilt = false;
-	bool isOccupied = false;
-	int Price;
+	int price;
 	TowerType type;
 	sf::Clock clock;
 	sf::Time collector = sf::Time::Zero;
-
-
+	void SetDamage();
 	void SetRange();
+	void SetFireRate(float rate);
 	void SetTowerTraits(TowerType type);
-public:
+	TextureManager texMan;
 
+public:
+	sf::CircleShape* GetRange();
+	TowerType GetType();
 	Tower();
 	Tower(int xPos, int yPos, TowerType type);
 	~Tower();
-	TowerType GetType();
 	std::string GetName();
-	sf::CircleShape* GetRange();
 	sf::CircleShape* DrawPlacementAssist(sf::RenderWindow &window);
+	bool GetIsReadyToFire();
+	void SetIsReadyToFire(bool ready);
 	int GetPrice();
+	void UpgradeLevel();
+	int GetLevel();
+	float GetElementalDamage();
+	float GetDamage();
+	float GetFireRate();
 	void SetState();
 	bool GetIsBuilt();
 	void Update(sf::RenderWindow &window);
+	//virtual void ReadyToFire();
 
-private:
-	sf::Texture towerTexture;
-	sf::Sprite  towerSprite;
+
 };
-
