@@ -100,15 +100,65 @@ void Game::UpdatePlayer()
 
 	for (int i = 0; i < towerList.size(); i++)
 	{
-		if(playerList.back()->getLocalBounds().intersects(towerList.at(i)->getLocalBounds()));
+		if(playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()));
 		{
-			//std::cout << "Player one Collision with Tower \n";
+			std::cout << "Player TWO Collision with Tower: - ";
 			m_OverlappingTower = true;
+			std::cout << " X: " << towerList.at(i)->getPosition().x;
+			std::cout << ", Y: " << towerList.at(i)->getPosition().y;
+			std::cout << ", Left: " << towerList.at(i)->getGlobalBounds().left;
+			std::cout << ", Top: " << towerList.at(i)->getGlobalBounds().top;
+			std::cout << ", Width: " << towerList.at(i)->getGlobalBounds().width;
+			std::cout << ", Height: " << towerList.at(i)->getGlobalBounds().height << std::endl;
+
+			std::cout << "Player TWO coordinates: - ";
+
+			std::cout << " X: " << playerList.back()->getPosition().x;
+			std::cout << ", Y: " << playerList.back()->getPosition().y;
+			std::cout << ", Left: " << playerList.back()->getGlobalBounds().left;
+			std::cout << ", Top: " << playerList.back()->getGlobalBounds().top;
+			std::cout << ", Width: " << playerList.back()->getGlobalBounds().width;
+			std::cout << ", Height: " << playerList.back()->getGlobalBounds().height << std::endl;
+		}
+		if(playerList.at(0)->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()));
+		{
+			std::cout << "Player ONE Collision with Tower: - ";
+			m_OverlappingTower = true;
+			std::cout << " X: " << towerList.at(i)->getPosition().x;
+			std::cout << ", Y: " << towerList.at(i)->getPosition().y;
+			std::cout << ", Left: " << towerList.at(i)->getGlobalBounds().left;
+			std::cout << ", Top: " << towerList.at(i)->getGlobalBounds().top;
+			std::cout << ", Width: " << towerList.at(i)->getGlobalBounds().width;
+			std::cout << ", Height: " << towerList.at(i)->getGlobalBounds().height << std::endl;
+
+			std::cout << "Player ONE coordinates: - ";
+			std::cout << " X: " << playerList.at(0)->getPosition().x;
+			std::cout << ", Y: " << playerList.at(0)->getPosition().y;
+			std::cout << ", Left: " << playerList.at(0)->getGlobalBounds().left;
+			std::cout << ", Top: " << playerList.at(0)->getGlobalBounds().top;
+			std::cout << ", Width: " << playerList.at(0)->getGlobalBounds().width;
+			std::cout << ", Height: " << playerList.at(0)->getGlobalBounds().height << std::endl;
 		}
 	}
-	if (playerList.back()->getLocalBounds().intersects(playerList.at(0)->getLocalBounds()))
+	if (playerList.back()->getGlobalBounds().intersects(playerList.at(0)->getGlobalBounds()))
 	{
-		//std::cout << "Player one Collision with Player Two \n";
+		std::cout << "Player Two Collision with Player One: \n";
+
+		std::cout << "Player TWO coordinates: - ";
+		std::cout << " X: " << playerList.back()->getPosition().x;
+		std::cout << ", Y: " << playerList.back()->getPosition().y;
+		std::cout << ", Left: " << playerList.back()->getGlobalBounds().left;
+		std::cout << ", Top: " << playerList.back()->getGlobalBounds().top;
+		std::cout << ", Width: " << playerList.back()->getGlobalBounds().width;
+		std::cout << ", Height: " << playerList.back()->getGlobalBounds().height << std::endl;
+
+		std::cout << "Player ONE coordinates: - ";
+		std::cout << " X: " << playerList.at(0)->getPosition().x;
+		std::cout << ", Y: " << playerList.at(0)->getPosition().y;
+		std::cout << ", Left: " << playerList.at(0)->getGlobalBounds().left;
+		std::cout << ", Top: " << playerList.at(0)->getGlobalBounds().top;
+		std::cout << ", Width: " << playerList.at(0)->getGlobalBounds().width;
+		std::cout << ", Height: " << playerList.at(0)->getGlobalBounds().height << std::endl;
 	}
 
 	// PLAYER ONE / WASD MOVEMENT

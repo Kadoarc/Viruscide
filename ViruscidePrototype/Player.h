@@ -18,6 +18,7 @@ public:
 	void setPosition(float _x, float _y);
 	sf::FloatRect getLocalBounds();
 	sf::FloatRect getGlobalBounds();
+	sf::Vector2f getPosition();
 
 	/*void movePlayer(char direction, float moveSpeed)
 	{
@@ -41,6 +42,7 @@ private:
 	sf::Sprite player2Sprite;
 	sf::Texture player1Texture;
 	sf::Texture player2Texture;
+
 };
 
 
