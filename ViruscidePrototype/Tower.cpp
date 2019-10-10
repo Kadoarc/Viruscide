@@ -52,7 +52,6 @@ void Tower::Update(sf::RenderWindow &window)
 			collector = clock.restart();
 			this->SetIsReadyToFire(true);
 		}
-
 	}
 	else
 	{
@@ -100,12 +99,12 @@ Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, p
 	{
 		sf::Texture Tow1Tex;
 		Tow1Tex.loadFromFile("Resources/Images/Tower1.png");
-		
+
 		if (!Tow1Tex.loadFromFile("Tower1.png"))
 		{
 			std::cout << "Not Loaded";
 		}
-		
+
 		this->setFillColor(sf::Color(128, 128, 128));
 	}
 	else
@@ -132,7 +131,11 @@ void Tower::SetTowerTraits(TowerType type)
 		break;
 	case rapid:
 		elementalDamge = 20;
-		price = 100;
+		price = 250;
+		break;
+	case ultimate:
+		elementalDamge = 70;
+		price = 500;
 		break;
 	default:
 		break;

@@ -22,13 +22,17 @@ class Enemy
 
 
 public:
+
 	Grid* nextPath;
 	Grid* previousPath;
 	Grid* currentPath;
+
 	bool isAtDestination;
+
 	Enemy(int xPos, int yPos);
 	Enemy();
 	~Enemy();
+
 	bool GetIsAtCore();
 	void SetIsAtCore();
 	void Draw();
@@ -39,6 +43,7 @@ public:
 	int GetHP();
 	int GetValue();
 	int GetSpeed();
+
 	sf::Sprite getSprite();
 	sf::Vector2f getPosition();
 	sf::FloatRect getGlobalBounds();
