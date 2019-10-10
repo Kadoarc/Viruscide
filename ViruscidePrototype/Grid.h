@@ -1,11 +1,17 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Utils.h"
+
 class Grid :public sf::ConvexShape
 {
 	bool isEmpty = true;
 	char tileType = GridType::hill;
-	sf::Texture tileset;
+
+	sf::Texture normalTilesTexture;
+	sf::Texture pathTilesTexture;
+
+	sf::Sprite normalTileSprite;
+	sf::Sprite pathTileSprite;
 public:
 	void SetIsEmpty(bool gridState);
 	bool GetIsEmpty();

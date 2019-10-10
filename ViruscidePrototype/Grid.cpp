@@ -32,6 +32,24 @@ Grid::Grid(int xPos, int yPos, int type)
 	this->setPoint(3, sf::Vector2f(0, 0 + TILE_SIZE));
 	this->setPosition(sf::Vector2f(xPos, yPos));
 	this->setFillColor(type == GridType::hill ? sf::Color(100, 255, 100) : sf::Color(0, 0, 0));
+
+	if (!normalTilesTexture.loadFromFile("Resources/Images/ViruscideNormalTile"))
+	{
+		std::cout << "error loading normal tile textures" << std::endl;
+	}
+
+	if (!pathTilesTexture.loadFromFile("Resources/Images/ViruscidePathTile"))
+	{
+		std::cout << "error loading normal tile textures" << std::endl;
+	}
+
+	normalTileSprite.setTexture(normalTilesTexture);
+	normalTileSprite.setOrigin(normalTileSprite.getGlobalBounds().width / 2, normalTileSprite.getGlobalBounds().height / 2);
+	//normalTileSprite.setPosition
+
+	pathTileSprite.setTexture(pathTilesTexture);
+	pathTileSprite.setOrigin(pathTileSprite.getGlobalBounds().width / 2, pathTileSprite.getGlobalBounds().height / 2);
+	//pathTileSprite.setPosition
 }
 
 

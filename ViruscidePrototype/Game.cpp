@@ -357,6 +357,7 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		}
 		//window.draw(*towerList[j]);
 		towerList[j]->draw(window);
+		std::cout << "tower Pos" << towerList[j]->getPosition().x << " " << towerList[j]->getPosition().y << " " << std::endl;
 	}
 
 
