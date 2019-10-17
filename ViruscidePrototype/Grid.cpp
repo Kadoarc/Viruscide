@@ -50,6 +50,15 @@ Grid::Grid(int xPos, int yPos, int type)
 	pathTileSprite.setTexture(pathTilesTexture);
 	pathTileSprite.setOrigin(pathTileSprite.getGlobalBounds().width / 2, pathTileSprite.getGlobalBounds().height / 2);
 	//pathTileSprite.setPosition
+
+	if (type == GridType::hill)
+	{
+		normalTileSprite.setPosition(sf::Vector2f(xPos, yPos));
+	}
+	else
+	{
+		pathTileSprite.setPosition(sf::Vector2f(xPos, yPos));
+	}
 }
 
 
