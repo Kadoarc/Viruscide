@@ -35,7 +35,6 @@ public:
 
 	// Declare public variables
 	bool isGameOver;
-	bool m_OverlappingTower = false;
 	int money;
 	int coreHealth;
 	int Level;

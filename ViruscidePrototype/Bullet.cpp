@@ -1,7 +1,10 @@
 #include "Bullet.h"
 
-
-
+/***********************
+* Update: moves the bullet towards its destination.
+* Parameters: NULL
+* Return: NULL
+********************/
 void Bullet::Update()
 {
 

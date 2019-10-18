@@ -1,3 +1,18 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2019 Media Design School
+//
+// File Name	: Game.cpp
+// Description	: Main gameplay logic is done inside here
+// Author		: Daniel Joosten
+// Mail			: Daniel.joo8189@mediadesign.school.nz
+//
+
+
 #include "Game.h"
 
 void Game::loadFont()
@@ -97,48 +112,31 @@ void Game::UpdateEnemies()
 
 void Game::UpdatePlayer()
 {
-
 	for (int i = 0; i < towerList.size(); i++)
 	{
-		if (playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()));
+		if (playerList.at(0)->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
 		{
-			std::cout << "Player TWO Collision with Tower: - ";
-			m_OverlappingTower = true;
-			std::cout << " X: " << towerList.at(i)->getPosition().x;
-			std::cout << ", Y: " << towerList.at(i)->getPosition().y;
-			std::cout << ", Left: " << towerList.at(i)->getGlobalBounds().left;
-			std::cout << ", Top: " << towerList.at(i)->getGlobalBounds().top;
-			std::cout << ", Width: " << towerList.at(i)->getGlobalBounds().width;
-			std::cout << ", Height: " << towerList.at(i)->getGlobalBounds().height << std::endl;
-
-			std::cout << "Player TWO coordinates: - ";
-
-			std::cout << " X: " << playerList.back()->getPosition().x;
-			std::cout << ", Y: " << playerList.back()->getPosition().y;
-			std::cout << ", Left: " << playerList.back()->getGlobalBounds().left;
-			std::cout << ", Top: " << playerList.back()->getGlobalBounds().top;
-			std::cout << ", Width: " << playerList.back()->getGlobalBounds().width;
-			std::cout << ", Height: " << playerList.back()->getGlobalBounds().height << std::endl;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+			{
+				std::cout << "E pressed at a tower\n";
+			}
 		}
-		if (playerList.at(0)->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()));
+
+		if (playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
 		{
-			std::cout << "Player ONE Collision with Tower: - ";
-			m_OverlappingTower = true;
-			std::cout << " X: " << towerList.at(i)->getPosition().x;
-			std::cout << ", Y: " << towerList.at(i)->getPosition().y;
-			std::cout << ", Left: " << towerList.at(i)->getGlobalBounds().left;
-			std::cout << ", Top: " << towerList.at(i)->getGlobalBounds().top;
-			std::cout << ", Width: " << towerList.at(i)->getGlobalBounds().width;
-			std::cout << ", Height: " << towerList.at(i)->getGlobalBounds().height << std::endl;
-
-			std::cout << "Player ONE coordinates: - ";
-			std::cout << " X: " << playerList.at(0)->getPosition().x;
-			std::cout << ", Y: " << playerList.at(0)->getPosition().y;
-			std::cout << ", Left: " << playerList.at(0)->getGlobalBounds().left;
-			std::cout << ", Top: " << playerList.at(0)->getGlobalBounds().top;
-			std::cout << ", Width: " << playerList.at(0)->getGlobalBounds().width;
-			std::cout << ", Height: " << playerList.at(0)->getGlobalBounds().height << std::endl;
+			if (!playerList.back()->m_OverlappingTower)
+			{
+				std::cout << "Player ONE Collision with Tower: - ";
+				std::cout << " X: " << towerList.at(i)->getPosition().x;
+				std::cout << ", Y: " << towerList.at(i)->getPosition().y;
+				std::cout << ", Left: " << towerList.at(i)->getGlobalBounds().left;
+				std::cout << ", Top: " << towerList.at(i)->getGlobalBounds().top;
+				std::cout << ", Width: " << towerList.at(i)->getGlobalBounds().width;
+				std::cout << ", Height: " << towerList.at(i)->getGlobalBounds().height << std::endl;
+			}
+			bool m_OverlappingTower = true;
 		}
+		
 	}
 	if (playerList.back()->getGlobalBounds().intersects(playerList.at(0)->getGlobalBounds()))
 	{
@@ -183,10 +181,7 @@ void Game::UpdatePlayer()
 		playerList.at(0)->xPos += playerList.at(0)->moveSpeed;
 		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-	{
-		std::cout << "E pressed \n";
-	}
+
 
 
 	// PLAYER TWO / ARROW KEY MOVMENT
@@ -739,13 +734,13 @@ Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window) :map{ worldMa
 	soundManager.loadFiles();
 }
 
-void Game::ControlTower()
-{
-	if (m_OverlappingTower = true && (sf::Keyboard::isKeyPressed(sf::Keyboard::E)))
-	{
-
-	}
-}
+//void Game::ControlTower()
+//{
+//	if (m_OverlappingTower = true && (sf::Keyboard::isKeyPressed(sf::Keyboard::E)))
+//	{
+//
+//	}
+//}
 
 void Game::UpdateInput(const float & dt)
 {
