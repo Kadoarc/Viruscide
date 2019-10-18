@@ -1,22 +1,55 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2019 Media Design School
+//
+// File Name	: Main.cpp
+// Description	: Implementation of the Main file
+// Author		: Lorenzo Zemp, Jeremy Bungard, Daniel Joosten
+// Mail			: [LORENZO EMAIL], [JEREMY EMAIL], Daniel.joo8189@mediadesign.school.nz
+//
+
+//__________________
+//
+//	Dependencies
+//__________________
+
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+
+//__________________
+//
+//	Local Includes
+//__________________
+
+
 #include "Utils.h"
 #include "Game.h"
 #include "Grid.h"
 #include "Tower.h"
 #include "Level.h"
 #include "Player.h"
-
 #include "Button.h"
 #include "Label.h"
 #include "MainMenu.h"
 #include "GameOver.h"
 
+//__________________
+//
+//	Global Variables
+//__________________
+
 Player player;
 
-
-
+/***********************
+* main: main program function
+* Parameters: NULL
+* Return: NULL
+********************/
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(FullHdresolution::x, FullHdresolution::y), "Viruscide");;
@@ -56,7 +89,7 @@ int main()
 
 			if (event.type == sf::Event::MouseButtonReleased)
 			{
-				//igonre MouseButtonRealease
+				//ignore MouseButtonRealease
 			}
 			if (event.type == sf::Event::MouseButtonPressed)
 			{

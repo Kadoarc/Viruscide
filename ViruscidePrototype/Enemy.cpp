@@ -8,7 +8,7 @@ void Enemy::DrawEnemy(sf::RenderWindow& _window)
 	_window.draw(enemySprite);
 }
 
-Enemy::Enemy(int xPos, int yPos) :Health{ 20 }, Speed{ 4 }, value{ 50 }, previousPath{ nullptr }, nextPath{ nullptr }, isAtDestination{ true }, currentPath{ nullptr }, IsAtCore{ false }, hasWon{ false }, OTDamage{ 0 }
+Enemy::Enemy(int xPos, int yPos) :Health{ 20 }, Speed{ 4 }, value{ 10 }, previousPath{ nullptr }, nextPath{ nullptr }, isAtDestination{ true }, currentPath{ nullptr }, IsAtCore{ false }, hasWon{ false }, OTDamage{ 0 }
 {
 	if (!enemyTexture.loadFromFile("Resources/Images/Enemy1.png"))
 	{

@@ -1,8 +1,24 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2019 Media Design School
+//
+// File Name	: Game.cpp
+// Description	: Main gameplay logic is done inside here
+// Author		: Daniel Joosten
+// Mail			: Daniel.joo8189@mediadesign.school.nz
+//
+
+
 #include "Game.h"
 
 void Game::loadFont()
 {
-	if (!font.loadFromFile("Resources/Fonts/galaxymonkey.ttf"))
+	//if (!font.loadFromFile("Resources/Fonts/galaxymonkey.ttf"))
+	if (!font.loadFromFile("Resources/Fonts/OpenSans-Regular.ttf"))
 	{
 		std::cout << "Font loading Error " << std::endl;
 	}
@@ -10,10 +26,9 @@ void Game::loadFont()
 
 void Game::MakeGUI()
 {
-	gui.push_back(new Tower(50, 89, TowerType::basic));
-	gui.push_back(new Tower(50, 200, TowerType::rapid));
+	gui.push_back(new Tower(50, 200, TowerType::basic));
+	gui.push_back(new Tower(50, 300, TowerType::rapid));
 	gui.push_back(new Tower(50, 400, TowerType::ultimate));
-
 }
 
 int Game::GetMoney()
@@ -97,18 +112,51 @@ void Game::UpdateEnemies()
 
 void Game::UpdatePlayer()
 {
-
 	for (int i = 0; i < towerList.size(); i++)
 	{
-		if(playerList.back()->getLocalBounds().intersects(towerList.at(i)->getLocalBounds()));
+		if (playerList.at(0)->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
 		{
-			//std::cout << "Player one Collision with Tower \n";
-			m_OverlappingTower = true;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+			{
+				std::cout << "E pressed at a tower\n";
+			}
 		}
+
+		if (playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
+		{
+			if (!playerList.back()->m_OverlappingTower)
+			{
+				std::cout << "Player ONE Collision with Tower: - ";
+				std::cout << " X: " << towerList.at(i)->getPosition().x;
+				std::cout << ", Y: " << towerList.at(i)->getPosition().y;
+				std::cout << ", Left: " << towerList.at(i)->getGlobalBounds().left;
+				std::cout << ", Top: " << towerList.at(i)->getGlobalBounds().top;
+				std::cout << ", Width: " << towerList.at(i)->getGlobalBounds().width;
+				std::cout << ", Height: " << towerList.at(i)->getGlobalBounds().height << std::endl;
+			}
+			bool m_OverlappingTower = true;
+		}
+		
 	}
-	if (playerList.back()->getLocalBounds().intersects(playerList.at(0)->getLocalBounds()))
+	if (playerList.back()->getGlobalBounds().intersects(playerList.at(0)->getGlobalBounds()))
 	{
-		//std::cout << "Player one Collision with Player Two \n";
+		std::cout << "Player Two Collision with Player One: \n";
+
+		std::cout << "Player TWO coordinates: - ";
+		std::cout << " X: " << playerList.back()->getPosition().x;
+		std::cout << ", Y: " << playerList.back()->getPosition().y;
+		std::cout << ", Left: " << playerList.back()->getGlobalBounds().left;
+		std::cout << ", Top: " << playerList.back()->getGlobalBounds().top;
+		std::cout << ", Width: " << playerList.back()->getGlobalBounds().width;
+		std::cout << ", Height: " << playerList.back()->getGlobalBounds().height << std::endl;
+
+		std::cout << "Player ONE coordinates: - ";
+		std::cout << " X: " << playerList.at(0)->getPosition().x;
+		std::cout << ", Y: " << playerList.at(0)->getPosition().y;
+		std::cout << ", Left: " << playerList.at(0)->getGlobalBounds().left;
+		std::cout << ", Top: " << playerList.at(0)->getGlobalBounds().top;
+		std::cout << ", Width: " << playerList.at(0)->getGlobalBounds().width;
+		std::cout << ", Height: " << playerList.at(0)->getGlobalBounds().height << std::endl;
 	}
 
 	// PLAYER ONE / WASD MOVEMENT
@@ -133,10 +181,7 @@ void Game::UpdatePlayer()
 		playerList.at(0)->xPos += playerList.at(0)->moveSpeed;
 		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-	{
-		std::cout << "E pressed \n";
-	}
+
 
 
 	// PLAYER TWO / ARROW KEY MOVMENT
@@ -161,7 +206,7 @@ void Game::UpdatePlayer()
 		playerList.at(1)->xPos += playerList.at(1)->moveSpeed;
 		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
 	}
-		
+
 	// Player Collision With ITEMS
 
 	for (int i = 0; i < itemList.size(); i++)
@@ -171,14 +216,14 @@ void Game::UpdatePlayer()
 		{
 			std::cout << " Item Pickup \n";
 			itemList.erase(itemList.begin() + i);
-			GiveMoney(200);
+			GiveMoney(50);
 		}
 		// Player 2
 		else if (playerList.at(1)->getGlobalBounds().intersects(itemList.at(i)->getGlobalBounds()))
 		{
 			std::cout << " Item Pickup \n";
 			itemList.erase(itemList.begin() + i);
-			GiveMoney(200);
+			GiveMoney(50);
 		}
 	}
 }
@@ -233,9 +278,9 @@ void Game::RestartGame()
 		}
 	}
 	ResetLevel();
-	coreHealth = 11;
+	coreHealth = 30;
 	isGameOver = false;
-	money = 300;
+	money = 200;
 	killCounter = 0;
 }
 
@@ -328,7 +373,7 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 			{
 				map[i]->setFillColor(sf::Color::Red);
 			}
-			
+
 		}
 		else
 		{
@@ -373,13 +418,13 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		//window.draw(*playerList[l]);
 		playerList[l]->drawPlayer(window);
 	}
-	
+
 	// Render Bullets
 	for (int n = 0; n < bulletList.size(); n++)
 	{
 		window.draw(*bulletList[n]);
 	}
-	
+
 
 	// Render Items
 	for (int p = 0; p < itemList.size(); p++)
@@ -400,29 +445,69 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 
 void Game::UpdateGUI()
 {
-	tower1PriceTxt.setString(std::to_string(gui[0]->GetPrice()));
-	tower2PriceTxt.setString(std::to_string(gui[1]->GetPrice()));
-	tower3PriceTxt.setString(std::to_string(gui[2]->GetPrice()));
-	CoreTxt.setFont(font);
-	CoreTxt.setString("Core Health: ");
-	CoreTxt.setPosition(1670, 78);
-	coreHealthTxt.setString(std::to_string(GetCoreHealth()));
-	MoneyTxt.setString(std::to_string(GetMoney()));
+	/// TEXT - Tower Label
+	towerLabelTxt.setCharacterSize(20);
+	towerLabelTxt.setFont(font);
+	towerLabelTxt.setFillColor(sf::Color::White);
+	towerLabelTxt.setString("Click to select a tower:");
+	towerLabelTxt.setPosition(SCREEN_WIDTH / 2 - 925, SCREEN_HEIGHT / 2 - 425);
+
+	/// TEXT - Tower Prices
+	// tower1PriceTxt.setFillColor(sf::Color::Red);
+	tower1PriceTxt.setCharacterSize(15);
+	tower2PriceTxt.setCharacterSize(15);
+	tower3PriceTxt.setCharacterSize(15);
+	tower1PriceTxt.setString("Basic: " + std::to_string(gui[0]->GetPrice()));
+	tower2PriceTxt.setString("Rapid: " + std::to_string(gui[1]->GetPrice()));
+	tower3PriceTxt.setString("Ultimate: " + std::to_string(gui[2]->GetPrice()));
+
+	tower1PriceTxt.setPosition(gui[0]->getPosition().x + 50, gui[0]->getPosition().y);
+	tower2PriceTxt.setPosition(gui[1]->getPosition().x + 50, gui[1]->getPosition().y);
+	tower3PriceTxt.setPosition(gui[2]->getPosition().x + 50, gui[2]->getPosition().y);
+
 	tower1PriceTxt.setFont(font);
 	tower2PriceTxt.setFont(font);
 	tower3PriceTxt.setFont(font);
+
+	/// TEXT - Core
+	CoreTxt.setFont(font);
+	CoreTxt.setString("Core Health: ");
+	CoreTxt.setPosition(SCREEN_WIDTH / 2 + 680, SCREEN_HEIGHT / 2 - 500);
+	CoreTxt.setFillColor(sf::Color::White);
+	/// TEXT - Core Health
+	coreHealthTxt.setString(std::to_string(GetCoreHealth()));
 	coreHealthTxt.setFont(font);
+	/// Change the core health colour based on remaining lives
+	if (coreHealth > 20)
+	{
+		coreHealthTxt.setFillColor(sf::Color::Green);
+	}
+	else if (coreHealth >= 10 && coreHealth <= 20)
+	{
+		coreHealthTxt.setFillColor(sf::Color::Yellow);
+	}
+	else
+	{
+		coreHealthTxt.setFillColor(sf::Color::Red);
+	}
+
+	coreHealthTxt.setPosition(SCREEN_WIDTH / 2 + 875, SCREEN_HEIGHT / 2 - 500);
+	/// TEXT - Money
+	MoneyTxt.setStyle(sf::Text::Bold);
+	MoneyTxt.setString("Money: " + std::to_string(GetMoney()));
 	MoneyTxt.setFont(font);
-	tower1PriceTxt.setPosition(gui[0]->getPosition().x + 100, gui[0]->getPosition().y);
-	tower2PriceTxt.setPosition(gui[1]->getPosition().x + 100, gui[1]->getPosition().y);
-	tower3PriceTxt.setPosition(gui[2]->getPosition().x + 100, gui[2]->getPosition().y);
-	coreHealthTxt.setPosition(1674, 100);
-	MoneyTxt.setPosition(1674, 6);
+	MoneyTxt.setPosition(SCREEN_WIDTH / 2 - 925, SCREEN_HEIGHT / 2 - 500);
 	MoneyTxt.setFont(font);
-tower1PriceTxt.setFillColor(sf::Color::Red);
-coreHealthTxt.setFillColor(sf::Color::Red);
-CoreTxt.setFillColor(sf::Color::Red);
-MoneyTxt.setFillColor(sf::Color::Red);
+	MoneyTxt.setFillColor(sf::Color::Yellow);
+	/// TEXT - Kill Counter
+	killCounterLabelTxt.setFont(font);
+	killCounterLabelTxt.setPosition(SCREEN_WIDTH / 2 + 680, SCREEN_HEIGHT / 2 - 450);
+	killCounterLabelTxt.setFillColor(sf::Color::White);
+	killCounterLabelTxt.setString("Total Kills: ");
+	killCounterTxt.setFont(font);
+	killCounterTxt.setPosition(SCREEN_WIDTH / 2 + 850, SCREEN_HEIGHT / 2 - 450);
+	killCounterTxt.setFillColor(sf::Color::Red);
+	killCounterTxt.setString(std::to_string(killCounter));
 }
 
 void Game::CancelTower()
@@ -509,8 +594,8 @@ void Game::ManageDamage()
 			soundManager.playSplat();
 			killCounter++;
 			std::cout << "Enemy Kill Counter: " << killCounter << std::endl;
-			// If % 5 then spawn an item drop
-			if (killCounter % 5 == 0)
+			// If % 10 then spawn an item drop
+			if (killCounter % 10 == 0)
 			{
 				itemList.push_back(new ItemDrop(enemyList.at(i)->getPosition().x, enemyList.at(i)->getPosition().y, 1));
 			}
@@ -624,22 +709,25 @@ void Game::DrawText(sf::RenderWindow & window)
 	window.draw(MoneyTxt);
 	window.draw(CoreTxt);
 	window.draw(coreHealthTxt);
+	window.draw(towerLabelTxt);
 	window.draw(tower1PriceTxt);
 	window.draw(tower2PriceTxt);
 	window.draw(tower3PriceTxt);
+	window.draw(killCounterTxt);
+	window.draw(killCounterLabelTxt);
 }
 
 
 
 
 
-Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window) :map{ worldMap }, money{ 700 }, coreHealth{ 10 }, isGameOver{ false }, Level{ 1 }
+Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window) :map{ worldMap }, money{ 200 }, coreHealth{ 30 }, isGameOver{ false }, Level{ 1 }
 {
 	// Add the players
 	// Player 1
-	playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 1, _window));
+	playerList.push_back(new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 1, _window));
 	// Player 2
-	playerList.push_back(new Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 2, _window));
+	playerList.push_back(new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 2, _window));
 	loadFont();
 	MakeGUI();
 
@@ -648,13 +736,13 @@ Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window) :map{ worldMa
 	soundManager.loadFiles();
 }
 
-void Game::ControlTower()
-{
-	if (m_OverlappingTower = true && (sf::Keyboard::isKeyPressed(sf::Keyboard::E)))
-	{
-		
-	}
-}
+//void Game::ControlTower()
+//{
+//	if (m_OverlappingTower = true && (sf::Keyboard::isKeyPressed(sf::Keyboard::E)))
+//	{
+//
+//	}
+//}
 
 void Game::UpdateInput(const float & dt)
 {
@@ -663,7 +751,7 @@ void Game::UpdateInput(const float & dt)
 
 Game::Game()
 {
-	
+
 }
 
 Game::~Game()

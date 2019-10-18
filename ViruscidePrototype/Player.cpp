@@ -73,22 +73,56 @@ void Player::drawPlayer(sf::RenderWindow& _window)
 	}
 	if (playerNumber == 2)
 	{
-		player1Sprite.setTexture(player2Texture);
+		player2Sprite.setTexture(player2Texture);
 	}
 	_window.draw(player1Sprite);
+	_window.draw(player2Sprite);
 }
 
 void Player::setPosition(float _x, float _y)
 {
-	player1Sprite.setPosition(sf::Vector2f(_x, _y));
+	if (playerNumber == 1)
+	{
+		player1Sprite.setPosition(sf::Vector2f(_x, _y));
+	}
+	if (playerNumber == 2)
+	{
+		player2Sprite.setPosition(sf::Vector2f(_x, _y));
+	}
 }
 
 sf::FloatRect Player::getLocalBounds()
 {
-	return (player1Sprite.getLocalBounds());
+	if (playerNumber == 1)
+	{
+		return(player1Sprite.getLocalBounds());
+	}
+	if (playerNumber == 2)
+	{
+		return(player2Sprite.getLocalBounds());
+	}
 }
 
 sf::FloatRect Player::getGlobalBounds()
 {
-	return (player1Sprite.getGlobalBounds());
+	if (playerNumber == 1)
+	{
+		return(player1Sprite.getGlobalBounds());
+	}
+	if (playerNumber == 2)
+	{
+		return(player2Sprite.getGlobalBounds());
+	}
+}
+
+sf::Vector2f Player::getPosition()
+{
+	if (playerNumber == 1)
+	{
+		return(player1Sprite.getPosition());
+	}
+	if (playerNumber == 2)
+	{
+		return(player2Sprite.getPosition());
+	}
 }

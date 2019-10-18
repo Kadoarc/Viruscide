@@ -8,7 +8,8 @@ public:
 	float yPos;
 	float moveSpeed;
 	int playerNumber;
-
+	bool m_OverlappingTower = false;
+	bool m_OccupyingTower = false;
 
 	Player(float start_xPos, float start_yPos, int i_playerNumber, sf::RenderWindow& _window);
 	Player();
@@ -18,29 +19,14 @@ public:
 	void setPosition(float _x, float _y);
 	sf::FloatRect getLocalBounds();
 	sf::FloatRect getGlobalBounds();
-
-	/*void movePlayer(char direction, float moveSpeed)
-	{
-		if (direction == 'u')
-		{
-			move(0, -moveSpeed);
-		}
-		else if (direction == 'd') {
-			move(0, moveSpeed);
-		}
-		else if (direction == 'l') {
-			move(-moveSpeed, 0);
-		}
-		else if (direction == 'r') {
-			move(moveSpeed, 0);
-		}
-	}*/
+	sf::Vector2f getPosition();
 
 private:
 	sf::Sprite player1Sprite;
 	sf::Sprite player2Sprite;
 	sf::Texture player1Texture;
 	sf::Texture player2Texture;
+
 };
 
 
