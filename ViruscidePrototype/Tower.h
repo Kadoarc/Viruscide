@@ -7,7 +7,7 @@
 #include "TextureManager.h"
 
 
-class Tower
+class Tower : public sf::ConvexShape
 {
 	std::string name = "Basic Tower";
 	sf::CircleShape *rangeHelper;
@@ -28,9 +28,6 @@ class Tower
 	void SetFireRate(float rate);
 	void SetTowerTraits(TowerType type);
 	TextureManager texMan;
-
-	sf::Sprite towerSprite;
-	sf::Texture towerTexture;
 
 public:
 	sf::CircleShape* GetRange();
@@ -53,14 +50,5 @@ public:
 	void Update(sf::RenderWindow &window);
 	//virtual void ReadyToFire();
 
-	//new sprite stuff
-	sf::Color getFillColor();
-	sf::FloatRect getGlobalBounds();
-	sf::FloatRect getLocalBounds();
-	sf::Vector2f getPosition();
 
-	void setOrigin(sf::Vector2f _vec);
-	void setPosition(sf::Vector2f _vec);
-
-	void draw(sf::RenderWindow& _window);
 };

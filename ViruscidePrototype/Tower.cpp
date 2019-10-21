@@ -58,7 +58,7 @@ void Tower::SetRange()
 /***********************
 * GetRange: get the range value of a tower
 * Parameters: NULL
-* Return: CircleShape* 
+* Return: CircleShape*
 ********************/
 sf::CircleShape* Tower::GetRange()
 {
@@ -132,7 +132,7 @@ void Tower::SetIsReadyToFire(bool ready)
 }
 
 /***********************
-* DrawPlacementAssist: draws where a tower can be placed 
+* DrawPlacementAssist: draws where a tower can be placed
 * Parameters: sf::RenderWindow
 * Return: sf::CircleShape*
 ********************/
@@ -204,7 +204,7 @@ float Tower::GetElementalDamage()
 
 /***********************
 * SetTowerTraits: sets the damage and price of a tower based on its type
-* Parameters: TowerType 
+* Parameters: TowerType
 * Return: NULL
 ********************/
 void Tower::SetTowerTraits(TowerType type)
