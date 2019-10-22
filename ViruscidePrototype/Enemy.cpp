@@ -1,3 +1,17 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2019 Media Design School
+//
+// File Name	: Enemy.cpp
+// Description	: Handles creating and managing enemies
+// Author		: Lorenzo Zemp, Jeremy Bungard, Daniel Joosten
+// Mail			: lorenzo.zem8065@mediadesign.school.nz, Jeremy.bun8227.@mediadesign.school.nz, Daniel.joo8189@mediadesign.school.nz
+//
+
 #include "Enemy.h"
 #include "Game.h"
 #include "Bullet.h"
@@ -8,7 +22,7 @@ void Enemy::DrawEnemy(sf::RenderWindow& _window)
 	_window.draw(enemySprite);
 }
 
-Enemy::Enemy(int xPos, int yPos) :Health{ 20 }, Speed{ 4 }, value{ 50 }, previousPath{ nullptr }, nextPath{ nullptr }, isAtDestination{ true }, currentPath{ nullptr }, IsAtCore{ false }, hasWon{ false }, OTDamage{ 0 }
+Enemy::Enemy(int xPos, int yPos) :Health{ 20 }, Speed{ 4 }, value{ 10 }, previousPath{ nullptr }, nextPath{ nullptr }, isAtDestination{ true }, currentPath{ nullptr }, IsAtCore{ false }, hasWon{ false }, OTDamage{ 0 }
 {
 	if (!enemyTexture.loadFromFile("Resources/Images/Enemy1.png"))
 	{

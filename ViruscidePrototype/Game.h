@@ -1,3 +1,17 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2019 Media Design School
+//
+// File Name	: Game.h
+// Description	: Class definition for Game
+// Author		: Lorenzo Zemp, Jeremy Bungard, Daniel Joosten
+// Mail			: lorenzo.zem8065@mediadesign.school.nz, Jeremy.bun8227.@mediadesign.school.nz, Daniel.joo8189@mediadesign.school.nz
+//
+
 #pragma once
 #include <vector>
 #include <SFML/Graphics.hpp>
@@ -16,49 +30,44 @@
 class Game
 {
 public:
+	// Constructors&Destructors
+	Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window);
 	Game();
 	~Game();
 
+	// Declare vectors
 	std::vector<Tower*> towerList;
 	std::vector<Enemy*> enemyList;
 	std::vector<Tower*> gui;
 	std::vector<Player*> playerList;
 	std::vector<Bullet*> bulletList;
 	std::vector<ItemDrop*> itemList;
+	std::vector<Grid*> map;
 
+	// Sound 
 	SoundManager soundManager;
+
+	// Declare public variables
+	bool isGameOver;
 	int money;
 	int coreHealth;
 	int Level;
 	int killCounter;
-	sf::Font font;
+
+	// Declare public functions
 	void loadFont();
 	void MakeGUI();
-	sf::Text CoreTxt;
-	sf::Text MoneyTitle;
-	sf::Text coreHealthTxt;
-	sf::Text MoneyTxt;
-	sf::Text gameOverTxt;
-	sf::Text tower1PriceTxt;
-	sf::Text tower2PriceTxt;
-	sf::Text tower3PriceTxt;
-	bool isGameOver;
-	int GetMoney();
-	Tower* underConstruction;
+	void RestartGame();
+	bool HasMoney();
+	bool GetIsGameOver();
+	bool ContainsMouse(sf::Vector2i & position);
+	bool Construction(sf::Vector2i pos);
 	void UpdateEnemies();
 	void UpdatePlayer();
 	void UpdateTowers(sf::RenderWindow &window);
 	void RenderGameOver(sf::RenderWindow &window);
 	void ResetLevel();
 	void UpdateBullets();
-	int GetCoreHealth();
-	void RestartGame();
-	std::vector<Grid*> map;
-	bool HasMoney();
-	bool GetIsGameOver();
-	bool ContainsMouse(sf::Vector2i &position);
-	bool Construction(sf::Vector2i pos);
-	bool CheckPlacement(sf::Vector2i placement);
 	void Render(sf::RenderWindow &window, Flags flag);
 	void UpdateGUI();
 	void CancelTower();
@@ -67,18 +76,37 @@ public:
 	void ActivateTowerPlacement();
 	void ManageShooting();
 	void ManageDamage();
-	Tower* SearchInTowers(sf::Vector2f pos);
-	Flags GameManager(Flags flag);
 	void GameCycle(sf::RenderWindow &window, Flags flag);
 	void UpdateAllStates(sf::RenderWindow &window);
 	void GiveMoney(int amount);
+	int GetCoreHealth();
+	int GetMoney();
 	int GetGridIndex(Grid* gridTile);
 	void DrawText(sf::RenderWindow &window);
-	Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window);
 	void ControlTower();
-	bool m_OverlappingTower = false;
 	void UpdateInput(const float &dt);
+	bool CheckPlacement(sf::Vector2i placement);
+
+	// Text variables
+	sf::Font font;
+	sf::Text CoreTxt;
+	sf::Text moneyLabel;
+	sf::Text coreHealthTxt;
+	sf::Text MoneyTxt;
+	sf::Text gameOverTxt;
+	sf::Text towerLabelTxt;
+	sf::Text tower1PriceTxt;
+	sf::Text tower2PriceTxt;
+	sf::Text tower3PriceTxt;
+	sf::Text killCounterLabelTxt;
+	sf::Text killCounterTxt;
+
+	// Pointers
+	Tower* underConstruction;
+	Tower* SearchInTowers(sf::Vector2f pos);
+	Flags GameManager(Flags flag);
+
 private:
- 
+
 };
 

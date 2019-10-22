@@ -1,3 +1,17 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2019 Media Design School
+//
+// File Name	: Player.h
+// Description	: Class definition for Player
+// Author		: Lorenzo Zemp, Jeremy Bungard, Daniel Joosten
+// Mail			: lorenzo.zem8065@mediadesign.school.nz, Jeremy.bun8227.@mediadesign.school.nz, Daniel.joo8189@mediadesign.school.nz
+//
+
 #pragma once
 #include "Utils.h"
 class Player
@@ -8,7 +22,8 @@ public:
 	float yPos;
 	float moveSpeed;
 	int playerNumber;
-
+	bool m_OverlappingTower = false;
+	bool m_OccupyingTower = false;
 
 	Player(float start_xPos, float start_yPos, int i_playerNumber, sf::RenderWindow& _window);
 	Player();
@@ -18,29 +33,14 @@ public:
 	void setPosition(float _x, float _y);
 	sf::FloatRect getLocalBounds();
 	sf::FloatRect getGlobalBounds();
-
-	/*void movePlayer(char direction, float moveSpeed)
-	{
-		if (direction == 'u')
-		{
-			move(0, -moveSpeed);
-		}
-		else if (direction == 'd') {
-			move(0, moveSpeed);
-		}
-		else if (direction == 'l') {
-			move(-moveSpeed, 0);
-		}
-		else if (direction == 'r') {
-			move(moveSpeed, 0);
-		}
-	}*/
+	sf::Vector2f getPosition();
 
 private:
 	sf::Sprite player1Sprite;
 	sf::Sprite player2Sprite;
 	sf::Texture player1Texture;
 	sf::Texture player2Texture;
+
 };
 
 
