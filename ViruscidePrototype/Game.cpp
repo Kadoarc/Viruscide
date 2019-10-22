@@ -128,8 +128,10 @@ void Game::UpdatePlayer()
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 			{
 				std::cout << "E pressed at a tower\n";
+				towerList.at(i)->autoShoot = false;
 			}
 		}
+		else towerList.at(i)->autoShoot = true;
 
 		if (playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
 		{
@@ -405,9 +407,15 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 	// Render Towers
 	for (int j = 0; j < towerList.size(); j++)
 	{
+		// Draw tower range radius
 		if (!towerList[j]->GetIsBuilt())
 		{
 			window.draw(*towerList[j]->DrawPlacementAssist(window));
+		}
+		// Draw shooting indicator
+		else if (!towerList[j]->autoShoot)
+		{
+			window.draw(*towerList[j]->DrawShootingIndicator(window));
 		}
 		window.draw(*towerList[j]);
 	}
@@ -432,7 +440,6 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		window.draw(*bulletList[n]);
 	}
 
-
 	// Render Items
 	for (int p = 0; p < itemList.size(); p++)
 	{
@@ -444,7 +451,6 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 	{
 		window.draw(enemyList[k]->getSprite());
 	}
-
 
 	// Render Window
 	DrawText(window);
@@ -570,6 +576,7 @@ void Game::ManageShooting()
 		// Check if the tower is built and it is ready to fire
 		if (towerList[i]->GetIsBuilt() && towerList[i]->GetIsReadyToFire())
 		{
+			if (towerList.at(i)->autoShoot == true)
 			// Get the list of ENEMIES
 			for (int j = 0; j < enemyList.size(); j++)
 			{

@@ -162,6 +162,22 @@ sf::CircleShape* Tower::DrawPlacementAssist(sf::RenderWindow &window)
 }
 
 /***********************
+* DrawShootingIndicator: draws where a tower can shoot
+* Parameters: sf::RenderWindow
+* Return: sf::RectangleShape*
+********************/
+sf::RectangleShape* Tower::DrawShootingIndicator(sf::RenderWindow &window)
+{
+	shootingDirection->setPosition(this->getPosition().x,this->getPosition().y);
+	shootingDirection->setSize(sf::Vector2f(50, 5));
+	shootingDirection->setFillColor(sf::Color::Red);
+	shootingDirection->setOutlineColor(sf::Color::Black);
+	return shootingDirection;
+}
+
+
+
+/***********************
 * GetName: returns the name of a tower
 * Parameters: NULL
 * Return: std::string
@@ -178,6 +194,8 @@ std::string Tower::GetName()
 ********************/
 Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, price{ 100 }, fireRate{ 2 }, level{ 1 }, elementalDamge{ 0 }
 {
+	this->xPos = xPos;
+	this->yPos = yPos;
 	this->setPointCount(3);
 	this->setPoint(0, sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 4));
 	this->setPoint(1, sf::Vector2f(TILE_SIZE*0.75, TILE_SIZE*0.75));
@@ -202,6 +220,7 @@ Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, p
 		this->setFillColor(type == TowerType::rapid ? sf::Color(255, 0, 0) : sf::Color(0, 0, 255));
 	}
 	rangeHelper = new sf::CircleShape(range);
+	shootingDirection = new sf::RectangleShape;
 	SetTowerTraits(type);
 
 }
