@@ -564,16 +564,23 @@ void Game::ActivateTowerPlacement()
 
 void Game::ManageShooting()
 {
+	// First the list of TOWERS
 	for (int i = 0; i < towerList.size(); i++)
 	{
+		// Check if the tower is built and it is ready to fire
 		if (towerList[i]->GetIsBuilt() && towerList[i]->GetIsReadyToFire())
 		{
+			// Get the list of ENEMIES
 			for (int j = 0; j < enemyList.size(); j++)
 			{
+				// Check if an ENEMY is within a TOWER range and it is ready to fire
 				if (towerList[i]->GetRange()->getGlobalBounds().contains(enemyList[j]->getPosition()) && towerList[i]->GetIsReadyToFire())
 				{
+					// Add a bullet to the list
 					bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+					// Play shooting sound
 					soundManager.playPew();
+					// Set the shooting cooldown
 					towerList[i]->SetIsReadyToFire(false);
 				}
 			}
@@ -583,22 +590,32 @@ void Game::ManageShooting()
 
 void Game::ManageDamage()
 {
+	// Get the ENEMY list
 	for (int i = 0; i < enemyList.size(); i++)
 	{
-
+		// Get the BULLET list
 		for (int j = 0; j < bulletList.size(); j++)
 		{
-
-			if (enemyList[i]->getGlobalBounds().contains(bulletList[j]->getPosition()))// crash
+			// First check if the bullet has expired
+			if (bulletList.at(j)->ExpiredBullet == true)
 			{
+				bulletList.erase(bulletList.begin() + j);
+			}
+
+			// Get the enemy and see if the bullet is inside it
+			else if (enemyList[i]->getGlobalBounds().contains(bulletList[j]->getPosition()))// crash
+			{
+				// Apply damage to the enemy
 				enemyList[i]->GiveDamage(bulletList[j]);
+				// Erase the bullet
 				bulletList.erase(bulletList.begin() + j);
 			}
 		}
 		if (enemyList[i]->GetHP() <= 0)
 		{
-			// Iterate the Kill Counter
+			// Play kill count
 			soundManager.playSplat();
+			// Iterate the Kill Counter
 			killCounter++;
 			std::cout << "Enemy Kill Counter: " << killCounter << std::endl;
 			// If % 10 then spawn an item drop
@@ -606,7 +623,9 @@ void Game::ManageDamage()
 			{
 				itemList.push_back(new ItemDrop(enemyList.at(i)->getPosition().x, enemyList.at(i)->getPosition().y, 1));
 			}
+			// Add money 
 			GiveMoney(enemyList[i]->GetValue());
+			// Finally remove the enemy
 			enemyList.erase(enemyList.begin() + i);
 		}
 	}

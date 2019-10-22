@@ -28,8 +28,10 @@ class Bullet : public sf::CircleShape
 	Enemy* destination;
 	bool missed;
 
+
 public:
 	void Update();
+	bool ExpiredBullet;
 	Bullet(Tower* t, Enemy* destination);
 	Bullet(float damage, std::string element, float elementalDamage);
 	~Bullet();
@@ -40,4 +42,5 @@ public:
 	void SetElementalDamage(float damage);
 	float GetElementalDamage();
 	bool CollisionDetect();
+	bool DestinationIsDead();
 };

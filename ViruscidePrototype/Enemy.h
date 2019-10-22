@@ -30,13 +30,14 @@ class Enemy
 	double Speed;
 	bool IsAtCore;
 	bool hasWon;
-	bool isHit;
+
 	float OTDamage;
 	int value;
 
 
 public:
 
+	bool isHit;
 	Grid* nextPath;
 	Grid* previousPath;
 	Grid* currentPath;
