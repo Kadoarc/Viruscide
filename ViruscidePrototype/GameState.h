@@ -6,19 +6,17 @@
 //
 // (c) 2019 Media Design School
 //
-// File Name	: Grid.cpp
-// Description	: Unused
+// File Name	: GameState.h
+// Description	: Class definition for GameState
 // Author		: Lorenzo Zemp, Jeremy Bungard, Daniel Joosten
 // Mail			: lorenzo.zem8065@mediadesign.school.nz, Jeremy.bun8227.@mediadesign.school.nz, Daniel.joo8189@mediadesign.school.nz
 //
 
-#include "GUI.h"
-
-GUI::GUI()
+#pragma once
+class GameState
 {
-}
+public:
+	GameState();
+	~GameState();
+};
 
-
-GUI::~GUI()
-{
-}

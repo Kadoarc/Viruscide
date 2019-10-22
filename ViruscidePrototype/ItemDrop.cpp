@@ -1,5 +1,18 @@
-#include "ItemDrop.h"
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2019 Media Design School
+//
+// File Name	: ItemDrop.cpp
+// Description	: Handles the creation and managing of item drops
+// Author		: Lorenzo Zemp, Jeremy Bungard, Daniel Joosten
+// Mail			: lorenzo.zem8065@mediadesign.school.nz, Jeremy.bun8227.@mediadesign.school.nz, Daniel.joo8189@mediadesign.school.nz
+//
 
+#include "ItemDrop.h"
 
 ItemDrop::ItemDrop(float spawn_xPos, float spawn_yPos, int spawn_ItemType)
 {

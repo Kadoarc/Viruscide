@@ -6,19 +6,19 @@
 //
 // (c) 2019 Media Design School
 //
-// File Name	: Grid.cpp
-// Description	: Unused
+// File Name	: GameState.cpp
+// Description	: 
 // Author		: Lorenzo Zemp, Jeremy Bungard, Daniel Joosten
 // Mail			: lorenzo.zem8065@mediadesign.school.nz, Jeremy.bun8227.@mediadesign.school.nz, Daniel.joo8189@mediadesign.school.nz
 //
 
-#include "GUI.h"
+#include "GameState.h"
 
-GUI::GUI()
+GameState::GameState()
 {
 }
 
 
-GUI::~GUI()
+GameState::~GameState()
 {
 }
