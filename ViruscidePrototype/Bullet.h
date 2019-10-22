@@ -22,7 +22,8 @@
 #include "Game.h"
 #include "Enemy.h"
 
-/*
+
+
 
 using std::string;
 using std::weak_ptr;
@@ -54,17 +55,6 @@ public:
 	void SetElementalDamage(float damage);
 	float GetElementalDamage();
 	bool CollisionDetect();
-	void moveBulletTowardsEnemy(sf::Vector2f enemyPosition);
-	float distanceFromEnemy(sf::Vector2f enemy);
-	bool bulletEnemyCollision(sf::Vector2f enemy);
-	sf::Vector2f normalise(sf::Vector2f v);
-	void setTarget(Enemy* target);
-	bool checkCollision();
-
-	inline bool hasTarget() { return (m_target != NULL); }
-	inline bool hasHit() { return m_hit; }
-	Tower* getTower() { return m_source; }
-
 
 
 private:
@@ -79,37 +69,10 @@ private:
 	sf::Vector2f bulletCentre;
 	float speed = 8;
 	weak_ptr<Enemy> target_ptr;
-	void updateMovementDirections();
+	
 	sf::Vector2f unitVector;
 
 };
 
 
-*/
-#include "Enemy.h"
-class  Bullet
-{
-public:
-	 Bullet(const sf::Vector2f startLoc, const sf::Vector2f dest);
-	 sf::Vector2f getPos();
-	 bool InstersectsWith(Enemy* enemy);
-	 void update(const float dt);
-	~ Bullet();
-	bool targetReached();
-	sf::Rect<float> getHitBox();
-
-private:
-
-protected:
-		sf::Vector2f pos;
-		 sf::Sprite sprite;
-		 sf::Rect<float> hitbox;
-		 float speed;
-		 float size;
-		 float radius;
-		 float damage;
-		 sf::Vector2f dir;
-		 sf::Vector2f destination;
-
-};
 

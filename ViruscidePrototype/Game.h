@@ -25,7 +25,7 @@
 #include "Bullet.h"
 #include "SoundManager.h"
 #include "ItemDrop.h"
-
+#include "Projectile.h"
 
 class Game
 {
@@ -43,6 +43,7 @@ public:
 	std::vector<Bullet*> bulletList;
 	std::vector<ItemDrop*> itemList;
 	std::vector<Grid*> map;
+	std::vector<Projectile*> projList;
 
 	// Sound 
 	SoundManager soundManager;
@@ -84,10 +85,11 @@ public:
 	int GetMoney();
 	int GetGridIndex(Grid* gridTile);
 	void DrawText(sf::RenderWindow &window);
-	void spawnBullet(Tower* towerPtr);
-	void manageBullets(const float &dt);
 	void UpdateInput(const float &dt);
 	bool CheckPlacement(sf::Vector2i placement);
+	void spawnProjectile(Tower* towerPtr);
+	void ManageTowers(const float &dt);
+	void ManageProjectiles(const float &dt);
 
 	// Text variables
 	sf::Font font;

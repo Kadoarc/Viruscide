@@ -19,6 +19,7 @@
 #include <string>
 #include <iostream>
 #include "TextureManager.h"
+#include "Enemy.h"
 
 
 class Tower : public sf::ConvexShape
@@ -66,23 +67,18 @@ public:
 	int getCooldown();
 	void decreaseCooldown();
 	void resetCooldown();
-	bool isinRadius(const sf::Vector2f tarLoc);
+	bool isInRadius(const sf::Vector2f tarLoc);
+	int getTargetIndex();
+	void setTarget(int index, Enemy * tar);
 	sf::Vector2f getLoc() const;
 	sf::Vector2f getTargetLoc() const;
-	void setTarget(Enemy* enemyPtr);
-	int getTargetIndex();
-	void setTarget(int index, Enemy* tar);
+	void setTarget(Enemy *enemyPtr);
 private:
 	int currentCooldown;
 	int baseCooldown;
 
 protected:
-	sf::Vector2f pos;
-	float cooldown;
-	float lastShoot = 0.0f;
-	float range;
 	Enemy* target = nullptr;
-	float timeElapsed = 0.0f;
 	int targetIndex = -1;
-
+	sf::Vector2f pos;
 };

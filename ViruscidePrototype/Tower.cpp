@@ -69,15 +69,7 @@ void Tower::SetRange()
 	range += range / 5;
 }
 
-Tower::Status Tower::update(const float & dt)
-{
-	lastShoot += dt;
-	if (target == nullptr)
-	{
 
-	}
-	return Tower::Status();
-}
 
 /***********************
 * GetRange: get the range value of a tower
@@ -150,15 +142,25 @@ void Tower::resetCooldown()
 	this->currentCooldown = this->baseCooldown;
 }
 
-bool Tower::isinRadius(const sf::Vector2f tarLoc)
+bool Tower::isInRadius(const sf::Vector2f tarLoc)
 {
-
 	if ((tarLoc.x - pos.x)*(tarLoc.x - pos.x) + (tarLoc.y - pos.y)*(tarLoc.y - pos.y) <= range * range)
 	{
 		return true;
 	}
 	else
 		return false;
+}
+
+int Tower::getTargetIndex()
+{
+	return targetIndex;
+}
+
+void Tower::setTarget(int index, Enemy * tar)
+{
+	targetIndex = index;
+	target = tar;
 }
 
 sf::Vector2f Tower::getLoc() const
@@ -176,16 +178,7 @@ void Tower::setTarget(Enemy * enemyPtr)
 	target = enemyPtr;
 }
 
-int Tower::getTargetIndex()
-{
-	return targetIndex;
-}
 
-void Tower::setTarget(int index, Enemy * tar)
-{
-	targetIndex = index;
-	target = tar;
-}
 
 /***********************
 * GetIsReadyToFire: Check if a tower is ready to fire again

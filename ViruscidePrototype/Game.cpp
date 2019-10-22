@@ -363,6 +363,63 @@ bool Game::CheckPlacement(sf::Vector2i placement)
 	return false;
 }
 
+void Game::spawnProjectile(Tower * towerPtr)
+{
+
+}
+
+void Game::ManageTowers(const float & dt)
+{
+}
+
+void Game::ManageProjectiles(const float & dt)
+{
+	bool hitDetected = false;
+	for (unsigned int i = 0; i < projList.size(); i++)
+	{
+		hitDetected = false;
+		Projectile* current = projList.at(i);
+		current->update(dt);
+		for (unsigned int i = 0; i < enemyList.size(); i++)
+		{
+			Enemy* currEnemy = enemyList.at(i);
+			if (current->IntersectsWith(currEnemy))
+			{
+				if (hitDetected != true)
+				{
+					hitDetected = true;
+				}
+				current->dealDamage(currEnemy);
+				if (currEnemy->GetHP() <= 0)
+				{
+					// Iterate the Kill Counter
+					soundManager.playSplat();
+					killCounter++;
+					std::cout << "Enemy Kill Counter: " << killCounter << std::endl;
+					// If % 10 then spawn an item drop
+					if (killCounter % 10 == 0)
+					{
+						itemList.push_back(new ItemDrop(enemyList.at(i)->getPosition().x, enemyList.at(i)->getPosition().y, 1));
+					}
+					GiveMoney(enemyList[i]->GetValue());
+					delete currEnemy;
+					enemyList.erase(enemyList.begin() + i);
+				}
+			}
+		}
+		if (hitDetected == false)
+		{
+			if (current->targetReached())
+				hitDetected = true;
+		}
+		if (hitDetected == true)
+		{
+			delete current;
+			projList.erase(projList.begin() + i);
+		}
+	}
+}
+
 void Game::Render(sf::RenderWindow &window, Flags flag)
 {
 	UpdateGUI();
@@ -565,6 +622,30 @@ void Game::ActivateTowerPlacement()
 
 void Game::ManageShooting()
 {
+	Tower* curTower;
+	for (unsigned int i = 0; i < towerList.size(); i++)
+	{
+		curTower = towerList.at(i);
+		int index = curTower->getTargetIndex();
+		if (index >= 0 && index < enemyList.size())
+		{
+			curTower->setTarget(index, enemyList.at(index));
+		}
+
+		for (unsigned int i = 0; i < enemyList.size(); i++)
+		{
+			Enemy* curEnemy = enemyList.at(i);
+			if (curTower->isInRadius(curEnemy->getLocation()))
+			{
+				curTower->setTarget(i, curEnemy);
+				
+			}
+		}
+
+	}
+	/*
+	bool hitDetected = false;
+
 	for (int i = 0; i < towerList.size(); i++)
 	{
 		if (towerList[i]->GetIsBuilt() && towerList[i]->GetIsReadyToFire())
@@ -573,15 +654,22 @@ void Game::ManageShooting()
 			{
 				if (towerList[i]->GetRange()->getGlobalBounds().contains(enemyList[j]->getPosition()) && towerList[i]->GetIsReadyToFire())
 				{
+					if (hitDetected != true)
+					{
+						hitDetected = true;
+					}
 
 					bulletList.emplace_back(new Bullet(towerList[i], enemyList[j]));
 					soundManager.playPew();
 					towerList[i]->SetIsReadyToFire(false);
 				}
-				
+
 			}
 		}
+
 	}
+	*/
+	
 }
 
 void Game::ManageDamage()
@@ -741,33 +829,7 @@ void Game::DrawText(sf::RenderWindow & window)
 	window.draw(killCounterLabelTxt);
 }
 
-void Game::spawnBullet(Tower * towerPtr)
-{
-	bulletList.push_back(towerPtr->makeBullet());
-}
 
-void Game::manageBullets(const float & dt)
-{
-	bool hitDetected = false;
-	for (unsigned int i = 0; i < bulletList.size(); i++)
-	{
-		hitDetected = false;
-		Bullet* current = bulletList.at(i);
-		current->update(dt);
-		for (unsigned int i = 0; i < enemyList.size(); i++)
-		{
-			Enemy* curEnemy = enemyList.at(i);
-			if (current->InstersectsWith(curEnemy))
-			{
-				if (hitDetected != true)
-				{
-					hitDetected = true;
-				}
-				current->d
-			}
-		}
-	}
-}
 
 
 

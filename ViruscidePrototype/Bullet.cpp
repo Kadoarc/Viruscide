@@ -1,3 +1,4 @@
+#include "Bullet.h"
 //
 // Bachelor of Software Engineering
 // Media Design School
@@ -12,87 +13,88 @@
 // Mail			: lorenzo.zem8065@mediadesign.school.nz, Jeremy.bun8227.@mediadesign.school.nz, Daniel.joo8189@mediadesign.school.nz
 //
 
-#include "Bullet.h"
-
-
-/*
-
-*/
-
-
-
-Bullet::Bullet(const sf::Vector2f startLoc, const sf::Vector2f dest) : pos(startLoc), destination(dest)
+void Bullet::Update()
 {
-	auto delta = dest - startLoc;
-	float length = sqrt(delta.x*delta.x + delta.y*delta.y);
-	dir = (delta / length);
-}
-
-sf::Rect<float> Bullet::getHitBox()
-{
-	return hitbox;
-}
-
-sf::Vector2f Bullet::getPos()
-{
-	return sf::Vector2f();
-}
-
-bool Bullet::InstersectsWith(Enemy * enemy)
-{
-	return false;
-}
-
-sf::Vector2f Bullet::getPos()
-{
-	return pos;
-}
-
-bool Bullet::IntersectsWith(Enemy* enemy)
-{
-	if (hitbox.intersects(enemy->getHitbox()))
-		return true;
+	if (destination->getPosition().x < this->getPosition().x)
+	{
+		if (destination->getPosition().y < this->getPosition().y)
+		{
+			this->setPosition(this->getPosition().x - speed, this->getPosition().y - speed);
+		}
+		else
+		{
+			this->setPosition(this->getPosition().x - speed, this->getPosition().y + speed);
+		}
+	}
+	else if (destination->getPosition().y < this->getPosition().y)
+	{
+		this->setPosition(this->getPosition().x + speed, this->getPosition().y - speed);
+	}
 	else
-		return false;
+	{
+		this->setPosition(this->getPosition().x + speed, this->getPosition().y + speed);
+	}
 }
 
-void Bullet::update(const float dt)
+Bullet::Bullet(Tower* originTower, Enemy* destination) : speed{ 4 }, elementalDamage{ 0 }, missed{ false }
 {
-	pos += dir * dt*speed;
-	sprite.setPosition(pos);
-	hitbox = { pos.x - size / 2, pos.y - size / 2, size, size };
+	this->destination = destination;
+	this->setRadius(10);
+	this->setPosition(originTower->getPosition());
+	this->setOrigin(TILE_SIZE / 4, TILE_SIZE / 4);
+	this->setFillColor(originTower->getFillColor());
+	this->SetDamage(originTower->GetDamage());
+	this->SetElementalDamage(originTower->GetElementalDamage());
+	this->SetElement(originTower->GetType());
+}
+
+Bullet::Bullet(float damage, std::string element, float elementalDamage)
+{
+	this->damage = damage;
+
 }
 
 Bullet::~Bullet()
 {
 }
 
-bool Bullet::targetReached()
+Bullet::Bullet(const sf::Vector2f & position, const Enemy & destination, const float speed)
 {
-	{
-
-		if (dir.x > 0 && pos.x >= destination.x)
-		{
-			hitbox = { pos.x - radius / 2,pos.y - radius / 2 , radius , radius };
-			return true;
-		}
-		if (dir.y < 0 && pos.y <= destination.y)
-		{
-			hitbox = { pos.x - radius / 2,pos.y - radius / 2 , radius , radius };
-			return true;
-		}
-		if (dir.x < 0 && pos.x <= destination.x)
-		{
-			hitbox = { pos.x - radius / 2,pos.y - radius / 2 , radius , radius };
-			return true;
-		}
-		if (dir.y > 0 && pos.y >= destination.y)
-		{
-			hitbox = { pos.x - radius / 2,pos.y - radius / 2 , radius , radius };
-			return true;
-		}
-
-		return false;
-	}
 }
+
+void Bullet::SetDamage(float damage)
+{
+	this->damage = damage;
+}
+
+float Bullet::GetDamage()
+{
+	return damage;
+}
+
+void Bullet::SetElement(TowerType type)
+{
+	this->element = element;
+}
+
+TowerType Bullet::GetElement()
+{
+	return element;
+}
+
+void Bullet::SetElementalDamage(float damage)
+{
+	elementalDamage = damage;
+}
+
+float Bullet::GetElementalDamage()
+{
+	return elementalDamage;
+}
+
+bool Bullet::CollisionDetect()
+{
+	return false;
+}
+
 
