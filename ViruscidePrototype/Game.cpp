@@ -622,6 +622,7 @@ void Game::ActivateTowerPlacement()
 
 void Game::ManageShooting()
 {
+	/*
 	Tower* curTower;
 	for (unsigned int i = 0; i < towerList.size(); i++)
 	{
@@ -638,12 +639,15 @@ void Game::ManageShooting()
 			if (curTower->isInRadius(curEnemy->getLocation()))
 			{
 				curTower->setTarget(i, curEnemy);
+				soundManager.playPew();
 				
 			}
 		}
 
 	}
-	/*
+	*/
+	
+	
 	bool hitDetected = false;
 
 	for (int i = 0; i < towerList.size(); i++)
@@ -652,6 +656,16 @@ void Game::ManageShooting()
 		{
 			for (int j = 0; j < enemyList.size(); j++)
 			{
+				/*
+				if (towerList[i]->isInRadius(enemyList[j]->getPosition()) && towerList[i]->GetIsReadyToFire())
+				{
+					bulletList.emplace_back(new Bullet(towerList[i], enemyList[j]));
+					soundManager.playPew();
+					towerList[i]->SetIsReadyToFire(false);
+				}
+				
+				*/
+				
 				if (towerList[i]->GetRange()->getGlobalBounds().contains(enemyList[j]->getPosition()) && towerList[i]->GetIsReadyToFire())
 				{
 					if (hitDetected != true)
@@ -663,12 +677,14 @@ void Game::ManageShooting()
 					soundManager.playPew();
 					towerList[i]->SetIsReadyToFire(false);
 				}
+				
+				
 
 			}
 		}
 
 	}
-	*/
+	
 	
 }
 
