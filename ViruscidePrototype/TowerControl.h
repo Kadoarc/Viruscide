@@ -4,5 +4,7 @@ class TowerControl
 public:
 	TowerControl();
 	~TowerControl();
+
+
 };
 

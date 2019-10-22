@@ -62,6 +62,7 @@ public:
 	void ActivateTowerPlacement();
 	void ManageShooting();
 	void ManageDamage();
+	void deleteBullet(Bullet* bullet);
 	void GameCycle(sf::RenderWindow &window, Flags flag);
 	void UpdateAllStates(sf::RenderWindow &window);
 	void GiveMoney(int amount);
@@ -69,7 +70,8 @@ public:
 	int GetMoney();
 	int GetGridIndex(Grid* gridTile);
 	void DrawText(sf::RenderWindow &window);
-	void ControlTower();
+	void spawnBullet(Tower* towerPtr);
+	void manageBullets(const float &dt);
 	void UpdateInput(const float &dt);
 	bool CheckPlacement(sf::Vector2i placement);
 

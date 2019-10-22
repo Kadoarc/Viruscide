@@ -8,6 +8,11 @@ void Enemy::DrawEnemy(sf::RenderWindow& _window)
 	_window.draw(enemySprite);
 }
 
+sf::Rect<float> Enemy::getHitbox()
+{
+	return hitbox;
+}
+
 Enemy::Enemy(int xPos, int yPos) :Health{ 20 }, Speed{ 4 }, value{ 10 }, previousPath{ nullptr }, nextPath{ nullptr }, isAtDestination{ true }, currentPath{ nullptr }, IsAtCore{ false }, hasWon{ false }, OTDamage{ 0 }
 {
 	if (!enemyTexture.loadFromFile("Resources/Images/Enemy1.png"))
@@ -21,6 +26,8 @@ Enemy::Enemy(int xPos, int yPos) :Health{ 20 }, Speed{ 4 }, value{ 10 }, previou
 	//this->setPosition(xPos, yPos);
 	//this->setOrigin(TILE_SIZE / 2, TILE_SIZE / 2);
 }
+
+
 
 Enemy::Enemy()
 {
@@ -133,3 +140,10 @@ sf::FloatRect Enemy::getGlobalBounds()
 {
 	return (enemySprite.getGlobalBounds());
 }
+
+sf::Vector2f Enemy::getLocation() const
+{
+	return pos;
+}
+
+

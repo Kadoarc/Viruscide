@@ -136,7 +136,6 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOver.cpp" />
-    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="ItemDrop.cpp" />
@@ -147,6 +146,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Tower.cpp" />
     <ClCompile Include="TowerControl.cpp" />
   </ItemGroup>
@@ -156,7 +156,6 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameOver.h" />
-    <ClInclude Include="GameState.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GUI.h" />
     <ClInclude Include="ItemDrop.h" />
@@ -166,6 +165,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Tower.h" />
     <ClInclude Include="TowerControl.h" />
     <ClInclude Include="Utils.h" />

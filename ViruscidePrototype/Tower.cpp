@@ -55,6 +55,16 @@ void Tower::SetRange()
 	range += range / 5;
 }
 
+Tower::Status Tower::update(const float & dt)
+{
+	lastShoot += dt;
+	if (target == nullptr)
+	{
+
+	}
+	return Tower::Status();
+}
+
 /***********************
 * GetRange: get the range value of a tower
 * Parameters: NULL
@@ -111,6 +121,58 @@ void Tower::Update(sf::RenderWindow &window)
 
 }
 
+int Tower::getCooldown()
+{
+	return this->currentCooldown;
+}
+
+void Tower::decreaseCooldown()
+{
+	this->currentCooldown--;
+}
+
+void Tower::resetCooldown()
+{
+	this->currentCooldown = this->baseCooldown;
+}
+
+bool Tower::isinRadius(const sf::Vector2f tarLoc)
+{
+
+	if ((tarLoc.x - pos.x)*(tarLoc.x - pos.x) + (tarLoc.y - pos.y)*(tarLoc.y - pos.y) <= range * range)
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
+sf::Vector2f Tower::getLoc() const
+{
+	return pos;
+}
+
+sf::Vector2f Tower::getTargetLoc() const
+{
+	return target->getLocation();
+}
+
+void Tower::setTarget(Enemy * enemyPtr)
+{
+	target = enemyPtr;
+}
+
+int Tower::getTargetIndex()
+{
+	return targetIndex;
+}
+
+void Tower::setTarget(int index, Enemy * tar)
+{
+	targetIndex = index;
+	target = tar;
+}
+
 /***********************
 * GetIsReadyToFire: Check if a tower is ready to fire again
 * Parameters: NULL
@@ -162,7 +224,7 @@ std::string Tower::GetName()
 * Parameters: Int xPos, int yPos, towerType type
 * Return: a tower object
 ********************/
-Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, price{ 100 }, fireRate{ 2 }, level{ 1 }, elementalDamge{ 0 }
+Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, price{ 100 }, fireRate{ 10 }, level{ 1 }, elementalDamge{ 0 }
 {
 	this->setPointCount(3);
 	this->setPoint(0, sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 4));

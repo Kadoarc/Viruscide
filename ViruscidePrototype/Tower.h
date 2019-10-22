@@ -49,6 +49,26 @@ public:
 	bool GetIsBuilt();
 	void Update(sf::RenderWindow &window);
 	//virtual void ReadyToFire();
+	int getCooldown();
+	void decreaseCooldown();
+	void resetCooldown();
+	bool isinRadius(const sf::Vector2f tarLoc);
+	sf::Vector2f getLoc() const;
+	sf::Vector2f getTargetLoc() const;
+	void setTarget(Enemy* enemyPtr);
+	int getTargetIndex();
+	void setTarget(int index, Enemy* tar);
+private:
+	int currentCooldown;
+	int baseCooldown;
 
+protected:
+	sf::Vector2f pos;
+	float cooldown;
+	float lastShoot = 0.0f;
+	float range;
+	Enemy* target = nullptr;
+	float timeElapsed = 0.0f;
+	int targetIndex = -1;
 
 };

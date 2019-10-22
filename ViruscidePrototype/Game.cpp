@@ -136,7 +136,7 @@ void Game::UpdatePlayer()
 			}
 			bool m_OverlappingTower = true;
 		}
-		
+
 	}
 	if (playerList.back()->getGlobalBounds().intersects(playerList.at(0)->getGlobalBounds()))
 	{
@@ -258,6 +258,7 @@ void Game::UpdateBullets()
 	{
 		bulletList[i]->Update();
 	}
+
 }
 
 int Game::GetCoreHealth()
@@ -400,16 +401,14 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		{
 			window.draw(*towerList[j]->DrawPlacementAssist(window));
 		}
-		//window.draw(*towerList[j]);
-		towerList[j]->draw(window);
+		window.draw(*towerList[j]);
 	}
 
 
 	// Render GUI
 	for (int m = 0; m < gui.size(); m++)
 	{
-		//window.draw(*gui[m]);
-		gui[m]->draw(window);
+		window.draw(*gui[m]);
 	}
 
 	// Render Players
@@ -565,10 +564,12 @@ void Game::ManageShooting()
 			{
 				if (towerList[i]->GetRange()->getGlobalBounds().contains(enemyList[j]->getPosition()) && towerList[i]->GetIsReadyToFire())
 				{
-					bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+
+					bulletList.emplace_back(new Bullet(towerList[i], enemyList[j]));
 					soundManager.playPew();
 					towerList[i]->SetIsReadyToFire(false);
 				}
+				
 			}
 		}
 	}
@@ -582,10 +583,12 @@ void Game::ManageDamage()
 		for (int j = 0; j < bulletList.size(); j++)
 		{
 
-			if (enemyList[i]->getGlobalBounds().contains(bulletList[j]->getPosition()))// crash
+			if (enemyList[i]->getGlobalBounds().intersects(bulletList[j]->getGlobalBounds()))// crash
 			{
+				
 				enemyList[i]->GiveDamage(bulletList[j]);
 				bulletList.erase(bulletList.begin() + j);
+				
 			}
 		}
 		if (enemyList[i]->GetHP() <= 0)
@@ -601,6 +604,18 @@ void Game::ManageDamage()
 			}
 			GiveMoney(enemyList[i]->GetValue());
 			enemyList.erase(enemyList.begin() + i);
+			
+		}
+	}
+}
+
+void Game::deleteBullet(Bullet * bullet)
+{
+	for (int i = 0, size = bulletList.size(); i < size; i++)
+	{
+		if ((bulletList[i] == bullet))
+		{
+			bulletList.erase(bulletList.begin() + i);
 		}
 	}
 }
@@ -715,6 +730,34 @@ void Game::DrawText(sf::RenderWindow & window)
 	window.draw(tower3PriceTxt);
 	window.draw(killCounterTxt);
 	window.draw(killCounterLabelTxt);
+}
+
+void Game::spawnBullet(Tower * towerPtr)
+{
+	bulletList.push_back(towerPtr->makeBullet());
+}
+
+void Game::manageBullets(const float & dt)
+{
+	bool hitDetected = false;
+	for (unsigned int i = 0; i < bulletList.size(); i++)
+	{
+		hitDetected = false;
+		Bullet* current = bulletList.at(i);
+		current->update(dt);
+		for (unsigned int i = 0; i < enemyList.size(); i++)
+		{
+			Enemy* curEnemy = enemyList.at(i);
+			if (current->InstersectsWith(curEnemy))
+			{
+				if (hitDetected != true)
+				{
+					hitDetected = true;
+				}
+				current->d
+			}
+		}
+	}
 }
 
 

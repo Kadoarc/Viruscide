@@ -9,9 +9,10 @@ class Bullet;
 
 class Enemy
 {
+	sf::Vector2f pos;
 	sf::Sprite enemySprite;
 	sf::Texture enemyTexture;
-
+	sf::Rect<float> hitbox;
 	int Health;
 	double Speed;
 	bool IsAtCore;
@@ -26,7 +27,7 @@ public:
 	Grid* nextPath;
 	Grid* previousPath;
 	Grid* currentPath;
-
+	sf::Rect<float> getHitbox();
 	bool isAtDestination;
 
 	Enemy(int xPos, int yPos);
@@ -47,5 +48,6 @@ public:
 	sf::Sprite getSprite();
 	sf::Vector2f getPosition();
 	sf::FloatRect getGlobalBounds();
+	sf::Vector2f getLocation() const;
 };
 
