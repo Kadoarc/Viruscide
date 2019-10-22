@@ -8,13 +8,17 @@
 //
 // File Name	: Game.cpp
 // Description	: Main gameplay logic is done inside here
-// Author		: Daniel Joosten
-// Mail			: Daniel.joo8189@mediadesign.school.nz
+// Author		: Lorenzo Zemp, Jeremy Bungard, Daniel Joosten
+// Mail			: lorenzo.zem8065@mediadesign.school.nz, Jeremy.bun8227.@mediadesign.school.nz, Daniel.joo8189@mediadesign.school.nz
 //
-
 
 #include "Game.h"
 
+/***********************
+* loadFont: Loads font from file
+* Parameters: NULL
+* Return: NULL
+********************/
 void Game::loadFont()
 {
 	//if (!font.loadFromFile("Resources/Fonts/galaxymonkey.ttf"))
@@ -24,6 +28,11 @@ void Game::loadFont()
 	}
 }
 
+/***********************
+* MakeGUI: Adds towers to the GUI
+* Parameters: NULL
+* Return: NULL
+********************/
 void Game::MakeGUI()
 {
 	gui.push_back(new Tower(50, 200, TowerType::basic));

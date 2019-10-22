@@ -9,7 +9,7 @@
 // File Name	: Main.cpp
 // Description	: Implementation of the Main file
 // Author		: Lorenzo Zemp, Jeremy Bungard, Daniel Joosten
-// Mail			: [LORENZO EMAIL], [JEREMY EMAIL], Daniel.joo8189@mediadesign.school.nz
+// Mail			: [lorenzo.zem8065@mediadesign.school.nz], [Jeremy.bun8227.@mediadesign.school.nz], [Daniel.joo8189@mediadesign.school.nz]
 //
 
 //__________________
