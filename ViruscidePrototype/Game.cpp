@@ -409,14 +409,16 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		{
 			window.draw(*towerList[j]->DrawPlacementAssist(window));
 		}
-		window.draw(*towerList[j]);
+		//window.draw(*towerList[j]);
+		towerList[j]->draw(window);
 	}
 
 
 	// Render GUI
 	for (int m = 0; m < gui.size(); m++)
 	{
-		window.draw(*gui[m]);
+		//window.draw(*gui[m]);
+		gui[m]->draw(window);
 	}
 
 	// Render Players

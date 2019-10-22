@@ -120,7 +120,7 @@ void Tower::Update(sf::RenderWindow &window)
 	}
 	else
 	{
-		this->setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+		towerSprite.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 	}
 
 }
@@ -154,7 +154,7 @@ sf::CircleShape* Tower::DrawPlacementAssist(sf::RenderWindow &window)
 {
 	rangeHelper->setRadius(range);
 	rangeHelper->setFillColor(sf::Color::Transparent);
-	rangeHelper->setOutlineColor(this->getFillColor());
+	rangeHelper->setOutlineColor(sf::Color::Cyan);
 	rangeHelper->setOutlineThickness(3);
 	rangeHelper->setOrigin(sf::Vector2f(120, 120));
 	rangeHelper->setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
@@ -178,28 +178,45 @@ std::string Tower::GetName()
 ********************/
 Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, price{ 100 }, fireRate{ 2 }, level{ 1 }, elementalDamge{ 0 }
 {
-	this->setPointCount(3);
+	/*this->setPointCount(3);
 	this->setPoint(0, sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 4));
 	this->setPoint(1, sf::Vector2f(TILE_SIZE*0.75, TILE_SIZE*0.75));
 	this->setPoint(2, sf::Vector2f(TILE_SIZE*0.25, TILE_SIZE*0.75));
 	this->setOrigin(sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 2));
 	this->setPosition(sf::Vector2f(xPos, yPos));
-	this->type = type;
+	this->type = type;*/
 	if (type == TowerType::basic)
 	{
-		sf::Texture Tow1Tex;
-		Tow1Tex.loadFromFile("Resources/Images/Tower1.png");
-
-		if (!Tow1Tex.loadFromFile("Tower1.png"))
+		if (!towerTexture.loadFromFile("Resources/Images/Tower1.png"))
 		{
-			std::cout << "Not Loaded";
+			std::cout << "Tower1 texture not loaded";
 		}
 
-		this->setFillColor(sf::Color(128, 128, 128));
+		towerSprite.setTexture(towerTexture);
+		towerSprite.setOrigin(towerSprite.getGlobalBounds().width / 2, towerSprite.getGlobalBounds().height / 2);
+		towerSprite.setPosition(sf::Vector2f(xPos, yPos));
 	}
-	else
+	else if (type == TowerType::rapid)
 	{
-		this->setFillColor(type == TowerType::rapid ? sf::Color(255, 0, 0) : sf::Color(0, 0, 255));
+		if (!towerTexture.loadFromFile("Resources/Images/Tower2.png"))
+		{
+			std::cout << "Tower2 texture not loaded";
+		}
+
+		towerSprite.setTexture(towerTexture);
+		towerSprite.setOrigin(towerSprite.getGlobalBounds().width / 2, towerSprite.getGlobalBounds().height / 2);
+		towerSprite.setPosition(sf::Vector2f(xPos, yPos));
+	}
+	else if (type == TowerType::ultimate)
+	{
+		if (!towerTexture.loadFromFile("Resources/Images/Tower3.png"))
+		{
+			std::cout << "Tower3 texture not loaded";
+		}
+
+		towerSprite.setTexture(towerTexture);
+		towerSprite.setOrigin(towerSprite.getGlobalBounds().width / 2, towerSprite.getGlobalBounds().height / 2);
+		towerSprite.setPosition(sf::Vector2f(xPos, yPos));
 	}
 	rangeHelper = new sf::CircleShape(range);
 	SetTowerTraits(type);
@@ -272,10 +289,10 @@ void Tower::SetState()
 	isBuilt = true;
 	rangeHelper->setRadius(range);
 	rangeHelper->setFillColor(sf::Color::Transparent);
-	rangeHelper->setOutlineColor(this->getFillColor());
+	rangeHelper->setOutlineColor(sf::Color::Cyan);
 	rangeHelper->setOutlineThickness(3);
 	rangeHelper->setOrigin(sf::Vector2f(120, 120));
-	rangeHelper->setPosition(this->getPosition().x, this->getPosition().y);
+	rangeHelper->setPosition(towerSprite.getPosition().x, towerSprite.getPosition().y);
 }
 
 /***********************
@@ -305,4 +322,39 @@ Tower::Tower()
 ********************/
 Tower::~Tower()
 {
+}
+
+sf::Color Tower::getFillColor()
+{
+	return(sf::Color::Cyan);
+}
+
+sf::FloatRect Tower::getGlobalBounds()
+{
+	return(towerSprite.getGlobalBounds());
+}
+
+sf::FloatRect Tower::getLocalBounds()
+{
+	return(towerSprite.getLocalBounds());
+}
+
+sf::Vector2f Tower::getPosition()
+{
+	return(towerSprite.getPosition());
+}
+
+void Tower::setOrigin(sf::Vector2f _vec)
+{
+	towerSprite.setPosition(_vec);
+}
+
+void Tower::setPosition(sf::Vector2f _vec)
+{
+	towerSprite.setOrigin(_vec);
+}
+
+void Tower::draw(sf::RenderWindow & _window)
+{
+	_window.draw(towerSprite);
 }
