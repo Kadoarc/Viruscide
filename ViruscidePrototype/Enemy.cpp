@@ -27,16 +27,45 @@ sf::Rect<float> Enemy::getHitbox()
 	return hitbox;
 }
 
-Enemy::Enemy(int xPos, int yPos) :Health{ 20 }, Speed{ 4 }, value{ 10 }, previousPath{ nullptr }, nextPath{ nullptr }, isAtDestination{ true }, currentPath{ nullptr }, IsAtCore{ false }, hasWon{ false }, OTDamage{ 0 }
+Enemy::Enemy(int xPos, int yPos, EnemyType type) :Health{ 20 }, Speed{ 4 }, value{ 10 }, previousPath{ nullptr }, nextPath{ nullptr }, isAtDestination{ true }, currentPath{ nullptr }, IsAtCore{ false }, hasWon{ false }, OTDamage{ 0 }
 {
 	if (!enemyTexture.loadFromFile("Resources/Images/Enemy1.png"))
 	{
 		std::cout << "enemy texture failed loading" << std::endl;
 	}
+	
+	if (!enemyTexture1.loadFromFile("Resources/Images/Enemy2.png"))
+	{
+		std::cout << "enemy texture failed loading" << std::endl;
+	}
 
-	enemySprite.setTexture(enemyTexture);
-	enemySprite.setOrigin(enemySprite.getGlobalBounds().width / 2, enemySprite.getGlobalBounds().height / 2);
-	enemySprite.setPosition(sf::Vector2f(xPos, yPos));
+	if (!enemyTexture2.loadFromFile("Resources/Images/Enemy3.png"))
+	{
+		std::cout << "enemy texture failed loading" << std::endl;
+	}
+	
+
+	switch (type)
+	{
+	case normal:
+		enemySprite.setTexture(enemyTexture);
+		enemySprite.setOrigin(enemySprite.getGlobalBounds().width / 2, enemySprite.getGlobalBounds().height / 2);
+		enemySprite.setPosition(sf::Vector2f(xPos, yPos));
+		break;
+	case fat:
+		Speed = 2;
+		Health *= 5;
+		enemySprite.setTexture(enemyTexture1);
+		enemySprite.setOrigin(enemySprite.getGlobalBounds().width / 2, enemySprite.getGlobalBounds().height / 2);
+		enemySprite.setPosition(sf::Vector2f(xPos, yPos));
+	case fast:
+		Health = 100;
+		Speed = 6;
+		enemySprite.setTexture(enemyTexture2);
+		enemySprite.setOrigin(enemySprite.getGlobalBounds().width / 2, enemySprite.getGlobalBounds().height / 2);
+		enemySprite.setPosition(sf::Vector2f(xPos, yPos));
+
+	}
 	//this->setPosition(xPos, yPos);
 	//this->setOrigin(TILE_SIZE / 2, TILE_SIZE / 2);
 }
@@ -62,29 +91,47 @@ void Enemy::SetIsAtCore()
 
 }
 
-void Enemy::Draw()
-{
-}
+
 
 void Enemy::GiveDamage(Bullet* bullet)
 {
-	this ->Health -= bullet->GetDamage();
+	this->Health -= bullet->GetDamage();
 
 	if (bullet->GetElementalDamage() > 0 && !this->isHit)
 	{
-		this->Health -= bullet->GetElementalDamage();
-		if (bullet->GetElement() == TowerType::basic)
+		
+		if (bullet->GetElement() == TowerType::basic && EnemyType::normal)
+		{
+			this->Health -= bullet->GetElementalDamage();
+			isHit = true;
+			OTDamage = bullet->GetElementalDamage();
+			
+		}
+		else if (bullet->GetDamage() == TowerType::basic && EnemyType::fast)
+		{
+			this->Health -= bullet->GetDamage();
+			isHit = true;
+			OTDamage = bullet->GetDamage();;
+		}
+		else if (bullet->GetElement() == TowerType::basic && EnemyType::fat)
+		{
+			this->Health -= bullet->GetDamage();
+			isHit = true;
+			OTDamage = bullet->GetDamage();;
+		}
+		}
+		if (bullet->GetElement() == TowerType::rapid && EnemyType::fast)
 		{
 			isHit = true;
 			OTDamage = bullet->GetElementalDamage();
 		}
 		else
 		{
-			isHit = true;
-			Speed /= 2;
+			
 		}
 	}
-}
+
+
 
 bool Enemy::GetHasWon()
 {
