@@ -1,4 +1,3 @@
-#include "Bullet.h"
 //
 // Bachelor of Software Engineering
 // Media Design School
@@ -13,8 +12,16 @@
 // Mail			: lorenzo.zem8065@mediadesign.school.nz, Jeremy.bun8227.@mediadesign.school.nz, Daniel.joo8189@mediadesign.school.nz
 //
 
+#include "Bullet.h"
+
+/***********************
+* Update: moves the bullet towards its destination.
+* Parameters: NULL
+* Return: NULL
+********************/
 void Bullet::Update()
 {
+	// If the destination x is < current x position
 	if (destination->getPosition().x < this->getPosition().x)
 	{
 		if (destination->getPosition().y < this->getPosition().y)
@@ -34,9 +41,15 @@ void Bullet::Update()
 	{
 		this->setPosition(this->getPosition().x + speed, this->getPosition().y + speed);
 	}
+
+	if (this->DestinationIsDead())
+	{
+		ExpiredBullet = true;
+	}
+
 }
 
-Bullet::Bullet(Tower* originTower, Enemy* destination) : speed{ 4 }, elementalDamage{ 0 }, missed{ false }
+Bullet::Bullet(Tower* originTower, Enemy* destination) : speed{ 8 }, elementalDamage{ 0 }, missed{ false }
 {
 	this->destination = destination;
 	this->setRadius(10);
@@ -47,18 +60,12 @@ Bullet::Bullet(Tower* originTower, Enemy* destination) : speed{ 4 }, elementalDa
 	this->SetElementalDamage(originTower->GetElementalDamage());
 	this->SetElement(originTower->GetType());
 }
-
 Bullet::Bullet(float damage, std::string element, float elementalDamage)
 {
 	this->damage = damage;
-
 }
 
 Bullet::~Bullet()
-{
-}
-
-Bullet::Bullet(const sf::Vector2f & position, const Enemy & destination, const float speed)
 {
 }
 
@@ -72,7 +79,7 @@ float Bullet::GetDamage()
 	return damage;
 }
 
-void Bullet::SetElement(TowerType type)
+void Bullet::SetElement(TowerType element)
 {
 	this->element = element;
 }
@@ -97,4 +104,13 @@ bool Bullet::CollisionDetect()
 	return false;
 }
 
+bool Bullet::DestinationIsDead()
+{
+	if (destination->isHit)
+	{
+		return true;
+	}
+
+	else return false;
+}
 

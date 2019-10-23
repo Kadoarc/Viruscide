@@ -128,8 +128,10 @@ void Game::UpdatePlayer()
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 			{
 				std::cout << "E pressed at a tower\n";
+				towerList.at(i)->autoShoot = false;
 			}
 		}
+		else towerList.at(i)->autoShoot = true;
 
 		if (playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
 		{
@@ -145,7 +147,7 @@ void Game::UpdatePlayer()
 			}
 			bool m_OverlappingTower = true;
 		}
-
+		
 	}
 	if (playerList.back()->getGlobalBounds().intersects(playerList.at(0)->getGlobalBounds()))
 	{
@@ -267,7 +269,6 @@ void Game::UpdateBullets()
 	{
 		bulletList[i]->Update();
 	}
-
 }
 
 int Game::GetCoreHealth()
@@ -363,63 +364,6 @@ bool Game::CheckPlacement(sf::Vector2i placement)
 	return false;
 }
 
-void Game::spawnProjectile(Tower * towerPtr)
-{
-
-}
-
-void Game::ManageTowers(const float & dt)
-{
-}
-
-void Game::ManageProjectiles(const float & dt)
-{
-	bool hitDetected = false;
-	for (unsigned int i = 0; i < projList.size(); i++)
-	{
-		hitDetected = false;
-		Projectile* current = projList.at(i);
-		current->update(dt);
-		for (unsigned int i = 0; i < enemyList.size(); i++)
-		{
-			Enemy* currEnemy = enemyList.at(i);
-			if (current->IntersectsWith(currEnemy))
-			{
-				if (hitDetected != true)
-				{
-					hitDetected = true;
-				}
-				current->dealDamage(currEnemy);
-				if (currEnemy->GetHP() <= 0)
-				{
-					// Iterate the Kill Counter
-					soundManager.playSplat();
-					killCounter++;
-					std::cout << "Enemy Kill Counter: " << killCounter << std::endl;
-					// If % 10 then spawn an item drop
-					if (killCounter % 10 == 0)
-					{
-						itemList.push_back(new ItemDrop(enemyList.at(i)->getPosition().x, enemyList.at(i)->getPosition().y, 1));
-					}
-					GiveMoney(enemyList[i]->GetValue());
-					delete currEnemy;
-					enemyList.erase(enemyList.begin() + i);
-				}
-			}
-		}
-		if (hitDetected == false)
-		{
-			if (current->targetReached())
-				hitDetected = true;
-		}
-		if (hitDetected == true)
-		{
-			delete current;
-			projList.erase(projList.begin() + i);
-		}
-	}
-}
-
 void Game::Render(sf::RenderWindow &window, Flags flag)
 {
 	UpdateGUI();
@@ -463,9 +407,15 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 	// Render Towers
 	for (int j = 0; j < towerList.size(); j++)
 	{
+		// Draw tower range radius
 		if (!towerList[j]->GetIsBuilt())
 		{
 			window.draw(*towerList[j]->DrawPlacementAssist(window));
+		}
+		// Draw shooting indicator
+		else if (!towerList[j]->autoShoot)
+		{
+			window.draw(*towerList[j]->DrawShootingIndicator(window));
 		}
 		window.draw(*towerList[j]);
 	}
@@ -490,7 +440,6 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		window.draw(*bulletList[n]);
 	}
 
-
 	// Render Items
 	for (int p = 0; p < itemList.size(); p++)
 	{
@@ -502,7 +451,6 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 	{
 		window.draw(enemyList[k]->getSprite());
 	}
-
 
 	// Render Window
 	DrawText(window);
@@ -622,92 +570,59 @@ void Game::ActivateTowerPlacement()
 
 void Game::ManageShooting()
 {
-	/*
-	Tower* curTower;
-	for (unsigned int i = 0; i < towerList.size(); i++)
-	{
-		curTower = towerList.at(i);
-		int index = curTower->getTargetIndex();
-		if (index >= 0 && index < enemyList.size())
-		{
-			curTower->setTarget(index, enemyList.at(index));
-		}
-
-		for (unsigned int i = 0; i < enemyList.size(); i++)
-		{
-			Enemy* curEnemy = enemyList.at(i);
-			if (curTower->isInRadius(curEnemy->getLocation()))
-			{
-				curTower->setTarget(i, curEnemy);
-				soundManager.playPew();
-				
-			}
-		}
-
-	}
-	*/
-	
-	
-	bool hitDetected = false;
-
+	// First the list of TOWERS
 	for (int i = 0; i < towerList.size(); i++)
 	{
+		// Check if the tower is built and it is ready to fire
 		if (towerList[i]->GetIsBuilt() && towerList[i]->GetIsReadyToFire())
 		{
+			if (towerList.at(i)->autoShoot == true)
+			// Get the list of ENEMIES
 			for (int j = 0; j < enemyList.size(); j++)
 			{
-				/*
-				if (towerList[i]->isInRadius(enemyList[j]->getPosition()) && towerList[i]->GetIsReadyToFire())
-				{
-					bulletList.emplace_back(new Bullet(towerList[i], enemyList[j]));
-					soundManager.playPew();
-					towerList[i]->SetIsReadyToFire(false);
-				}
-				
-				*/
-				
+				// Check if an ENEMY is within a TOWER range and it is ready to fire
 				if (towerList[i]->GetRange()->getGlobalBounds().contains(enemyList[j]->getPosition()) && towerList[i]->GetIsReadyToFire())
 				{
-					if (hitDetected != true)
-					{
-						hitDetected = true;
-					}
-
-					bulletList.emplace_back(new Bullet(towerList[i], enemyList[j]));
+					// Add a bullet to the list
+					bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+					// Play shooting sound
 					soundManager.playPew();
+					// Set the shooting cooldown
 					towerList[i]->SetIsReadyToFire(false);
 				}
-				
-				
-
 			}
 		}
-
 	}
-	
-	
 }
 
 void Game::ManageDamage()
 {
+	// Get the ENEMY list
 	for (int i = 0; i < enemyList.size(); i++)
 	{
-
+		// Get the BULLET list
 		for (int j = 0; j < bulletList.size(); j++)
 		{
-
-			if (enemyList[i]->getGlobalBounds().intersects(bulletList[j]->getGlobalBounds()))// crash
+			// First check if the bullet has expired
+			if (bulletList.at(j)->ExpiredBullet == true)
 			{
-				
-				enemyList[i]->GiveDamage(bulletList[j]);
 				bulletList.erase(bulletList.begin() + j);
-				
+			}
+
+			// Get the enemy and see if the bullet is inside it
+			else if (enemyList[i]->getGlobalBounds().contains(bulletList[j]->getPosition()))// crash
+			{
+				// Apply damage to the enemy
+				enemyList[i]->GiveDamage(bulletList[j]);
+				// Erase the bullet
+				bulletList.erase(bulletList.begin() + j);
 			}
 		}
 		if (enemyList[i]->GetHP() <= 0)
 		{
-			// Iterate the Kill Counter
+			// Play kill count
 			soundManager.playSplat();
+			// Iterate the Kill Counter
 			killCounter++;
 			std::cout << "Enemy Kill Counter: " << killCounter << std::endl;
 			// If % 10 then spawn an item drop
@@ -715,20 +630,10 @@ void Game::ManageDamage()
 			{
 				itemList.push_back(new ItemDrop(enemyList.at(i)->getPosition().x, enemyList.at(i)->getPosition().y, 1));
 			}
+			// Add money 
 			GiveMoney(enemyList[i]->GetValue());
+			// Finally remove the enemy
 			enemyList.erase(enemyList.begin() + i);
-			
-		}
-	}
-}
-
-void Game::deleteBullet(Bullet * bullet)
-{
-	for (int i = 0, size = bulletList.size(); i < size; i++)
-	{
-		if ((bulletList[i] == bullet))
-		{
-			bulletList.erase(bulletList.begin() + i);
 		}
 	}
 }
@@ -844,8 +749,6 @@ void Game::DrawText(sf::RenderWindow & window)
 	window.draw(killCounterTxt);
 	window.draw(killCounterLabelTxt);
 }
-
-
 
 
 
