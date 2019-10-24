@@ -55,8 +55,8 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(FullHdresolution::x, FullHdresolution::y), "Viruscide");;
 	Level gameLevel;
 	gameLevel.CreateLevel();
-	Game game(gameLevel.GetMap(), window);
 	sf::Event event;
+	Game game(gameLevel.GetMap(), window, event);
 	Flags eventFlag = Flags::gameInProgress;
 	sf::Clock clock;
 	sf::Time collector = sf::Time::Zero;
@@ -147,7 +147,7 @@ int main()
 				{
 					collector -= TIME_PASED;
 					window.clear(sf::Color::Black);
-					game.GameCycle(window, eventFlag);
+					game.GameCycle(window, eventFlag, event);
 					window.display();
 				}
 			}

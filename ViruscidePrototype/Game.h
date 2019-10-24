@@ -31,7 +31,7 @@ class Game
 {
 public:
 	// Constructors&Destructors
-	Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window);
+	Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window, sf::Event& _event);
 	Game();
 	~Game();
 
@@ -44,7 +44,6 @@ public:
 	std::vector<ItemDrop*> itemList;
 	std::vector<Grid*> map;
 	std::vector<Projectile*> projList;
-
 	// Sound 
 	SoundManager soundManager;
 
@@ -64,7 +63,7 @@ public:
 	bool ContainsMouse(sf::Vector2i & position);
 	bool Construction(sf::Vector2i pos);
 	void UpdateEnemies();
-	void UpdatePlayer();
+	void UpdatePlayer(sf::Event &event);
 	void UpdateTowers(sf::RenderWindow &window);
 	void RenderGameOver(sf::RenderWindow &window);
 	void ResetLevel();
@@ -78,8 +77,8 @@ public:
 	void ManageShooting();
 	void ManageDamage();
 	void deleteBullet(Bullet* bullet);
-	void GameCycle(sf::RenderWindow &window, Flags flag);
-	void UpdateAllStates(sf::RenderWindow &window);
+	void GameCycle(sf::RenderWindow &window, Flags flag, sf::Event& _event);
+	void UpdateAllStates(sf::RenderWindow &window, sf::Event &event);
 	void GiveMoney(int amount);
 	int GetCoreHealth();
 	int GetMoney();

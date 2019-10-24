@@ -118,56 +118,73 @@ void Game::UpdateEnemies()
 	}
 }
 
-
-void Game::UpdatePlayer()
+void Game::UpdatePlayer(sf::Event &event)
 {
+	// Get the TOWER list
 	for (int i = 0; i < towerList.size(); i++)
 	{
+		// Check player one collisions against the tower list
 		if (playerList.at(0)->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
 		{
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+			if (event.type == sf::Event::KeyReleased)
 			{
-				std::cout << "E pressed at a tower\n";
-				towerList.at(i)->autoShoot = false;
+				if (event.key.code == sf::Keyboard::E)
+				{
+					std::cout << "E pressed at a tower\n";
+					if (playerList.at(0)->m_OccupyingTower == false)
+					{
+						std::cout << "Player 1 Occupying tower = TRUE\n";
+						playerList.at(0)->m_OccupyingTower = true;
+						towerList.at(i)->autoShoot = false;
+					}
+					else if (playerList.at(0)->m_OccupyingTower == true)
+					{
+						std::cout << "Player 1 Occupying tower = FALSE\n";
+						playerList.at(0)->m_OccupyingTower = false;
+						towerList.at(i)->autoShoot = true;
+					}
+				}
 			}
 		}
-		else towerList.at(i)->autoShoot = true;
 
-		if (playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
+		// Check player two collisions against the tower list
+		else if (playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
 		{
-			if (!playerList.back()->m_OverlappingTower)
+			// If colliding with a tower and pressing NUMPAD 0, stop auto shooting
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad0))
 			{
-				std::cout << "Player ONE Collision with Tower: - ";
-				std::cout << " X: " << towerList.at(i)->getPosition().x;
-				std::cout << ", Y: " << towerList.at(i)->getPosition().y;
-				std::cout << ", Left: " << towerList.at(i)->getGlobalBounds().left;
-				std::cout << ", Top: " << towerList.at(i)->getGlobalBounds().top;
-				std::cout << ", Width: " << towerList.at(i)->getGlobalBounds().width;
-				std::cout << ", Height: " << towerList.at(i)->getGlobalBounds().height << std::endl;
+				std::cout << "Numpad 0 pressed at a tower\n";
+				if (playerList.back()->m_OccupyingTower == false)
+				{
+					std::cout << "Player 2 Occupying tower = TRUE\n";
+					playerList.back()->m_OccupyingTower = true;
+					towerList.at(i)->autoShoot = false;
+				}
+				else if (playerList.back()->m_OccupyingTower == true)
+				{
+					std::cout << "Player 2 Occupying tower = FALSE\n";
+					playerList.back()->m_OccupyingTower = false;
+					towerList.at(i)->autoShoot = true;
+				}
 			}
-			bool m_OverlappingTower = true;
 		}
-		
-	}
-	if (playerList.back()->getGlobalBounds().intersects(playerList.at(0)->getGlobalBounds()))
-	{
-		std::cout << "Player Two Collision with Player One: \n";
 
-		std::cout << "Player TWO coordinates: - ";
-		std::cout << " X: " << playerList.back()->getPosition().x;
-		std::cout << ", Y: " << playerList.back()->getPosition().y;
-		std::cout << ", Left: " << playerList.back()->getGlobalBounds().left;
-		std::cout << ", Top: " << playerList.back()->getGlobalBounds().top;
-		std::cout << ", Width: " << playerList.back()->getGlobalBounds().width;
-		std::cout << ", Height: " << playerList.back()->getGlobalBounds().height << std::endl;
-
-		std::cout << "Player ONE coordinates: - ";
-		std::cout << " X: " << playerList.at(0)->getPosition().x;
-		std::cout << ", Y: " << playerList.at(0)->getPosition().y;
-		std::cout << ", Left: " << playerList.at(0)->getGlobalBounds().left;
-		std::cout << ", Top: " << playerList.at(0)->getGlobalBounds().top;
-		std::cout << ", Width: " << playerList.at(0)->getGlobalBounds().width;
-		std::cout << ", Height: " << playerList.at(0)->getGlobalBounds().height << std::endl;
+		// A player is not colliding with a tower so enable auto shooting
+		else
+		{
+			// Player one
+			if (!playerList.at(0)->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
+			{
+				playerList.at(0)->m_OccupyingTower = false;
+				towerList.at(i)->autoShoot = true;
+			}
+			// Player two
+			if (!playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
+			{
+				playerList.back()->m_OccupyingTower = false;
+				towerList.at(i)->autoShoot = true;
+			}
+		}
 	}
 
 	// PLAYER ONE / WASD MOVEMENT
@@ -193,8 +210,6 @@ void Game::UpdatePlayer()
 		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
 	}
 
-
-
 	// PLAYER TWO / ARROW KEY MOVMENT
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
 	{
@@ -219,7 +234,6 @@ void Game::UpdatePlayer()
 	}
 
 	// Player Collision With ITEMS
-
 	for (int i = 0; i < itemList.size(); i++)
 	{
 		// Player 1
@@ -303,6 +317,7 @@ bool Game::HasMoney()
 	}
 	return false;
 }
+
 bool Game::GetIsGameOver()
 {
 	return isGameOver;
@@ -337,7 +352,6 @@ bool Game::Construction(sf::Vector2i pos)
 	}
 	return false;
 }
-
 
 bool Game::CheckPlacement(sf::Vector2i placement)
 {
@@ -650,9 +664,6 @@ Tower * Game::SearchInTowers(sf::Vector2f pos)
 	}
 }
 
-
-
-
 Flags Game::GameManager(Flags flag)
 {
 	if (coreHealth > 0)
@@ -677,8 +688,7 @@ Flags Game::GameManager(Flags flag)
 	}
 }
 
-
-void Game::GameCycle(sf::RenderWindow & window, Flags flag)
+void Game::GameCycle(sf::RenderWindow& window, Flags flag, sf::Event& _event)
 {
 	if (flag == Flags::restartGame)
 	{
@@ -701,16 +711,15 @@ void Game::GameCycle(sf::RenderWindow & window, Flags flag)
 	{
 		ManageDamage();
 		ManageShooting();
-		UpdateAllStates(window);
+		UpdateAllStates(window, _event);
 		Render(window, flag);
 	}
 
 }
 
-
-void Game::UpdateAllStates(sf::RenderWindow & window)
+void Game::UpdateAllStates(sf::RenderWindow& window, sf::Event& _event)
 {
-	UpdatePlayer();
+	UpdatePlayer(_event);
 	UpdateTowers(window);
 	UpdateEnemies();
 	UpdateBullets();
@@ -721,9 +730,6 @@ void Game::GiveMoney(int amount)
 {
 	money += amount;
 }
-
-
-
 
 int Game::GetGridIndex(Grid * gridTile)
 {
@@ -750,11 +756,7 @@ void Game::DrawText(sf::RenderWindow & window)
 	window.draw(killCounterLabelTxt);
 }
 
-
-
-
-
-Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window) :map{ worldMap }, money{ 200 }, coreHealth{ 30 }, isGameOver{ false }, Level{ 1 }
+Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window, sf::Event& _event) :map{ worldMap }, money{ 200 }, coreHealth{ 30 }, isGameOver{ false }, Level{ 1 }
 {
 	// Add the players
 	// Player 1
@@ -763,7 +765,7 @@ Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window) :map{ worldMa
 	playerList.push_back(new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 2, _window));
 	loadFont();
 	MakeGUI();
-
+	_window.setKeyRepeatEnabled(false);
 	//load audio
 	soundManager = SoundManager();
 	soundManager.loadFiles();
