@@ -26,8 +26,6 @@ class Enemy
 	sf::Vector2f pos;
 	sf::Sprite enemySprite;
 	sf::Texture enemyTexture;
-	sf::Texture enemyTexture1;
-	sf::Texture enemyTexture2;
 	sf::Rect<float> hitbox;
 	int Health;
 	double Speed;
@@ -47,12 +45,13 @@ public:
 	sf::Rect<float> getHitbox();
 	bool isAtDestination;
 
-	Enemy(int xPos, int yPos, EnemyType type);
+	Enemy(int xPos, int yPos);
 	Enemy();
 	~Enemy();
 
 	bool GetIsAtCore();
 	void SetIsAtCore();
+	void Draw();
 	void DrawEnemy(sf::RenderWindow& _window);
 	void GiveDamage(Bullet* bullet);
 	bool GetHasWon();

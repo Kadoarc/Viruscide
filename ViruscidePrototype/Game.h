@@ -26,7 +26,6 @@
 #include "SoundManager.h"
 #include "ItemDrop.h"
 #include "Projectile.h"
-#include "Utils.h"
 
 class Game
 {
@@ -78,7 +77,7 @@ public:
 	void ActivateTowerPlacement();
 	void ManageShooting();
 	void ManageDamage();
-	
+	void deleteBullet(Bullet* bullet);
 	void GameCycle(sf::RenderWindow &window, Flags flag);
 	void UpdateAllStates(sf::RenderWindow &window);
 	void GiveMoney(int amount);
@@ -88,7 +87,9 @@ public:
 	void DrawText(sf::RenderWindow &window);
 	void UpdateInput(const float &dt);
 	bool CheckPlacement(sf::Vector2i placement);
-
+	void spawnProjectile(Tower* towerPtr);
+	void ManageTowers(const float &dt);
+	void ManageProjectiles(const float &dt);
 
 	// Text variables
 	sf::Font font;

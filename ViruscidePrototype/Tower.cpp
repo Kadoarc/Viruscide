@@ -44,7 +44,7 @@ int Tower::GetLevel()
 ********************/
 void Tower::SetDamage()
 {
-	damage = GetDamage() /level;
+	damage += GetDamage() / level;
 }
 
 
@@ -247,7 +247,7 @@ std::string Tower::GetName()
 * Parameters: Int xPos, int yPos, towerType type
 * Return: a tower object
 ********************/
-Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 0 }, range{ 120 }, price{ 100 }, fireRate{ 10 }, level{ 1 }, elementalDamge{ 0 }
+Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, price{ 100 }, fireRate{ 10 }, level{ 1 }, elementalDamge{ 0 }
 {
 	this->xPos = xPos;
 	this->yPos = yPos;
@@ -300,18 +300,15 @@ void Tower::SetTowerTraits(TowerType type)
 	switch (type)
 	{
 	case basic:
-		elementalDamge = 1;
-		damage = 1;
+		elementalDamge = 50;
 		price = 100;
 		break;
 	case rapid:
-		damage = 0;
-		elementalDamge = 1;
+		elementalDamge = 20;
 		price = 250;
 		break;
 	case ultimate:
-		damage = 1;
-		elementalDamge = 0;
+		elementalDamge = 70;
 		price = 500;
 		break;
 	default:

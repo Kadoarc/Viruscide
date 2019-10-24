@@ -540,18 +540,17 @@ void Game::WaveGeneration(int difficulty)
 	{
 		if (difficulty % 2 == 0)
 		{
-			enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::normal));
-			enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fat));
+			enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y));
 		}
 		else
 		{
 			if (difficulty == WaveDifficulty::insane)
 			{
-				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fat));
+				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y));
 			}
 			else
 			{
-				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fast));
+				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y));
 			}
 		}
 
@@ -615,8 +614,6 @@ void Game::ManageDamage()
 			{
 				// Apply damage to the enemy
 				enemyList[i]->GiveDamage(bulletList[j]);
-				
-				//std::cout << enemyList[i]->GetHP() << std::endl;
 				// Erase the bullet
 				bulletList.erase(bulletList.begin() + j);
 			}
