@@ -258,6 +258,17 @@ void Game::UpdateTowers(sf::RenderWindow & window)
 			{
 				towerList.at(i)->rotationAngle += 1;
 			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+			{
+				// bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+				// Add a bullet to the list
+				playerBulletList.push_back(new PlayerBullet(towerList.at(i)->rotationAngle,towerList.at(i)));
+				// Play shooting sound
+				soundManager.playPew();
+				// Set the shooting cooldown
+				towerList[i]->SetIsReadyToFire(false);
+			}
 		}
 	}
 }
@@ -284,6 +295,12 @@ void Game::UpdateBullets()
 	{
 		bulletList[i]->Update();
 	}
+
+	for (int j = 0; j < playerBulletList.size(); j++)
+	{
+		playerBulletList[j]->Update();
+	}
+
 }
 
 int Game::GetCoreHealth()
@@ -435,7 +452,6 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		window.draw(*towerList[j]);
 	}
 
-
 	// Render GUI
 	for (int m = 0; m < gui.size(); m++)
 	{
@@ -465,6 +481,12 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 	for (int k = 0; k < enemyList.size(); k++)
 	{
 		window.draw(enemyList[k]->getSprite());
+	}
+
+	// Render PlayerBullets
+	for (int e = 0; e < playerBulletList.size(); e++)
+	{
+		window.draw(*playerBulletList[e]);
 	}
 
 	// Render Window
@@ -591,6 +613,7 @@ void Game::ManageShooting()
 		// Check if the tower is built and it is ready to fire
 		if (towerList[i]->GetIsBuilt() && towerList[i]->GetIsReadyToFire())
 		{
+			// If we are not occupied
 			if (towerList.at(i)->autoShoot == true)
 			// Get the list of ENEMIES
 			for (int j = 0; j < enemyList.size(); j++)

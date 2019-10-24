@@ -26,6 +26,7 @@
 #include "SoundManager.h"
 #include "ItemDrop.h"
 #include "Projectile.h"
+#include "playerBullet.h"
 
 class Game
 {
@@ -44,6 +45,7 @@ public:
 	std::vector<ItemDrop*> itemList;
 	std::vector<Grid*> map;
 	std::vector<Projectile*> projList;
+	std::vector<PlayerBullet*> playerBulletList;
 	// Sound 
 	SoundManager soundManager;
 

@@ -144,6 +144,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="playerBullet.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GUI.h" />
+    <ClInclude Include="playerBullet.h" />
     <ClInclude Include="ItemDrop.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="Level.h" />

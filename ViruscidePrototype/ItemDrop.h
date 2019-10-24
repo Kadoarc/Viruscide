@@ -19,7 +19,6 @@
 #include "Grid.h"
 #include <math.h>
 
-
 class ItemDrop
 {
 	sf::Sprite itemSprite;
