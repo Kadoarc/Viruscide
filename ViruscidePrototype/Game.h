@@ -64,6 +64,10 @@ public:
 	bool Construction(sf::Vector2i pos);
 	void UpdateEnemies();
 	void UpdatePlayer(sf::Event &event);
+	void Player1Movement();
+	void Player2Movement();
+	void Player1TowerMovement();
+	void Player2TowerMovement();
 	void UpdateTowers(sf::RenderWindow &window);
 	void RenderGameOver(sf::RenderWindow &window);
 	void ResetLevel();

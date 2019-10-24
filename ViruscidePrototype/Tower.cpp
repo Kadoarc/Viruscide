@@ -35,7 +35,6 @@ int Tower::GetLevel()
 	return level;
 }
 
-
 /***********************
 * SetDamage: Sets the (float) damage of a tower based
 			 on its DAMAGE divded by its LEVEL.
@@ -46,7 +45,6 @@ void Tower::SetDamage()
 {
 	damage += GetDamage() / level;
 }
-
 
 /***********************
 * GetDamage: returns the (float) damage of a tower
@@ -68,8 +66,6 @@ void Tower::SetRange()
 {
 	range += range / 5;
 }
-
-
 
 /***********************
 * GetRange: get the range value of a tower
@@ -110,6 +106,7 @@ void Tower::Update(sf::RenderWindow &window)
 {
 	if (isBuilt)
 	{
+		shootingDirection->setRotation(rotationAngle);
 		if (!this->GetIsReadyToFire() && collector < sf::seconds(1))
 		{
 			collector += TIME_PASED;
@@ -124,7 +121,6 @@ void Tower::Update(sf::RenderWindow &window)
 	{
 		this->setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 	}
-
 }
 
 int Tower::getCooldown()
@@ -178,7 +174,10 @@ void Tower::setTarget(Enemy * enemyPtr)
 	target = enemyPtr;
 }
 
-
+void Tower::RotateTower()
+{
+	
+}
 
 /***********************
 * GetIsReadyToFire: Check if a tower is ready to fire again
@@ -227,10 +226,9 @@ sf::RectangleShape* Tower::DrawShootingIndicator(sf::RenderWindow &window)
 	shootingDirection->setSize(sf::Vector2f(50, 5));
 	shootingDirection->setFillColor(sf::Color::Red);
 	shootingDirection->setOutlineColor(sf::Color::Black);
+	
 	return shootingDirection;
 }
-
-
 
 /***********************
 * GetName: returns the name of a tower

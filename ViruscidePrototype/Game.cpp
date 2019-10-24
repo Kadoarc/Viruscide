@@ -123,48 +123,68 @@ void Game::UpdatePlayer(sf::Event &event)
 	// Get the TOWER list
 	for (int i = 0; i < towerList.size(); i++)
 	{
-		// Check player one collisions against the tower list
+		// Check player ONE collisions against the tower list
 		if (playerList.at(0)->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
 		{
-			if (event.type == sf::Event::KeyReleased)
+			// When the player releases E
+			if ((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::E))
 			{
-				if (event.key.code == sf::Keyboard::E)
+				// Toggle occupy tower based on state
+				switch (playerList.at(0)->m_OccupyingTower)
 				{
-					std::cout << "E pressed at a tower\n";
-					if (playerList.at(0)->m_OccupyingTower == false)
+					// If we are in a tower, EXIT the tower
+				case true:
 					{
-						std::cout << "Player 1 Occupying tower = TRUE\n";
-						playerList.at(0)->m_OccupyingTower = true;
-						towerList.at(i)->autoShoot = false;
+					std::cout << "Player 1 Occupying tower = FALSE\n";
+					playerList.at(0)->m_OccupyingTower = false;
+					towerList.at(i)->autoShoot = true;
+					towerList.at(i)->isOccupiedP1 = false;
+					break;
 					}
-					else if (playerList.at(0)->m_OccupyingTower == true)
+					// If we are not in a tower, ENTER the tower
+				case false:
 					{
-						std::cout << "Player 1 Occupying tower = FALSE\n";
-						playerList.at(0)->m_OccupyingTower = false;
-						towerList.at(i)->autoShoot = true;
+					std::cout << "Player 1 Occupying tower = TRUE\n";
+					playerList.at(0)->m_OccupyingTower = true;
+					towerList.at(i)->autoShoot = false;
+					towerList.at(i)->isOccupiedP1 = true;
+					break;
 					}
+				default:
+					break;
 				}
 			}
 		}
 
-		// Check player two collisions against the tower list
+		// Check player TWO collisions against the tower list
 		else if (playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
 		{
-			// If colliding with a tower and pressing NUMPAD 0, stop auto shooting
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad0))
+			// When the player releases E
+			if ((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Numpad0))
 			{
-				std::cout << "Numpad 0 pressed at a tower\n";
-				if (playerList.back()->m_OccupyingTower == false)
+				// Toggle occupy tower based on state
+				switch (playerList.back()->m_OccupyingTower)
 				{
-					std::cout << "Player 2 Occupying tower = TRUE\n";
-					playerList.back()->m_OccupyingTower = true;
-					towerList.at(i)->autoShoot = false;
-				}
-				else if (playerList.back()->m_OccupyingTower == true)
+					// If we are in a tower, exit the tower
+				case true:
 				{
 					std::cout << "Player 2 Occupying tower = FALSE\n";
 					playerList.back()->m_OccupyingTower = false;
 					towerList.at(i)->autoShoot = true;
+					towerList.back()->isOccupiedP2 = false;
+					break;
+				}
+				// If we are not in a tower, enter the tower
+				case false:
+				{
+					std::cout << "Player 2 Occupying tower = TRUE\n";
+					playerList.back()->m_OccupyingTower = true;
+					towerList.at(i)->autoShoot = false;
+					towerList.back()->isOccupiedP2 = true;
+					break;
+				}
+				default:
+					break;
 				}
 			}
 		}
@@ -188,49 +208,17 @@ void Game::UpdatePlayer(sf::Event &event)
 	}
 
 	// PLAYER ONE / WASD MOVEMENT
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	// Only enable player movement if not occupying a tower
+	if (playerList.at(0)->m_OccupyingTower == false)
 	{
-		playerList.at(0)->xPos -= playerList.at(0)->moveSpeed;
-		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-	{
-		playerList.at(0)->yPos -= playerList.at(0)->moveSpeed;
-		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		playerList.at(0)->yPos += playerList.at(0)->moveSpeed;
-		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		playerList.at(0)->xPos += playerList.at(0)->moveSpeed;
-		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
+		Player1Movement();
 	}
 
 	// PLAYER TWO / ARROW KEY MOVMENT
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+	// Only allow movement if occupying a tower
+	if (playerList.back()->m_OccupyingTower == false)
 	{
-		playerList.at(1)->xPos -= playerList.at(1)->moveSpeed;
-		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
-	{
-		playerList.at(1)->yPos -= playerList.at(1)->moveSpeed;
-		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
-	{
-		playerList.at(1)->yPos += playerList.at(1)->moveSpeed;
-		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
-	{
-		playerList.at(1)->xPos += playerList.at(1)->moveSpeed;
-		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
+		Player2Movement();
 	}
 
 	// Player Collision With ITEMS
@@ -258,6 +246,19 @@ void Game::UpdateTowers(sf::RenderWindow & window)
 	for (int i = 0; i < towerList.size(); i++)
 	{
 		towerList[i]->Update(window);
+
+		if (towerList.at(i)->isOccupiedP1 == true)
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			{
+				towerList.at(i)->rotationAngle -= 1;
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			{
+				towerList.at(i)->rotationAngle += 1;
+			}
+		}
 	}
 }
 
@@ -784,6 +785,57 @@ void Game::UpdateInput(const float & dt)
 
 }
 
+void Game::Player1Movement()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		playerList.at(0)->xPos -= playerList.at(0)->moveSpeed;
+		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		playerList.at(0)->yPos -= playerList.at(0)->moveSpeed;
+		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		playerList.at(0)->yPos += playerList.at(0)->moveSpeed;
+		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		playerList.at(0)->xPos += playerList.at(0)->moveSpeed;
+		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
+	}
+}
+
+void Game::Player2Movement()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+	{
+		playerList.at(1)->xPos -= playerList.at(1)->moveSpeed;
+		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+	{
+		playerList.at(1)->yPos -= playerList.at(1)->moveSpeed;
+		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+	{
+		playerList.at(1)->yPos += playerList.at(1)->moveSpeed;
+		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+	{
+		playerList.at(1)->xPos += playerList.at(1)->moveSpeed;
+		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
+	}
+}
 Game::Game()
 {
 

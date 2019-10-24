@@ -66,7 +66,8 @@ public:
 	void SetState();
 	bool GetIsBuilt();
 	void Update(sf::RenderWindow &window);
-	bool isOccupied = false;
+	bool isOccupiedP1 = false;
+	bool isOccupiedP2 = false;
 	bool autoShoot = true;
 	int xPos;
 	int yPos;
@@ -80,6 +81,9 @@ public:
 	sf::Vector2f getLoc() const;
 	sf::Vector2f getTargetLoc() const;
 	void setTarget(Enemy *enemyPtr);
+	void RotateTower();
+	float rotationAngle;
+
 private:
 	int currentCooldown;
 	int baseCooldown;
