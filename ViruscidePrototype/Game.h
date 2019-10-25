@@ -95,6 +95,11 @@ public:
 	void spawnProjectile(Tower* towerPtr);
 	void ManageTowers(const float &dt);
 	void ManageProjectiles(const float &dt);
+	void EPressed();
+	void Numpad0Pressed();
+	void WPressed();
+	void UpPressed();
+
 
 	// Text variables
 	sf::Font font;

@@ -120,93 +120,6 @@ void Game::UpdateEnemies()
 
 void Game::UpdatePlayer(sf::Event &event)
 {
-	// Get the TOWER list
-	for (int i = 0; i < towerList.size(); i++)
-	{
-		// Check player ONE collisions against the tower list
-		if (playerList.at(0)->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
-		{
-			// When the player releases E
-			if ((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::E))
-			{
-				// Toggle occupy tower based on state
-				switch (playerList.at(0)->m_OccupyingTower)
-				{
-					// If we are in a tower, EXIT the tower
-				case true:
-					{
-					std::cout << "Player 1 Occupying tower = FALSE\n";
-					playerList.at(0)->m_OccupyingTower = false;
-					towerList.at(i)->autoShoot = true;
-					towerList.at(i)->isOccupiedP1 = false;
-					break;
-					}
-					// If we are not in a tower, ENTER the tower
-				case false:
-					{
-					std::cout << "Player 1 Occupying tower = TRUE\n";
-					playerList.at(0)->m_OccupyingTower = true;
-					towerList.at(i)->autoShoot = false;
-					towerList.at(i)->isOccupiedP1 = true;
-					break;
-					}
-				default:
-					break;
-				}
-			}
-		}
-
-		// Check player TWO collisions against the tower list
-		else if (playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
-		{
-			// When the player releases E
-			if ((event.type == sf::Event::KeyReleased) && (event.key.code == sf::Keyboard::Numpad0))
-			{
-				// Toggle occupy tower based on state
-				switch (playerList.back()->m_OccupyingTower)
-				{
-					// If we are in a tower, exit the tower
-				case true:
-				{
-					std::cout << "Player 2 Occupying tower = FALSE\n";
-					playerList.back()->m_OccupyingTower = false;
-					towerList.at(i)->autoShoot = true;
-					towerList.back()->isOccupiedP2 = false;
-					break;
-				}
-				// If we are not in a tower, enter the tower
-				case false:
-				{
-					std::cout << "Player 2 Occupying tower = TRUE\n";
-					playerList.back()->m_OccupyingTower = true;
-					towerList.at(i)->autoShoot = false;
-					towerList.back()->isOccupiedP2 = true;
-					break;
-				}
-				default:
-					break;
-				}
-			}
-		}
-
-		// A player is not colliding with a tower so enable auto shooting
-		else
-		{
-			// Player one
-			if (!playerList.at(0)->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
-			{
-				playerList.at(0)->m_OccupyingTower = false;
-				towerList.at(i)->autoShoot = true;
-			}
-			// Player two
-			if (!playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
-			{
-				playerList.back()->m_OccupyingTower = false;
-				towerList.at(i)->autoShoot = true;
-			}
-		}
-	}
-
 	// PLAYER ONE / WASD MOVEMENT
 	// Only enable player movement if not occupying a tower
 	if (playerList.at(0)->m_OccupyingTower == false)
@@ -259,17 +172,20 @@ void Game::UpdateTowers(sf::RenderWindow & window)
 				towerList.at(i)->rotationAngle += 1;
 			}
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		}
+		if (towerList.at(i)->isOccupiedP2 == true)
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
-				// bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
-				// Add a bullet to the list
-				playerBulletList.push_back(new PlayerBullet(towerList.at(i)->rotationAngle,towerList.at(i)));
-				// Play shooting sound
-				soundManager.playPew();
-				// Set the shooting cooldown
-				towerList[i]->SetIsReadyToFire(false);
+				towerList.at(i)->rotationAngle -= 1;
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			{
+				towerList.at(i)->rotationAngle += 1;
 			}
 		}
+
 	}
 }
 
@@ -394,6 +310,113 @@ bool Game::CheckPlacement(sf::Vector2i placement)
 		}
 	}
 	return false;
+}
+
+void Game::EPressed()
+{
+	// Get the TOWER list
+	for (int i = 0; i < towerList.size(); i++)
+	{
+		// Check player ONE collisions against the tower list
+		if (playerList.at(0)->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
+		{
+			// When the player releases E
+			// Toggle occupy tower based on state
+			switch (playerList.at(0)->m_OccupyingTower)
+			{
+				// If we are in a tower, EXIT the tower
+			case true:
+			{
+				std::cout << "Player 1 Occupying tower = FALSE\n";
+				playerList.at(0)->m_OccupyingTower = false;
+				towerList.at(i)->autoShoot = true;
+				towerList.at(i)->isOccupiedP1 = false;
+				break;
+			}
+			// If we are not in a tower, ENTER the tower
+			case false:
+			{
+				std::cout << "Player 1 Occupying tower = TRUE\n";
+				playerList.at(0)->m_OccupyingTower = true;
+				towerList.at(i)->autoShoot = false;
+				towerList.at(i)->isOccupiedP1 = true;
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void Game::Numpad0Pressed()
+{
+	 // Get the TOWER list
+	for (int i = 0; i < towerList.size(); i++)
+	{
+		// Check player TWO collisions against the tower list
+		if (playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
+		{
+			// Toggle occupy tower based on state
+			switch (playerList.back()->m_OccupyingTower)
+			{
+				// If we are in a tower, exit the tower
+			case true:
+			{
+				std::cout << "Player 2 Occupying tower = FALSE\n";
+				playerList.back()->m_OccupyingTower = false;
+				towerList.at(i)->autoShoot = true;
+				towerList.back()->isOccupiedP2 = false;
+				break;
+			}
+			// If we are not in a tower, enter the tower
+			case false:
+			{
+				std::cout << "Player 2 Occupying tower = TRUE\n";
+				playerList.back()->m_OccupyingTower = true;
+				towerList.at(i)->autoShoot = false;
+				towerList.back()->isOccupiedP2 = true;
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void Game::WPressed()
+{
+	for (int i = 0; i < towerList.size(); i++)
+	{
+		if (towerList.at(i)->isOccupiedP1 == true)
+		{
+			// bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+			// Add a bullet to the list
+			playerBulletList.push_back(new PlayerBullet(towerList.at(i)->rotationAngle, towerList.at(i)));
+			// Play shooting sound
+			soundManager.playPew();
+			// Set the shooting cooldown
+			towerList[i]->SetIsReadyToFire(false);
+		}
+	}
+}
+
+void Game::UpPressed()
+{
+	for (int i = 0; i < towerList.size(); i++)
+	{
+		if (towerList.at(i)->isOccupiedP2 == true)
+			{
+				// bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+				// Add a bullet to the list
+				playerBulletList.push_back(new PlayerBullet(towerList.at(i)->rotationAngle, towerList.at(i)));
+				// Play shooting sound
+				soundManager.playPew();
+				// Set the shooting cooldown
+				towerList[i]->SetIsReadyToFire(false);
+			}
+	}
 }
 
 void Game::Render(sf::RenderWindow &window, Flags flag)
@@ -676,17 +699,6 @@ void Game::ManageDamage()
 	}
 }
 
-Tower * Game::SearchInTowers(sf::Vector2f pos)
-{
-	for (int i = 0; i < towerList.size(); i++)
-	{
-		if (towerList[i]->getGlobalBounds().contains(pos.x, pos.y))
-		{
-			std::cout << "Entity found at  " << towerList[i]->getPosition().x << "and " << towerList[i]->getPosition().y << std::endl;
-			return towerList[i];
-		}
-	}
-}
 
 Flags Game::GameManager(Flags flag)
 {
