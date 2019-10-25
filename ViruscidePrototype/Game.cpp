@@ -360,22 +360,22 @@ void Game::Numpad0Pressed()
 			// Toggle occupy tower based on state
 			switch (playerList.back()->m_OccupyingTower)
 			{
-				// If we are in a tower, exit the tower
+				// If we are in a tower, EXIT the tower
 			case true:
 			{
 				std::cout << "Player 2 Occupying tower = FALSE\n";
 				playerList.back()->m_OccupyingTower = false;
 				towerList.at(i)->autoShoot = true;
-				towerList.back()->isOccupiedP2 = false;
+				towerList.at(i)->isOccupiedP2 = false;
 				break;
 			}
-			// If we are not in a tower, enter the tower
+			// If we are not in a tower, ENTER the tower
 			case false:
 			{
 				std::cout << "Player 2 Occupying tower = TRUE\n";
 				playerList.back()->m_OccupyingTower = true;
 				towerList.at(i)->autoShoot = false;
-				towerList.back()->isOccupiedP2 = true;
+				towerList.at(i)->isOccupiedP2 = true;
 				break;
 			}
 			default:
