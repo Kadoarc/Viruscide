@@ -330,6 +330,7 @@ void Game::EPressed()
 			case true:
 			{
 				std::cout << "Player 1 Occupying tower = FALSE\n";
+				soundManager.playEnterTower();
 				playerList.at(0)->m_OccupyingTower = false;
 				towerList.at(i)->autoShoot = true;
 				towerList.at(i)->isOccupiedP1 = false;
@@ -339,6 +340,7 @@ void Game::EPressed()
 			case false:
 			{
 				std::cout << "Player 1 Occupying tower = TRUE\n";
+				soundManager.playEnterTower();
 				playerList.at(0)->m_OccupyingTower = true;
 				towerList.at(i)->autoShoot = false;
 				towerList.at(i)->isOccupiedP1 = true;
@@ -366,6 +368,7 @@ void Game::Numpad0Pressed()
 			case true:
 			{
 				std::cout << "Player 2 Occupying tower = FALSE\n";
+				soundManager.playEnterTower();
 				playerList.back()->m_OccupyingTower = false;
 				towerList.at(i)->autoShoot = true;
 				towerList.at(i)->isOccupiedP2 = false;
@@ -375,6 +378,7 @@ void Game::Numpad0Pressed()
 			case false:
 			{
 				std::cout << "Player 2 Occupying tower = TRUE\n";
+				soundManager.playEnterTower();
 				playerList.back()->m_OccupyingTower = true;
 				towerList.at(i)->autoShoot = false;
 				towerList.at(i)->isOccupiedP2 = true;
