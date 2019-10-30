@@ -20,6 +20,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+//#include <vld.h>
 
 //__________________
 //
@@ -80,7 +81,7 @@ int main()
 				{
 					if (event.key.code == sf::Keyboard::Space)
 					{
-						game.RestartGame();
+   						game.RestartGame();
 					}
 				}
 			}

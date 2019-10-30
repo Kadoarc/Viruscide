@@ -298,7 +298,6 @@ bool Game::CheckPlacement(sf::Vector2i placement)
 		{
 			Tower* ptr = towerList.back();
 			ptr->setPosition(sf::Vector2f(map[i]->getPosition()));
-			ptr->setOrigin(sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 2));
 			ptr->SetState();
 			groundPtr->SetIsEmpty(false);
 			SpendMoney(ptr->GetPrice());
@@ -480,13 +479,15 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		{
 			window.draw(*towerList[j]->DrawShootingIndicator(window));
 		}
-		window.draw(*towerList[j]);
+		//window.draw(*towerList[j]);
+		towerList[j]->draw(window);
 	}
 
 	// Render GUI
 	for (int m = 0; m < gui.size(); m++)
 	{
-		window.draw(*gui[m]);
+		//window.draw(*gui[m]);
+		gui[m]->draw(window);
 	}
 
 	// Render Players

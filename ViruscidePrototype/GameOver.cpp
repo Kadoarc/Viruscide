@@ -26,7 +26,7 @@ GameOverScreenClass::GameOverScreenClass()
 	backgroundImage.setTexture(&backgroundTexture);
 	backgroundImage.setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
-	text = LabelClass(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), 50.0f, "GAME OVER", sf::Color::White, "Resources/Fonts/galaxymonkey.ttf");
+	//text = LabelClass(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), 50.0f, "GAME OVER", sf::Color::White, "Resources/Fonts/galaxymonkey.ttf");
 }
 
 GameOverScreenClass::~GameOverScreenClass()
@@ -35,6 +35,6 @@ GameOverScreenClass::~GameOverScreenClass()
 
 void GameOverScreenClass::render(sf::RenderWindow & _window)
 {
-	text.render(_window);
+	//text.render(_window);
 	_window.draw(backgroundImage);
 }
