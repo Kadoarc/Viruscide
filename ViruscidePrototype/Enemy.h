@@ -26,6 +26,8 @@ class Enemy
 	sf::Vector2f pos;
 	sf::Sprite enemySprite;
 	sf::Texture enemyTexture;
+	sf::Texture enemyTexture1;
+	sf::Texture enemyTexture2;
 	sf::Rect<float> hitbox;
 	int Health;
 	double Speed;
@@ -45,7 +47,7 @@ public:
 	sf::Rect<float> getHitbox();
 	bool isAtDestination;
 
-	Enemy(int xPos, int yPos);
+	Enemy(int xPos, int yPos, EnemyType type);
 	Enemy();
 	~Enemy();
 
