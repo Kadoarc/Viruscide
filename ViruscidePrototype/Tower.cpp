@@ -35,6 +35,7 @@ int Tower::GetLevel()
 	return level;
 }
 
+
 /***********************
 * SetDamage: Sets the (float) damage of a tower based
 			 on its DAMAGE divded by its LEVEL.
@@ -45,6 +46,7 @@ void Tower::SetDamage()
 {
 	damage += GetDamage() / level;
 }
+
 
 /***********************
 * GetDamage: returns the (float) damage of a tower
@@ -70,7 +72,7 @@ void Tower::SetRange()
 /***********************
 * GetRange: get the range value of a tower
 * Parameters: NULL
-* Return: CircleShape*
+* Return: CircleShape* 
 ********************/
 sf::CircleShape* Tower::GetRange()
 {
@@ -106,7 +108,6 @@ void Tower::Update(sf::RenderWindow &window)
 {
 	if (isBuilt)
 	{
-		shootingDirection->setRotation(rotationAngle);
 		if (!this->GetIsReadyToFire() && collector < sf::seconds(1))
 		{
 			collector += TIME_PASED;
@@ -119,64 +120,9 @@ void Tower::Update(sf::RenderWindow &window)
 	}
 	else
 	{
-		this->setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+		towerSprite.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 	}
-}
 
-int Tower::getCooldown()
-{
-	return this->currentCooldown;
-}
-
-void Tower::decreaseCooldown()
-{
-	this->currentCooldown--;
-}
-
-void Tower::resetCooldown()
-{
-	this->currentCooldown = this->baseCooldown;
-}
-
-bool Tower::isInRadius(const sf::Vector2f tarLoc)
-{
-	if ((tarLoc.x - pos.x)*(tarLoc.x - pos.x) + (tarLoc.y - pos.y)*(tarLoc.y - pos.y) <= range * range)
-	{
-		return true;
-	}
-	else
-		return false;
-}
-
-int Tower::getTargetIndex()
-{
-	return targetIndex;
-}
-
-void Tower::setTarget(int index, Enemy * tar)
-{
-	targetIndex = index;
-	target = tar;
-}
-
-sf::Vector2f Tower::getLoc() const
-{
-	return pos;
-}
-
-sf::Vector2f Tower::getTargetLoc() const
-{
-	return target->getLocation();
-}
-
-void Tower::setTarget(Enemy * enemyPtr)
-{
-	target = enemyPtr;
-}
-
-void Tower::RotateTower()
-{
-	
 }
 
 /***********************
@@ -200,7 +146,7 @@ void Tower::SetIsReadyToFire(bool ready)
 }
 
 /***********************
-* DrawPlacementAssist: draws where a tower can be placed
+* DrawPlacementAssist: draws where a tower can be placed 
 * Parameters: sf::RenderWindow
 * Return: sf::CircleShape*
 ********************/
@@ -208,25 +154,11 @@ sf::CircleShape* Tower::DrawPlacementAssist(sf::RenderWindow &window)
 {
 	rangeHelper->setRadius(range);
 	rangeHelper->setFillColor(sf::Color::Transparent);
-	rangeHelper->setOutlineColor(this->getFillColor());
+	rangeHelper->setOutlineColor(sf::Color::Cyan);
 	rangeHelper->setOutlineThickness(3);
 	rangeHelper->setOrigin(sf::Vector2f(120, 120));
 	rangeHelper->setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 	return rangeHelper;
-}
-
-/***********************
-* DrawShootingIndicator: draws where a tower can shoot
-* Parameters: sf::RenderWindow
-* Return: sf::RectangleShape*
-********************/
-sf::RectangleShape* Tower::DrawShootingIndicator(sf::RenderWindow &window)
-{
-	shootingDirection->setPosition(this->getPosition().x,this->getPosition().y);
-	shootingDirection->setSize(sf::Vector2f(50, 5));
-	shootingDirection->setFillColor(sf::Color::Red);
-	shootingDirection->setOutlineColor(sf::Color::Black);
-	return shootingDirection;
 }
 
 /***********************
@@ -244,35 +176,49 @@ std::string Tower::GetName()
 * Parameters: Int xPos, int yPos, towerType type
 * Return: a tower object
 ********************/
-Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, price{ 100 }, fireRate{ 10 }, level{ 1 }, elementalDamge{ 0 }
+Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, price{ 100 }, fireRate{ 2 }, level{ 1 }, elementalDamge{ 0 }
 {
-	this->xPos = xPos;
-	this->yPos = yPos;
-	this->setPointCount(3);
+	/*this->setPointCount(3);
 	this->setPoint(0, sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 4));
 	this->setPoint(1, sf::Vector2f(TILE_SIZE*0.75, TILE_SIZE*0.75));
 	this->setPoint(2, sf::Vector2f(TILE_SIZE*0.25, TILE_SIZE*0.75));
 	this->setOrigin(sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 2));
 	this->setPosition(sf::Vector2f(xPos, yPos));
-	this->type = type;
+	this->type = type;*/
 	if (type == TowerType::basic)
 	{
-		sf::Texture Tow1Tex;
-		Tow1Tex.loadFromFile("Resources/Images/Tower1.png");
-
-		if (!Tow1Tex.loadFromFile("Tower1.png"))
+		if (!towerTexture.loadFromFile("Resources/Images/Tower1.png"))
 		{
-			std::cout << "Not Loaded";
+			std::cout << "Tower1 texture not loaded";
 		}
 
-		this->setFillColor(sf::Color(128, 128, 128));
+		towerSprite.setTexture(towerTexture);
+		towerSprite.setOrigin(towerSprite.getGlobalBounds().width / 2, towerSprite.getGlobalBounds().height / 2);
+		towerSprite.setPosition(sf::Vector2f(xPos, yPos));
 	}
-	else
+	else if (type == TowerType::rapid)
 	{
-		this->setFillColor(type == TowerType::rapid ? sf::Color(255, 0, 0) : sf::Color(0, 0, 255));
+		if (!towerTexture.loadFromFile("Resources/Images/Tower2.png"))
+		{
+			std::cout << "Tower2 texture not loaded";
+		}
+
+		towerSprite.setTexture(towerTexture);
+		towerSprite.setOrigin(towerSprite.getGlobalBounds().width / 2, towerSprite.getGlobalBounds().height / 2);
+		towerSprite.setPosition(sf::Vector2f(xPos, yPos));
+	}
+	else if (type == TowerType::ultimate)
+	{
+		if (!towerTexture.loadFromFile("Resources/Images/Tower3.png"))
+		{
+			std::cout << "Tower3 texture not loaded";
+		}
+
+		towerSprite.setTexture(towerTexture);
+		towerSprite.setOrigin(towerSprite.getGlobalBounds().width / 2, towerSprite.getGlobalBounds().height / 2);
+		towerSprite.setPosition(sf::Vector2f(xPos, yPos));
 	}
 	rangeHelper = new sf::CircleShape(range);
-	shootingDirection = new sf::RectangleShape;
 	SetTowerTraits(type);
 
 }
@@ -289,7 +235,7 @@ float Tower::GetElementalDamage()
 
 /***********************
 * SetTowerTraits: sets the damage and price of a tower based on its type
-* Parameters: TowerType
+* Parameters: TowerType 
 * Return: NULL
 ********************/
 void Tower::SetTowerTraits(TowerType type)
@@ -343,10 +289,10 @@ void Tower::SetState()
 	isBuilt = true;
 	rangeHelper->setRadius(range);
 	rangeHelper->setFillColor(sf::Color::Transparent);
-	rangeHelper->setOutlineColor(this->getFillColor());
+	rangeHelper->setOutlineColor(sf::Color::Cyan);
 	rangeHelper->setOutlineThickness(3);
 	rangeHelper->setOrigin(sf::Vector2f(120, 120));
-	rangeHelper->setPosition(this->getPosition().x, this->getPosition().y);
+	rangeHelper->setPosition(towerSprite.getPosition().x, towerSprite.getPosition().y);
 }
 
 /***********************
@@ -376,4 +322,39 @@ Tower::Tower()
 ********************/
 Tower::~Tower()
 {
+}
+
+sf::Color Tower::getFillColor()
+{
+	return(sf::Color::Cyan);
+}
+
+sf::FloatRect Tower::getGlobalBounds()
+{
+	return(towerSprite.getGlobalBounds());
+}
+
+sf::FloatRect Tower::getLocalBounds()
+{
+	return(towerSprite.getLocalBounds());
+}
+
+sf::Vector2f Tower::getPosition()
+{
+	return(towerSprite.getPosition());
+}
+
+void Tower::setOrigin(sf::Vector2f _vec)
+{
+	towerSprite.setPosition(_vec);
+}
+
+void Tower::setPosition(sf::Vector2f _vec)
+{
+	towerSprite.setOrigin(_vec);
+}
+
+void Tower::draw(sf::RenderWindow & _window)
+{
+	_window.draw(towerSprite);
 }

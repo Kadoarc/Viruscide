@@ -20,6 +20,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+//#include <vld.h>
 
 //__________________
 //
@@ -55,8 +56,8 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(FullHdresolution::x, FullHdresolution::y), "Viruscide");;
 	Level gameLevel;
 	gameLevel.CreateLevel();
+	Game game(gameLevel.GetMap(), window);
 	sf::Event event;
-	Game game(gameLevel.GetMap(), window, event);
 	Flags eventFlag = Flags::gameInProgress;
 	sf::Clock clock;
 	sf::Time collector = sf::Time::Zero;
@@ -80,48 +81,10 @@ int main()
 				{
 					if (event.key.code == sf::Keyboard::Space)
 					{
-						game.RestartGame();
+   						game.RestartGame();
 					}
-				}
-			}
 
-			// Check if E has been pressed once
-			if (event.type == sf::Event::KeyPressed)
-			{
-				if (event.key.code == sf::Keyboard::E)
-				{
-					std::cout << "E key Pressed\n";
-					game.EPressed();
-				}
-			}
 
-			// Check if NUMPAD 0 has been pressed once
-			if (event.type == sf::Event::KeyPressed)
-			{
-				if (event.key.code == sf::Keyboard::Numpad0)
-				{
-					std::cout << "Num0 key Pressed\n";
-					game.Numpad0Pressed();
-				}
-			}
-
-			// Check if W has been pressed once
-			if (event.type == sf::Event::KeyPressed)
-			{
-				if (event.key.code == sf::Keyboard::W)
-				{
-					std::cout << "W key Pressed\n";
-					game.WPressed();
-				}
-			}
-
-			// Check if Up has been pressed once
-			if (event.type == sf::Event::KeyPressed)
-			{
-				if (event.key.code == sf::Keyboard::Up)
-				{
-					std::cout << "Up key Pressed\n";
-					game.UpPressed();
 				}
 			}
 
@@ -185,7 +148,7 @@ int main()
 				{
 					collector -= TIME_PASED;
 					window.clear(sf::Color::Black);
-					game.GameCycle(window, eventFlag, event);
+					game.GameCycle(window, eventFlag, clock);
 					window.display();
 				}
 			}
