@@ -113,6 +113,26 @@ void Enemy::GiveDamage(Bullet* bullet)
 	}
 }
 
+void Enemy::GiveDamage(PlayerBullet* bullet)
+{
+	this->Health -= bullet->GetDamage();
+
+	if (bullet->GetElementalDamage() > 0 && !this->isHit)
+	{
+		this->Health -= bullet->GetElementalDamage();
+		if (bullet->GetElement() == TowerType::basic)
+		{
+			isHit = true;
+			OTDamage = bullet->GetElementalDamage();
+		}
+		else
+		{
+			isHit = true;
+			Speed /= 2;
+		}
+	}
+}
+
 bool Enemy::GetHasWon()
 {
 	return hasWon;

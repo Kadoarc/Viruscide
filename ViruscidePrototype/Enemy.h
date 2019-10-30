@@ -19,6 +19,7 @@
 #include "Grid.h"
 #include <math.h>
 class Bullet;
+class PlayerBullet;
 
 
 class Enemy
@@ -56,6 +57,8 @@ public:
 	void Draw();
 	void DrawEnemy(sf::RenderWindow& _window);
 	void GiveDamage(Bullet* bullet);
+	void GiveDamage(PlayerBullet* bullet);
+
 	bool GetHasWon();
 	void Update();
 	int GetHP();

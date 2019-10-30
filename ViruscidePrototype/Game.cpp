@@ -711,6 +711,10 @@ void Game::ManageDamage()
 			// Get the enemy and see if the bullet is inside it
 			else if (enemyList[i]->getGlobalBounds().intersects(playerBulletList[p]->getGlobalBounds()))
 			{
+				// Apply damage
+				enemyList[i]->GiveDamage(playerBulletList[p]);
+
+				// Erase the bullet
 				playerBulletList.erase(playerBulletList.begin() + p);
 			}
 		}
