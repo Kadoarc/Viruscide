@@ -716,6 +716,7 @@ void Game::ManageDamage()
 
 		if (enemyList[i]->GetHP() <= 0)
 		{
+			
 			// Play kill count
 			soundManager.playSplat();
 			// Iterate the Kill Counter

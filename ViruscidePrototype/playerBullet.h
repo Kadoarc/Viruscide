@@ -18,7 +18,7 @@
 #include <vector>
 #include <math.h>
 #include "Tower.h"
-
+#define PI 3.1415926535
 class PlayerBullet : public sf::CircleShape
 {
 	TowerType element;
@@ -27,6 +27,8 @@ class PlayerBullet : public sf::CircleShape
 	float speed;
 	float destination;
 	float currentRotation;
+	float angle2 = (currentRotation);
+
 	bool missed;
 
 public:
