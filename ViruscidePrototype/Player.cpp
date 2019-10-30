@@ -35,10 +35,13 @@ Player::Player(float start_xPos, float start_yPos, int i_playerNumber, sf::Rende
 	//player2Sprite.setTexture(player2Texture);
 
 	player1Sprite.setOrigin(player1Sprite.getGlobalBounds().width / 2, player1Sprite.getGlobalBounds().height / 2);
-	//player2Sprite.setOrigin(player2Sprite.getGlobalBounds().width / 2, player2Sprite.getGlobalBounds().height / 2);
+	player2Sprite.setOrigin(player2Sprite.getGlobalBounds().width / 2, player2Sprite.getGlobalBounds().height / 2);
 
 	player1Sprite.setPosition(sf::Vector2f(xPos, yPos));
-	//player2Sprite.setPosition(sf::Vector2f(xPos, yPos));
+	player2Sprite.setPosition(sf::Vector2f(xPos, yPos));
+
+	player1Sprite.setScale(sf::Vector2f(1.5f, 1.5f));
+	player2Sprite.setScale(sf::Vector2f(1.5f, 1.5f));
 
 	// Draw Calls
 	drawPlayer(_window);

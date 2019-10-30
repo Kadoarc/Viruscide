@@ -242,6 +242,7 @@ void Game::UpdateTowers(sf::RenderWindow & window)
 	for (int i = 0; i < towerList.size(); i++)
 	{
 		towerList[i]->Update(window);
+		//std::cout << towerList[i]->getPosition().x << " " << towerList[i]->getPosition().y << std::endl;
 	}
 }
 
@@ -346,7 +347,6 @@ bool Game::CheckPlacement(sf::Vector2i placement)
 		{
 			Tower* ptr = towerList.back();
 			ptr->setPosition(sf::Vector2f(map[i]->getPosition()));
-			ptr->setOrigin(sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 2));
 			ptr->SetState();
 			groundPtr->SetIsEmpty(false);
 			SpendMoney(ptr->GetPrice());

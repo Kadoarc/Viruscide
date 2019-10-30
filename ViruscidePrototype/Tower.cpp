@@ -218,9 +218,11 @@ Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, p
 		towerSprite.setOrigin(towerSprite.getGlobalBounds().width / 2, towerSprite.getGlobalBounds().height / 2);
 		towerSprite.setPosition(sf::Vector2f(xPos, yPos));
 	}
+
+	towerSprite.setScale(sf::Vector2f(2.0f, 2.0f));
+
 	rangeHelper = new sf::CircleShape(range);
 	SetTowerTraits(type);
-
 }
 
 /***********************
@@ -346,12 +348,12 @@ sf::Vector2f Tower::getPosition()
 
 void Tower::setOrigin(sf::Vector2f _vec)
 {
-	towerSprite.setPosition(_vec);
+	towerSprite.setOrigin(_vec);
 }
 
 void Tower::setPosition(sf::Vector2f _vec)
 {
-	towerSprite.setOrigin(_vec);
+	towerSprite.setPosition(_vec);
 }
 
 void Tower::draw(sf::RenderWindow & _window)
