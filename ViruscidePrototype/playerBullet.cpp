@@ -3,7 +3,7 @@
 PlayerBullet::PlayerBullet(float rotationAngle, Tower* origin)
 {
 	currentRotation = rotationAngle;
-	this->speed = 1.0f;
+	this->speed = 5.0f;
 	this->setRadius(10);
 	this->setPosition(origin->getPosition());
 	//this->setPosition(sf::Vector2f(100,100));

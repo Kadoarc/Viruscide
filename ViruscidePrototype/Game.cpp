@@ -164,11 +164,13 @@ void Game::UpdateTowers(sf::RenderWindow & window)
 		{
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 			{
+				std::cout << "Rotation Angle: " << towerList.at(i)->rotationAngle << std::endl;
 				towerList.at(i)->rotationAngle -= 1;
 			}
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 			{
+				std::cout << "Rotation Angle: " << towerList.at(i)->rotationAngle << std::endl;
 				towerList.at(i)->rotationAngle += 1;
 			}
 
@@ -394,6 +396,8 @@ void Game::WPressed()
 			// bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
 			// Add a bullet to the list
 			playerBulletList.push_back(new PlayerBullet(towerList.at(i)->rotationAngle, towerList.at(i)));
+			// DEBUG
+			std::cout << "Spawning bullet at rotation angle: " << towerList.at(i)->rotationAngle;
 			// Play shooting sound
 			soundManager.playPew();
 			// Set the shooting cooldown
@@ -689,6 +693,23 @@ void Game::ManageDamage()
 				bulletList.erase(bulletList.begin() + j);
 			}
 		}
+
+		// Get the PLAYER BULLET list
+		for (int p = 0; p < playerBulletList.size(); p++)
+		{
+			// First check if the bullet has expired
+			if (playerBulletList.at(p)->ExpiredBullet == true)
+			{
+				playerBulletList.erase(playerBulletList.begin() + p);
+			}
+
+			// Get the enemy and see if the bullet is inside it
+			else if (enemyList[i]->getGlobalBounds().intersects(playerBulletList[p]->getGlobalBounds()))
+			{
+				playerBulletList.erase(playerBulletList.begin() + p);
+			}
+		}
+
 		if (enemyList[i]->GetHP() <= 0)
 		{
 			// Play kill count

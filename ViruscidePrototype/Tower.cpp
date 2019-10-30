@@ -226,7 +226,6 @@ sf::RectangleShape* Tower::DrawShootingIndicator(sf::RenderWindow &window)
 	shootingDirection->setSize(sf::Vector2f(50, 5));
 	shootingDirection->setFillColor(sf::Color::Red);
 	shootingDirection->setOutlineColor(sf::Color::Black);
-	
 	return shootingDirection;
 }
 
