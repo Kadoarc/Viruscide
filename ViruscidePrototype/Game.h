@@ -25,13 +25,15 @@
 #include "Bullet.h"
 #include "SoundManager.h"
 #include "ItemDrop.h"
-
+#include "Projectile.h"
+#include "playerBullet.h"
+#include "Clock.h"
 
 class Game
 {
 public:
 	// Constructors&Destructors
-	Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window);
+	Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window, sf::Event& _event);
 	Game();
 	~Game();
 
@@ -43,10 +45,11 @@ public:
 	std::vector<Bullet*> bulletList;
 	std::vector<ItemDrop*> itemList;
 	std::vector<Grid*> map;
-
+	std::vector<Projectile*> projList;
+	std::vector<PlayerBullet*> playerBulletList;
 	// Sound 
 	SoundManager soundManager;
-
+	
 	// Declare public variables
 	bool firstRun = true;
 	bool isGameOver;
@@ -64,7 +67,11 @@ public:
 	bool ContainsMouse(sf::Vector2i & position);
 	bool Construction(sf::Vector2i pos);
 	void UpdateEnemies();
-	void UpdatePlayer();
+	void UpdatePlayer(sf::Event &event);
+	void Player1Movement();
+	void Player2Movement();
+	void Player1TowerMovement();
+	void Player2TowerMovement();
 	void UpdateTowers(sf::RenderWindow &window);
 	void RenderGameOver(sf::RenderWindow &window);
 	void ResetLevel();
@@ -77,16 +84,24 @@ public:
 	void ActivateTowerPlacement();
 	void ManageShooting();
 	void ManageDamage();
-	void GameCycle(sf::RenderWindow &window, Flags flag, sf::Clock _clock);
-	void UpdateAllStates(sf::RenderWindow &window);
+	void deleteBullet(Bullet* bullet);
+	void GameCycle(sf::RenderWindow &window, Flags flag, sf::Event& _event, sf::Clock& _clock);
+	void UpdateAllStates(sf::RenderWindow &window, sf::Event &event);
 	void GiveMoney(int amount);
 	int GetCoreHealth();
 	int GetMoney();
 	int GetGridIndex(Grid* gridTile);
 	void DrawText(sf::RenderWindow &window);
-	void ControlTower();
 	void UpdateInput(const float &dt);
 	bool CheckPlacement(sf::Vector2i placement);
+	void spawnProjectile(Tower* towerPtr);
+	void ManageTowers(const float &dt);
+	void ManageProjectiles(const float &dt);
+	void EPressed();
+	void Numpad0Pressed();
+	void WPressed();
+	void UpPressed();
+
 
 	// Text variables
 	sf::Font font;

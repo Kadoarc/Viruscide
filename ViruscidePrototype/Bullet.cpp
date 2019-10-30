@@ -21,7 +21,7 @@
 ********************/
 void Bullet::Update()
 {
-
+	// If the destination x is < current x position
 	if (destination->getPosition().x < this->getPosition().x)
 	{
 		if (destination->getPosition().y < this->getPosition().y)
@@ -42,6 +42,11 @@ void Bullet::Update()
 		this->setPosition(this->getPosition().x + speed, this->getPosition().y + speed);
 	}
 
+	if (this->DestinationIsDead())
+	{
+		ExpiredBullet = true;
+	}
+
 }
 
 Bullet::Bullet(Tower* originTower, Enemy* destination) : speed{ 8 }, elementalDamage{ 0 }, missed{ false }
@@ -58,7 +63,6 @@ Bullet::Bullet(Tower* originTower, Enemy* destination) : speed{ 8 }, elementalDa
 Bullet::Bullet(float damage, std::string element, float elementalDamage)
 {
 	this->damage = damage;
-
 }
 
 Bullet::~Bullet()
@@ -97,7 +101,16 @@ float Bullet::GetElementalDamage()
 
 bool Bullet::CollisionDetect()
 {
-
 	return false;
+}
+
+bool Bullet::DestinationIsDead()
+{
+	if (destination->isHit)
+	{
+		return true;
+	}
+
+	else return false;
 }
 

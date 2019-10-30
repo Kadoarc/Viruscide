@@ -118,106 +118,23 @@ void Game::UpdateEnemies()
 	}
 }
 
-
-void Game::UpdatePlayer()
+void Game::UpdatePlayer(sf::Event &event)
 {
-	for (int i = 0; i < towerList.size(); i++)
-	{
-		if (playerList.at(0)->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
-		{
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-			{
-				std::cout << "E pressed at a tower\n";
-			}
-		}
-
-		if (playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
-		{
-			if (!playerList.back()->m_OverlappingTower)
-			{
-				std::cout << "Player ONE Collision with Tower: - ";
-				std::cout << " X: " << towerList.at(i)->getPosition().x;
-				std::cout << ", Y: " << towerList.at(i)->getPosition().y;
-				std::cout << ", Left: " << towerList.at(i)->getGlobalBounds().left;
-				std::cout << ", Top: " << towerList.at(i)->getGlobalBounds().top;
-				std::cout << ", Width: " << towerList.at(i)->getGlobalBounds().width;
-				std::cout << ", Height: " << towerList.at(i)->getGlobalBounds().height << std::endl;
-			}
-			bool m_OverlappingTower = true;
-		}
-		
-	}
-	if (playerList.back()->getGlobalBounds().intersects(playerList.at(0)->getGlobalBounds()))
-	{
-		std::cout << "Player Two Collision with Player One: \n";
-
-		std::cout << "Player TWO coordinates: - ";
-		std::cout << " X: " << playerList.back()->getPosition().x;
-		std::cout << ", Y: " << playerList.back()->getPosition().y;
-		std::cout << ", Left: " << playerList.back()->getGlobalBounds().left;
-		std::cout << ", Top: " << playerList.back()->getGlobalBounds().top;
-		std::cout << ", Width: " << playerList.back()->getGlobalBounds().width;
-		std::cout << ", Height: " << playerList.back()->getGlobalBounds().height << std::endl;
-
-		std::cout << "Player ONE coordinates: - ";
-		std::cout << " X: " << playerList.at(0)->getPosition().x;
-		std::cout << ", Y: " << playerList.at(0)->getPosition().y;
-		std::cout << ", Left: " << playerList.at(0)->getGlobalBounds().left;
-		std::cout << ", Top: " << playerList.at(0)->getGlobalBounds().top;
-		std::cout << ", Width: " << playerList.at(0)->getGlobalBounds().width;
-		std::cout << ", Height: " << playerList.at(0)->getGlobalBounds().height << std::endl;
-	}
-
 	// PLAYER ONE / WASD MOVEMENT
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	// Only enable player movement if not occupying a tower
+	if (playerList.at(0)->m_OccupyingTower == false)
 	{
-		playerList.at(0)->xPos -= playerList.at(0)->moveSpeed;
-		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
+		Player1Movement();
 	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-	{
-		playerList.at(0)->yPos -= playerList.at(0)->moveSpeed;
-		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		playerList.at(0)->yPos += playerList.at(0)->moveSpeed;
-		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		playerList.at(0)->xPos += playerList.at(0)->moveSpeed;
-		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
-	}
-
-
 
 	// PLAYER TWO / ARROW KEY MOVMENT
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+	// Only allow movement if occupying a tower
+	if (playerList.back()->m_OccupyingTower == false)
 	{
-		playerList.at(1)->xPos -= playerList.at(1)->moveSpeed;
-		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
-	{
-		playerList.at(1)->yPos -= playerList.at(1)->moveSpeed;
-		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
-	{
-		playerList.at(1)->yPos += playerList.at(1)->moveSpeed;
-		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
-	{
-		playerList.at(1)->xPos += playerList.at(1)->moveSpeed;
-		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
+		Player2Movement();
 	}
 
 	// Player Collision With ITEMS
-
 	for (int i = 0; i < itemList.size(); i++)
 	{
 		// Player 1
@@ -242,7 +159,35 @@ void Game::UpdateTowers(sf::RenderWindow & window)
 	for (int i = 0; i < towerList.size(); i++)
 	{
 		towerList[i]->Update(window);
-		//std::cout << towerList[i]->getPosition().x << " " << towerList[i]->getPosition().y << std::endl;
+
+		if (towerList.at(i)->isOccupiedP1 == true)
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			{
+				std::cout << "Rotation Angle: " << towerList.at(i)->rotationAngle << std::endl;
+				towerList.at(i)->rotationAngle -= 1;
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			{
+				std::cout << "Rotation Angle: " << towerList.at(i)->rotationAngle << std::endl;
+				towerList.at(i)->rotationAngle += 1;
+			}
+
+		}
+		if (towerList.at(i)->isOccupiedP2 == true)
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			{
+				towerList.at(i)->rotationAngle -= 1;
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			{
+				towerList.at(i)->rotationAngle += 1;
+			}
+		}
+
 	}
 }
 
@@ -268,6 +213,12 @@ void Game::UpdateBullets()
 	{
 		bulletList[i]->Update();
 	}
+
+	for (int j = 0; j < playerBulletList.size(); j++)
+	{
+		playerBulletList[j]->Update();
+	}
+
 }
 
 int Game::GetCoreHealth()
@@ -302,6 +253,7 @@ bool Game::HasMoney()
 	}
 	return false;
 }
+
 bool Game::GetIsGameOver()
 {
 	return isGameOver;
@@ -337,7 +289,6 @@ bool Game::Construction(sf::Vector2i pos)
 	return false;
 }
 
-
 bool Game::CheckPlacement(sf::Vector2i placement)
 {
 	for (int i = 0; i < map.size(); i++)
@@ -360,6 +311,119 @@ bool Game::CheckPlacement(sf::Vector2i placement)
 		}
 	}
 	return false;
+}
+
+void Game::EPressed()
+{
+	// Get the TOWER list
+	for (int i = 0; i < towerList.size(); i++)
+	{
+		// Check player ONE collisions against the tower list
+		if (playerList.at(0)->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
+		{
+			// When the player releases E
+			// Toggle occupy tower based on state
+			switch (playerList.at(0)->m_OccupyingTower)
+			{
+				// If we are in a tower, EXIT the tower
+			case true:
+			{
+				std::cout << "Player 1 Occupying tower = FALSE\n";
+				soundManager.playEnterTower();
+				playerList.at(0)->m_OccupyingTower = false;
+				towerList.at(i)->autoShoot = true;
+				towerList.at(i)->isOccupiedP1 = false;
+				break;
+			}
+			// If we are not in a tower, ENTER the tower
+			case false:
+			{
+				std::cout << "Player 1 Occupying tower = TRUE\n";
+				soundManager.playEnterTower();
+				playerList.at(0)->m_OccupyingTower = true;
+				towerList.at(i)->autoShoot = false;
+				towerList.at(i)->isOccupiedP1 = true;
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void Game::Numpad0Pressed()
+{
+	 // Get the TOWER list
+	for (int i = 0; i < towerList.size(); i++)
+	{
+		// Check player TWO collisions against the tower list
+		if (playerList.back()->getGlobalBounds().intersects(towerList.at(i)->getGlobalBounds()))
+		{
+			// Toggle occupy tower based on state
+			switch (playerList.back()->m_OccupyingTower)
+			{
+				// If we are in a tower, EXIT the tower
+			case true:
+			{
+				std::cout << "Player 2 Occupying tower = FALSE\n";
+				soundManager.playEnterTower();
+				playerList.back()->m_OccupyingTower = false;
+				towerList.at(i)->autoShoot = true;
+				towerList.at(i)->isOccupiedP2 = false;
+				break;
+			}
+			// If we are not in a tower, ENTER the tower
+			case false:
+			{
+				std::cout << "Player 2 Occupying tower = TRUE\n";
+				soundManager.playEnterTower();
+				playerList.back()->m_OccupyingTower = true;
+				towerList.at(i)->autoShoot = false;
+				towerList.at(i)->isOccupiedP2 = true;
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void Game::WPressed()
+{
+	for (int i = 0; i < towerList.size(); i++)
+	{
+		if (towerList.at(i)->isOccupiedP1 == true)
+		{
+			// bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+			// Add a bullet to the list
+			playerBulletList.push_back(new PlayerBullet(towerList.at(i)->rotationAngle, towerList.at(i)));
+			// DEBUG
+			std::cout << "Spawning bullet at rotation angle: " << towerList.at(i)->rotationAngle;
+			// Play shooting sound
+			soundManager.playPew();
+			// Set the shooting cooldown
+			towerList[i]->SetIsReadyToFire(false);
+		}
+	}
+}
+
+void Game::UpPressed()
+{
+	for (int i = 0; i < towerList.size(); i++)
+	{
+		if (towerList.at(i)->isOccupiedP2 == true)
+			{
+				// bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+				// Add a bullet to the list
+				playerBulletList.push_back(new PlayerBullet(towerList.at(i)->rotationAngle, towerList.at(i)));
+				// Play shooting sound
+				soundManager.playPew();
+				// Set the shooting cooldown
+				towerList[i]->SetIsReadyToFire(false);
+			}
+	}
 }
 
 void Game::Render(sf::RenderWindow &window, Flags flag)
@@ -405,14 +469,18 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 	// Render Towers
 	for (int j = 0; j < towerList.size(); j++)
 	{
+		// Draw tower range radius
 		if (!towerList[j]->GetIsBuilt())
 		{
 			window.draw(*towerList[j]->DrawPlacementAssist(window));
 		}
-		//window.draw(*towerList[j]);
-		towerList[j]->draw(window);
+		// Draw shooting indicator
+		else if (!towerList[j]->autoShoot)
+		{
+			window.draw(*towerList[j]->DrawShootingIndicator(window));
+		}
+		window.draw(*towerList[j]);
 	}
-
 
 	// Render GUI
 	for (int m = 0; m < gui.size(); m++)
@@ -434,7 +502,6 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		window.draw(*bulletList[n]);
 	}
 
-
 	// Render Items
 	for (int p = 0; p < itemList.size(); p++)
 	{
@@ -447,6 +514,11 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		window.draw(enemyList[k]->getSprite());
 	}
 
+	// Render PlayerBullets
+	for (int e = 0; e < playerBulletList.size(); e++)
+	{
+		window.draw(*playerBulletList[e]);
+	}
 
 	// Render Window
 	DrawText(window);
@@ -534,19 +606,29 @@ void Game::WaveGeneration(int difficulty)
 
 	for (int j = 0; j < difficulty*ENEMIES_PER_WAVE; j++)
 	{
-		if (difficulty % 2 == 0)
+		if (difficulty == WaveDifficulty::easy)
 		{
-			enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y));
+			enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::normal));
 		}
+		
 		else
 		{
+			if (difficulty == WaveDifficulty::medium)
+			{
+				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fast));
+			}
+			if (difficulty == WaveDifficulty::veryhard)
+			{
+				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::normal));
+			}
+
 			if (difficulty == WaveDifficulty::insane)
 			{
-				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y));
+				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fat));
 			}
 			else
 			{
-				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y));
+				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fat));
 			}
 		}
 
@@ -566,16 +648,25 @@ void Game::ActivateTowerPlacement()
 
 void Game::ManageShooting()
 {
+	// First the list of TOWERS
 	for (int i = 0; i < towerList.size(); i++)
 	{
+		// Check if the tower is built and it is ready to fire
 		if (towerList[i]->GetIsBuilt() && towerList[i]->GetIsReadyToFire())
 		{
+			// If we are not occupied
+			if (towerList.at(i)->autoShoot == true)
+			// Get the list of ENEMIES
 			for (int j = 0; j < enemyList.size(); j++)
 			{
+				// Check if an ENEMY is within a TOWER range and it is ready to fire
 				if (towerList[i]->GetRange()->getGlobalBounds().contains(enemyList[j]->getPosition()) && towerList[i]->GetIsReadyToFire())
 				{
+					// Add a bullet to the list
 					bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+					// Play shooting sound
 					soundManager.playPew();
+					// Set the shooting cooldown
 					towerList[i]->SetIsReadyToFire(false);
 				}
 			}
@@ -585,22 +676,50 @@ void Game::ManageShooting()
 
 void Game::ManageDamage()
 {
+	// Get the ENEMY list
 	for (int i = 0; i < enemyList.size(); i++)
 	{
-
+		// Get the BULLET list
 		for (int j = 0; j < bulletList.size(); j++)
 		{
-
-			if (enemyList[i]->getGlobalBounds().contains(bulletList[j]->getPosition()))// crash
+			// First check if the bullet has expired
+			if (bulletList.at(j)->ExpiredBullet == true)
 			{
+				bulletList.erase(bulletList.begin() + j);
+			}
+
+			// Get the enemy and see if the bullet is inside it
+			else if (enemyList[i]->getGlobalBounds().contains(bulletList[j]->getPosition()))// crash
+			{
+				// Apply damage to the enemy
 				enemyList[i]->GiveDamage(bulletList[j]);
+				// Erase the bullet
 				bulletList.erase(bulletList.begin() + j);
 			}
 		}
+
+		// Get the PLAYER BULLET list
+		for (int p = 0; p < playerBulletList.size(); p++)
+		{
+			// First check if the bullet has expired
+			if (playerBulletList.at(p)->ExpiredBullet == true)
+			{
+				playerBulletList.erase(playerBulletList.begin() + p);
+			}
+
+			// Get the enemy and see if the bullet is inside it
+			else if (enemyList[i]->getGlobalBounds().intersects(playerBulletList[p]->getGlobalBounds()))
+			{
+				playerBulletList.erase(playerBulletList.begin() + p);
+			}
+		}
+
 		if (enemyList[i]->GetHP() <= 0)
 		{
-			// Iterate the Kill Counter
+			
+			// Play kill count
 			soundManager.playSplat();
+			// Iterate the Kill Counter
 			killCounter++;
 			std::cout << "Enemy Kill Counter: " << killCounter << std::endl;
 			// If % 10 then spawn an item drop
@@ -608,25 +727,13 @@ void Game::ManageDamage()
 			{
 				itemList.push_back(new ItemDrop(enemyList.at(i)->getPosition().x, enemyList.at(i)->getPosition().y, 1));
 			}
+			// Add money 
 			GiveMoney(enemyList[i]->GetValue());
+			// Finally remove the enemy
 			enemyList.erase(enemyList.begin() + i);
 		}
 	}
 }
-
-Tower * Game::SearchInTowers(sf::Vector2f pos)
-{
-	for (int i = 0; i < towerList.size(); i++)
-	{
-		if (towerList[i]->getGlobalBounds().contains(pos.x, pos.y))
-		{
-			std::cout << "Entity found at  " << towerList[i]->getPosition().x << "and " << towerList[i]->getPosition().y << std::endl;
-			return towerList[i];
-		}
-	}
-}
-
-
 
 
 Flags Game::GameManager(Flags flag)
@@ -653,8 +760,7 @@ Flags Game::GameManager(Flags flag)
 	}
 }
 
-
-void Game::GameCycle(sf::RenderWindow & window, Flags flag, sf::Clock _clock)
+void Game::GameCycle(sf::RenderWindow& window, Flags flag, sf::Event& _event, sf::Clock& _clock)
 {
 	if (firstRun)
 	{
@@ -663,11 +769,9 @@ void Game::GameCycle(sf::RenderWindow & window, Flags flag, sf::Clock _clock)
 		GameManager(Flags::gameInProgress);
 		firstRun = false;
 	}
-
 	if (flag == Flags::restartGame)
 	{
 		RestartGame();
-		GameManager(Flags::gameInProgress);
 	}
 
 	if (GameManager(flag) != Flags::waiting)
@@ -685,16 +789,15 @@ void Game::GameCycle(sf::RenderWindow & window, Flags flag, sf::Clock _clock)
 	{
 		ManageDamage();
 		ManageShooting();
-		UpdateAllStates(window);
+		UpdateAllStates(window, _event);
 		Render(window, flag);
 	}
 
 }
 
-
-void Game::UpdateAllStates(sf::RenderWindow & window)
+void Game::UpdateAllStates(sf::RenderWindow& window, sf::Event& _event)
 {
-	UpdatePlayer();
+	UpdatePlayer(_event);
 	UpdateTowers(window);
 	UpdateEnemies();
 	UpdateBullets();
@@ -705,9 +808,6 @@ void Game::GiveMoney(int amount)
 {
 	money += amount;
 }
-
-
-
 
 int Game::GetGridIndex(Grid * gridTile)
 {
@@ -734,11 +834,7 @@ void Game::DrawText(sf::RenderWindow & window)
 	window.draw(killCounterLabelTxt);
 }
 
-
-
-
-
-Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window) :map{ worldMap }, money{ 200 }, coreHealth{ 30 }, isGameOver{ false }, Level{ 1 }
+Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window, sf::Event& _event) :map{ worldMap }, money{ 200 }, coreHealth{ 30 }, isGameOver{ false }, Level{ 1 }
 {
 	// Add the players
 	// Player 1
@@ -747,7 +843,7 @@ Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window) :map{ worldMa
 	playerList.push_back(new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 2, _window));
 	loadFont();
 	MakeGUI();
-
+	_window.setKeyRepeatEnabled(false);
 	//load audio
 	soundManager = SoundManager();
 	soundManager.loadFiles();
@@ -766,6 +862,57 @@ void Game::UpdateInput(const float & dt)
 
 }
 
+void Game::Player1Movement()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		playerList.at(0)->xPos -= playerList.at(0)->moveSpeed;
+		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		playerList.at(0)->yPos -= playerList.at(0)->moveSpeed;
+		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		playerList.at(0)->yPos += playerList.at(0)->moveSpeed;
+		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		playerList.at(0)->xPos += playerList.at(0)->moveSpeed;
+		playerList.at(0)->setPosition(playerList.at(0)->xPos, playerList.at(0)->yPos);
+	}
+}
+
+void Game::Player2Movement()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+	{
+		playerList.at(1)->xPos -= playerList.at(1)->moveSpeed;
+		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+	{
+		playerList.at(1)->yPos -= playerList.at(1)->moveSpeed;
+		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+	{
+		playerList.at(1)->yPos += playerList.at(1)->moveSpeed;
+		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+	{
+		playerList.at(1)->xPos += playerList.at(1)->moveSpeed;
+		playerList.at(1)->setPosition(playerList.at(1)->xPos, playerList.at(1)->yPos);
+	}
+}
 Game::Game()
 {
 

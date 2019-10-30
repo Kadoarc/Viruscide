@@ -45,8 +45,13 @@ void SoundManager::loadFiles()
 		std::cout << "Error loading Splate.wav" << std::endl;
 	}
 
+	if (!soundBufferEnterTower.loadFromFile("Resources/Audio/EnterTower.wav"));
+	{
+		std::cout << "Error loading Enter Tower.wav" << std::endl;
+	}
 	soundPew.setBuffer(soundBufferPew);
 	soundSplat.setBuffer(soundBufferSplat);
+	soundEnter.setBuffer(soundBufferEnterTower);
 }
 
 void SoundManager::playSplat()
@@ -58,3 +63,10 @@ void SoundManager::playPew()
 {
 	soundPew.play();
 }
+
+void SoundManager::playEnterTower()
+{
+	soundEnter.play();
+}
+
+

@@ -19,12 +19,14 @@
 #include <string>
 #include <iostream>
 #include "TextureManager.h"
+#include "Enemy.h"
 
 
 class Tower /*: public sf::ConvexShape*/
 {
 	std::string name = "Basic Tower";
-	sf::CircleShape *rangeHelper;
+	sf::CircleShape* rangeHelper;
+	sf::RectangleShape* shootingDirection;
 	int level;
 	float damage;
 	float elementalDamge;
@@ -33,6 +35,7 @@ class Tower /*: public sf::ConvexShape*/
 	bool isReadyToFire = true;
 	bool isSelected = false;
 	bool isBuilt = false;
+
 	int price;
 	TowerType type;
 	sf::Clock clock;
@@ -54,6 +57,7 @@ public:
 	~Tower();
 	std::string GetName();
 	sf::CircleShape* DrawPlacementAssist(sf::RenderWindow &window);
+	sf::RectangleShape* DrawShootingIndicator(sf::RenderWindow &window);
 	bool GetIsReadyToFire();
 	void SetIsReadyToFire(bool ready);
 	int GetPrice();
@@ -65,7 +69,23 @@ public:
 	void SetState();
 	bool GetIsBuilt();
 	void Update(sf::RenderWindow &window);
+	bool isOccupiedP1 = false;
+	bool isOccupiedP2 = false;
+	bool autoShoot = true;
+	int xPos;
+	int yPos;
 	//virtual void ReadyToFire();
+	int getCooldown();
+	void decreaseCooldown();
+	void resetCooldown();
+	bool isInRadius(const sf::Vector2f tarLoc);
+	int getTargetIndex();
+	void setTarget(int index, Enemy * tar);
+	sf::Vector2f getLoc() const;
+	sf::Vector2f getTargetLoc() const;
+	void setTarget(Enemy *enemyPtr);
+	void RotateTower();
+	float rotationAngle;
 
 	sf::Color getFillColor();
 	sf::FloatRect getGlobalBounds();
@@ -74,4 +94,12 @@ public:
 	void setOrigin(sf::Vector2f _vec);
 	void setPosition(sf::Vector2f _vec);
 	void draw(sf::RenderWindow & _window);
+private:
+	int currentCooldown;
+	int baseCooldown;
+
+protected:
+	Enemy* target = nullptr;
+	int targetIndex = -1;
+	sf::Vector2f pos;
 };

@@ -35,7 +35,6 @@ int Tower::GetLevel()
 	return level;
 }
 
-
 /***********************
 * SetDamage: Sets the (float) damage of a tower based
 			 on its DAMAGE divded by its LEVEL.
@@ -46,7 +45,6 @@ void Tower::SetDamage()
 {
 	damage += GetDamage() / level;
 }
-
 
 /***********************
 * GetDamage: returns the (float) damage of a tower
@@ -72,7 +70,7 @@ void Tower::SetRange()
 /***********************
 * GetRange: get the range value of a tower
 * Parameters: NULL
-* Return: CircleShape* 
+* Return: CircleShape*
 ********************/
 sf::CircleShape* Tower::GetRange()
 {
@@ -108,6 +106,7 @@ void Tower::Update(sf::RenderWindow &window)
 {
 	if (isBuilt)
 	{
+		shootingDirection->setRotation(rotationAngle);
 		if (!this->GetIsReadyToFire() && collector < sf::seconds(1))
 		{
 			collector += TIME_PASED;
@@ -122,7 +121,62 @@ void Tower::Update(sf::RenderWindow &window)
 	{
 		towerSprite.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 	}
+}
 
+int Tower::getCooldown()
+{
+	return this->currentCooldown;
+}
+
+void Tower::decreaseCooldown()
+{
+	this->currentCooldown--;
+}
+
+void Tower::resetCooldown()
+{
+	this->currentCooldown = this->baseCooldown;
+}
+
+bool Tower::isInRadius(const sf::Vector2f tarLoc)
+{
+	if ((tarLoc.x - pos.x)*(tarLoc.x - pos.x) + (tarLoc.y - pos.y)*(tarLoc.y - pos.y) <= range * range)
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
+int Tower::getTargetIndex()
+{
+	return targetIndex;
+}
+
+void Tower::setTarget(int index, Enemy * tar)
+{
+	targetIndex = index;
+	target = tar;
+}
+
+sf::Vector2f Tower::getLoc() const
+{
+	return pos;
+}
+
+sf::Vector2f Tower::getTargetLoc() const
+{
+	return target->getLocation();
+}
+
+void Tower::setTarget(Enemy * enemyPtr)
+{
+	target = enemyPtr;
+}
+
+void Tower::RotateTower()
+{
+	
 }
 
 /***********************
@@ -146,7 +200,7 @@ void Tower::SetIsReadyToFire(bool ready)
 }
 
 /***********************
-* DrawPlacementAssist: draws where a tower can be placed 
+* DrawPlacementAssist: draws where a tower can be placed
 * Parameters: sf::RenderWindow
 * Return: sf::CircleShape*
 ********************/
@@ -159,6 +213,20 @@ sf::CircleShape* Tower::DrawPlacementAssist(sf::RenderWindow &window)
 	rangeHelper->setOrigin(sf::Vector2f(120, 120));
 	rangeHelper->setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 	return rangeHelper;
+}
+
+/***********************
+* DrawShootingIndicator: draws where a tower can shoot
+* Parameters: sf::RenderWindow
+* Return: sf::RectangleShape*
+********************/
+sf::RectangleShape* Tower::DrawShootingIndicator(sf::RenderWindow &window)
+{
+	shootingDirection->setPosition(this->getPosition().x,this->getPosition().y);
+	shootingDirection->setSize(sf::Vector2f(50, 5));
+	shootingDirection->setFillColor(sf::Color::Red);
+	shootingDirection->setOutlineColor(sf::Color::Black);
+	return shootingDirection;
 }
 
 /***********************
@@ -176,8 +244,10 @@ std::string Tower::GetName()
 * Parameters: Int xPos, int yPos, towerType type
 * Return: a tower object
 ********************/
-Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, price{ 100 }, fireRate{ 2 }, level{ 1 }, elementalDamge{ 0 }
+Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, price{ 100 }, fireRate{ 10 }, level{ 1 }, elementalDamge{ 0 }
 {
+	this->xPos = xPos;
+	this->yPos = yPos;
 	/*this->setPointCount(3);
 	this->setPoint(0, sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 4));
 	this->setPoint(1, sf::Vector2f(TILE_SIZE*0.75, TILE_SIZE*0.75));
@@ -222,6 +292,7 @@ Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, p
 	towerSprite.setScale(sf::Vector2f(2.0f, 2.0f));
 
 	rangeHelper = new sf::CircleShape(range);
+	shootingDirection = new sf::RectangleShape;
 	SetTowerTraits(type);
 }
 
@@ -237,7 +308,7 @@ float Tower::GetElementalDamage()
 
 /***********************
 * SetTowerTraits: sets the damage and price of a tower based on its type
-* Parameters: TowerType 
+* Parameters: TowerType
 * Return: NULL
 ********************/
 void Tower::SetTowerTraits(TowerType type)

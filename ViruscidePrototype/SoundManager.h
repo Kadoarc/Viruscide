@@ -31,14 +31,17 @@ public:
 	void loadFiles();
 	void playSplat();
 	void playPew();
+	void playEnterTower();
 private:
 	std::map<std::string, sf::SoundBuffer> soundBuffers;
 	std::list<sf::Sound> sounds;
 
 	sf::SoundBuffer soundBufferPew;
 	sf::SoundBuffer soundBufferSplat;
+	sf::SoundBuffer soundBufferEnterTower;
 
 	sf::Sound soundPew;
 	sf::Sound soundSplat;
+	sf::Sound soundEnter;
 };
 
