@@ -168,6 +168,8 @@ int main()
 			window.clear();
 			mainMenu.updateRenderButtons(event, window);
 			window.display();
+			clock.restart();
+			
 		}
 		else
 		{
@@ -185,7 +187,7 @@ int main()
 				{
 					collector -= TIME_PASED;
 					window.clear(sf::Color::Black);
-					game.GameCycle(window, eventFlag, event);
+					game.GameCycle(window, eventFlag, event, clock);
 					window.display();
 				}
 			}

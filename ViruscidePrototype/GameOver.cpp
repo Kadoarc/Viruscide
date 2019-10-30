@@ -16,7 +16,7 @@
 
 GameOverScreenClass::GameOverScreenClass()
 {
-	if (!backgroundTexture.loadFromFile("Resources/Images/ViruscidePlainBackground.png"))
+	if (!backgroundTexture.loadFromFile("Resources/Images/ViruscidePlayAgain.png"))
 	{
 		std::cout << "error loading game over screen " << std::endl;
 	}

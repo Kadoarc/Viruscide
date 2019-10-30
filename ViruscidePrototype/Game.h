@@ -27,6 +27,7 @@
 #include "ItemDrop.h"
 #include "Projectile.h"
 #include "playerBullet.h"
+#include "Clock.h"
 
 class Game
 {
@@ -48,8 +49,9 @@ public:
 	std::vector<PlayerBullet*> playerBulletList;
 	// Sound 
 	SoundManager soundManager;
-
+	
 	// Declare public variables
+	bool firstRun = true;
 	bool isGameOver;
 	int money;
 	int coreHealth;
@@ -83,7 +85,7 @@ public:
 	void ManageShooting();
 	void ManageDamage();
 	void deleteBullet(Bullet* bullet);
-	void GameCycle(sf::RenderWindow &window, Flags flag, sf::Event& _event);
+	void GameCycle(sf::RenderWindow &window, Flags flag, sf::Event& _event, sf::Clock& _clock);
 	void UpdateAllStates(sf::RenderWindow &window, sf::Event &event);
 	void GiveMoney(int amount);
 	int GetCoreHealth();

@@ -4,7 +4,6 @@
 class Clock
 {
 public:
-	Clock();
-	~Clock();
+	
 };
 
