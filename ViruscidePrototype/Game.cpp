@@ -479,7 +479,8 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		{
 			window.draw(*towerList[j]->DrawShootingIndicator(window));
 		}
-		window.draw(*towerList[j]);
+		//window.draw(*towerList[j]);
+		towerList[j]->draw(window);
 	}
 
 	// Render GUI
