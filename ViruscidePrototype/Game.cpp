@@ -598,19 +598,29 @@ void Game::WaveGeneration(int difficulty)
 
 	for (int j = 0; j < difficulty*ENEMIES_PER_WAVE; j++)
 	{
-		if (difficulty % 2 == 0)
+		if (difficulty == WaveDifficulty::easy)
 		{
 			enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::normal));
 		}
+		
 		else
 		{
-			if (difficulty == WaveDifficulty::insane)
+			if (difficulty == WaveDifficulty::medium)
 			{
 				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fast));
 			}
-			else
+			if (difficulty == WaveDifficulty::veryhard)
 			{
 				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::normal));
+			}
+
+			if (difficulty == WaveDifficulty::insane)
+			{
+				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fat));
+			}
+			else
+			{
+				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fat));
 			}
 		}
 
