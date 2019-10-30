@@ -48,6 +48,7 @@ public:
 	SoundManager soundManager;
 
 	// Declare public variables
+	bool firstRun = true;
 	bool isGameOver;
 	int money;
 	int coreHealth;
@@ -76,7 +77,7 @@ public:
 	void ActivateTowerPlacement();
 	void ManageShooting();
 	void ManageDamage();
-	void GameCycle(sf::RenderWindow &window, Flags flag);
+	void GameCycle(sf::RenderWindow &window, Flags flag, sf::Clock _clock);
 	void UpdateAllStates(sf::RenderWindow &window);
 	void GiveMoney(int amount);
 	int GetCoreHealth();

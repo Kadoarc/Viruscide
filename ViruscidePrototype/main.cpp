@@ -20,6 +20,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+//#include <vld.h>
 
 //__________________
 //
@@ -80,7 +81,7 @@ int main()
 				{
 					if (event.key.code == sf::Keyboard::Space)
 					{
-						game.RestartGame();
+   						game.RestartGame();
 					}
 
 
@@ -147,7 +148,7 @@ int main()
 				{
 					collector -= TIME_PASED;
 					window.clear(sf::Color::Black);
-					game.GameCycle(window, eventFlag);
+					game.GameCycle(window, eventFlag, clock);
 					window.display();
 				}
 			}

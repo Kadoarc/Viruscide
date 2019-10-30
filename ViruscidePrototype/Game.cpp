@@ -654,8 +654,16 @@ Flags Game::GameManager(Flags flag)
 }
 
 
-void Game::GameCycle(sf::RenderWindow & window, Flags flag)
+void Game::GameCycle(sf::RenderWindow & window, Flags flag, sf::Clock _clock)
 {
+	if (firstRun)
+	{
+		RestartGame();
+		_clock.restart();
+		GameManager(Flags::gameInProgress);
+		firstRun = false;
+	}
+
 	if (flag == Flags::restartGame)
 	{
 		RestartGame();
