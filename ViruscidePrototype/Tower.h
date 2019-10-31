@@ -74,6 +74,7 @@ public:
 	bool autoShoot = true;
 	int xPos;
 	int yPos;
+	int TowerTypeNum;
 	//virtual void ReadyToFire();
 	int getCooldown();
 	void decreaseCooldown();

@@ -43,4 +43,5 @@ public:
 	float GetElementalDamage();
 	bool CollisionDetect();
 	bool DestinationIsDead();
+	int ElementTypeNum;
 };

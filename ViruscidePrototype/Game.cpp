@@ -164,14 +164,16 @@ void Game::UpdateTowers(sf::RenderWindow & window)
 		{
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 			{
-				std::cout << "Rotation Angle: " << towerList.at(i)->rotationAngle << std::endl;
-				towerList.at(i)->rotationAngle -= 1;
+				// DEBUG
+				//std::cout << "Rotation Angle: " << towerList.at(i)->rotationAngle << std::endl;
+				towerList.at(i)->rotationAngle -= 2;
 			}
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 			{
-				std::cout << "Rotation Angle: " << towerList.at(i)->rotationAngle << std::endl;
-				towerList.at(i)->rotationAngle += 1;
+				// DEBUG
+				//std::cout << "Rotation Angle: " << towerList.at(i)->rotationAngle << std::endl;
+				towerList.at(i)->rotationAngle += 2;
 			}
 
 		}
@@ -179,12 +181,12 @@ void Game::UpdateTowers(sf::RenderWindow & window)
 		{
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
-				towerList.at(i)->rotationAngle -= 1;
+				towerList.at(i)->rotationAngle -= 2;
 			}
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
-				towerList.at(i)->rotationAngle += 1;
+				towerList.at(i)->rotationAngle += 2;
 			}
 		}
 
@@ -226,11 +228,14 @@ int Game::GetCoreHealth()
 	return coreHealth;
 }
 
-void Game::RestartGame()
+void Game::RestartGame(sf::RenderWindow& _window)
 {
 	towerList.clear();
 	enemyList.clear();
 	bulletList.clear();
+	itemList.clear();
+	playerList.clear();
+	playerBulletList.clear();
 	for (int i = 0; i < map.size(); i++)
 	{
 		if (!map[i]->GetIsEmpty())
@@ -241,8 +246,13 @@ void Game::RestartGame()
 	ResetLevel();
 	coreHealth = 30;
 	isGameOver = false;
-	money = 200;
+	money = 1000;
 	killCounter = 0;
+	// Add the players
+	// Player 1
+	playerList.push_back(new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 1, _window));
+	// Player 2
+	playerList.push_back(new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 2, _window));
 }
 
 bool Game::HasMoney()
@@ -400,7 +410,7 @@ void Game::WPressed()
 			// Add a bullet to the list
 			playerBulletList.push_back(new PlayerBullet(towerList.at(i)->rotationAngle, towerList.at(i)));
 			// DEBUG
-			std::cout << "Spawning bullet at rotation angle: " << towerList.at(i)->rotationAngle;
+			//std::cout << "Spawning bullet at rotation angle: " << towerList.at(i)->rotationAngle std::endl;
 			// Play shooting sound
 			soundManager.playPew();
 			// Set the shooting cooldown
@@ -714,6 +724,10 @@ void Game::ManageDamage()
 			// Get the enemy and see if the bullet is inside it
 			else if (enemyList[i]->getGlobalBounds().intersects(playerBulletList[p]->getGlobalBounds()))
 			{
+				// Apply damage
+				enemyList[i]->GiveDamage(playerBulletList[p]);
+
+				// Erase the bullet
 				playerBulletList.erase(playerBulletList.begin() + p);
 			}
 		}
@@ -768,14 +782,14 @@ void Game::GameCycle(sf::RenderWindow& window, Flags flag, sf::Event& _event, sf
 {
 	if (firstRun)
 	{
-		RestartGame();
+		RestartGame(window);
 		_clock.restart();
 		GameManager(Flags::gameInProgress);
 		firstRun = false;
 	}
 	if (flag == Flags::restartGame)
 	{
-		RestartGame();
+		RestartGame(window);
 	}
 
 	if (GameManager(flag) != Flags::waiting)

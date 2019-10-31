@@ -248,13 +248,7 @@ Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, p
 {
 	this->xPos = xPos;
 	this->yPos = yPos;
-	/*this->setPointCount(3);
-	this->setPoint(0, sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 4));
-	this->setPoint(1, sf::Vector2f(TILE_SIZE*0.75, TILE_SIZE*0.75));
-	this->setPoint(2, sf::Vector2f(TILE_SIZE*0.25, TILE_SIZE*0.75));
-	this->setOrigin(sf::Vector2f(TILE_SIZE / 2, TILE_SIZE / 2));
-	this->setPosition(sf::Vector2f(xPos, yPos));
-	this->type = type;*/
+	this->type = type;
 	if (type == TowerType::basic)
 	{
 		if (!towerTexture.loadFromFile("Resources/Images/Tower1.png"))
@@ -316,15 +310,19 @@ void Tower::SetTowerTraits(TowerType type)
 	switch (type)
 	{
 	case basic:
-		elementalDamge = 50;
+		damage = 10;
+		elementalDamge = 0;
 		price = 100;
 		break;
 	case rapid:
-		elementalDamge = 20;
+		damage = 5;
+		fireRate = 500;
+		elementalDamge = 1;
 		price = 250;
 		break;
 	case ultimate:
-		elementalDamge = 70;
+		damage = 15;
+		elementalDamge = 3;
 		price = 500;
 		break;
 	default:

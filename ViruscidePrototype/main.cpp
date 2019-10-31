@@ -81,7 +81,7 @@ int main()
 				{
 					if (event.key.code == sf::Keyboard::Space)
 					{
-   						game.RestartGame();
+   						game.RestartGame(window);
 					}
 				}
 			}
@@ -94,35 +94,29 @@ int main()
 					std::cout << "E key Pressed\n";
 					game.EPressed();
 				}
-			}
-
-			// Check if NUMPAD 0 has been pressed once
-			if (event.type == sf::Event::KeyPressed)
-			{
+				// Check if NUMPAD 0 has been pressed once
 				if (event.key.code == sf::Keyboard::Numpad0)
 				{
 					std::cout << "Num0 key Pressed\n";
 					game.Numpad0Pressed();
 				}
-			}
-
-			// Check if W has been pressed once
-			if (event.type == sf::Event::KeyPressed)
-			{
+				// Check if W has been pressed once
 				if (event.key.code == sf::Keyboard::W)
 				{
 					std::cout << "W key Pressed\n";
 					game.WPressed();
 				}
-			}
-
-			// Check if Up has been pressed once
-			if (event.type == sf::Event::KeyPressed)
-			{
+				// Check if Up has been pressed once
 				if (event.key.code == sf::Keyboard::Up)
 				{
 					std::cout << "Up key Pressed\n";
 					game.UpPressed();
+				}
+				// Check if Up has been pressed once
+				if (event.key.code == sf::Keyboard::R)
+				{
+					std::cout << "R key Pressed\n";
+					game.RestartGame(window);
 				}
 			}
 

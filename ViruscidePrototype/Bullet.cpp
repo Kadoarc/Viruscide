@@ -59,6 +59,7 @@ Bullet::Bullet(Tower* originTower, Enemy* destination) : speed{ 8 }, elementalDa
 	this->SetDamage(originTower->GetDamage());
 	this->SetElementalDamage(originTower->GetElementalDamage());
 	this->SetElement(originTower->GetType());
+	this->ElementTypeNum = originTower->TowerTypeNum;
 }
 Bullet::Bullet(float damage, std::string element, float elementalDamage)
 {

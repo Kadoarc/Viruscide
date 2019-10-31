@@ -18,7 +18,6 @@
 #include <vector>
 #include <math.h>
 #include "Tower.h"
-#define PI 3.1415926535
 class PlayerBullet : public sf::CircleShape
 {
 	TowerType element;
@@ -47,4 +46,5 @@ public:
 	bool DestinationIsDead();
 	float GetDamage();
 	bool ExpiredBullet;
+	int ElementTypeNum;
 };
