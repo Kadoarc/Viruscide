@@ -122,6 +122,9 @@ public:
 	Tower* SearchInTowers(sf::Vector2f pos);
 	Flags GameManager(Flags flag);
 
+	sf::Texture gameBackgroundTexture;
+	sf::Sprite gameBackgroundSprite;
+
 private:
 
 };

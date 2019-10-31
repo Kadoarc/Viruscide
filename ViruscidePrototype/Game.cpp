@@ -428,6 +428,9 @@ void Game::UpPressed()
 
 void Game::Render(sf::RenderWindow &window, Flags flag)
 {
+	//render game plain background 
+	window.draw(gameBackgroundSprite);
+
 	UpdateGUI();
 
 	for (int i = 0; i < map.size(); i++)
@@ -444,7 +447,7 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 			}
 			else
 			{
-				map[i]->setFillColor(sf::Color::Red);
+				//map[i]->setFillColor(sf::Color::Red);
 			}
 
 		}
@@ -452,15 +455,15 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		{
 			if (map[i]->GetTileType() == GridType::hill)
 			{
-				map[i]->setFillColor(sf::Color::Yellow);
+				map[i]->setFillColor(sf::Color(229, 107, 112));
 			}
 			else if (map[i]->GetTileType() == GridType::core)
 			{
 				map[i]->setFillColor(sf::Color::Magenta);
 			}
-			else
+			else //Path
 			{
-				map[i]->setFillColor(sf::Color::White);
+				map[i]->setFillColor(sf::Color(136, 13, 30));
 			}
 		}
 		window.draw(*map[i]);
@@ -848,6 +851,15 @@ Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window, sf::Event& _e
 	//load audio
 	soundManager = SoundManager();
 	soundManager.loadFiles();
+
+	if (!gameBackgroundTexture.loadFromFile("Resources/Images/ViruscideGameBackround.png"))
+	{
+		std::cout << "error loading game background" << std::endl;
+	}
+
+	gameBackgroundSprite.setTexture(gameBackgroundTexture);
+	gameBackgroundSprite.setOrigin(gameBackgroundSprite.getGlobalBounds().width / 2, gameBackgroundSprite.getGlobalBounds().height / 2);
+	gameBackgroundSprite.setPosition(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 }
 
 //void Game::ControlTower()
