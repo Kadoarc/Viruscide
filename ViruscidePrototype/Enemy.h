@@ -37,7 +37,7 @@ class Enemy
 
 	float OTDamage;
 	int value;
-
+	int EnemyTypeNum;
 
 public:
 

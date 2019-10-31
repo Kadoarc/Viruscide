@@ -46,4 +46,5 @@ public:
 	bool DestinationIsDead();
 	float GetDamage();
 	bool ExpiredBullet;
+	int ElementTypeNum;
 };

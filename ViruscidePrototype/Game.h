@@ -61,7 +61,7 @@ public:
 	// Declare public functions
 	void loadFont();
 	void MakeGUI();
-	void RestartGame();
+	void RestartGame(sf::RenderWindow& _window);
 	bool HasMoney();
 	bool GetIsGameOver();
 	bool ContainsMouse(sf::Vector2i & position);
