@@ -49,4 +49,5 @@ private:
 	
 	bool menuOpen = true;
 	bool controlsOpen = false;
+	bool onControls = false;
 };

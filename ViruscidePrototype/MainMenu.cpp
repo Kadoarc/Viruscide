@@ -47,7 +47,7 @@ MainMenuClass::MainMenuClass(sf::Vector2f _position, sf::Vector2f _size, std::st
 	QuitButton = ButtonClass(sf::Vector2f(SCREEN_WIDTH / 2, (SCREEN_HEIGHT / 2) + 306.0f), sf::Vector2f(425.0f, 133.0f), std::string("Resources/Images/ViruscideMenuQuitButton.png"),
 		std::string("Resources/Images/ViruscideMenuQuitButtonHover.png"), std::string("Resources/Images/ViruscideMenuQuitButtonClicked.png"));
 
-	BackButton = ButtonClass(sf::Vector2f(SCREEN_WIDTH / 2, (SCREEN_HEIGHT / 2) + 306.0f), sf::Vector2f(425.0f, 133.0f), std::string("Resources/Images/ViruscideBackButton.png"),
+	BackButton = ButtonClass(sf::Vector2f((SCREEN_WIDTH / 2) - 700.0f, (SCREEN_HEIGHT / 2) + 450.0f), sf::Vector2f(425.0f, 133.0f), std::string("Resources/Images/ViruscideBackButton.png"),
 		std::string("Resources/Images/ViruscideBackButtonHover.png"), std::string("Resources/Images/ViruscideBackButtonClicked.png"));
 }
 
@@ -63,33 +63,38 @@ void MainMenuClass::updateRenderButtons(sf::Event _event, sf::RenderWindow & _wi
 
 	BackButton.update(_event, _window);
 
-	if (PlayButton.getButtonState() == clickedButton)
+	if (PlayButton.getButtonState() == clickedButton && onControls == false)
 	{
 		menuOpen = false;
 	}
-	if (ControlsButton.getButtonState() == clickedButton)
+	if (ControlsButton.getButtonState() == clickedButton && onControls == false)
 	{
 		controlsOpen = true;
+		onControls = true;
 	}
-	if (QuitButton.getButtonState() == clickedButton && controlsOpen == false)
+	if (QuitButton.getButtonState() == clickedButton && onControls == false)
 	{
 		_window.close();
 	}
 	if (BackButton.getButtonState() == clickedButton)
 	{
 		controlsOpen = false;
+		onControls = false;
 	}
 	
 	_window.draw(menuBackground);
 	
-	PlayButton.render(_window);
-	ControlsButton.render(_window);
-	QuitButton.render(_window);
 
 	if (controlsOpen)
 	{
 		renderControls(_window);
 		BackButton.render(_window);
+	}
+	else
+	{
+		PlayButton.render(_window);
+		ControlsButton.render(_window);
+		QuitButton.render(_window);
 	}
 }
 

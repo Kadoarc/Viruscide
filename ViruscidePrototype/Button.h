@@ -23,6 +23,8 @@ enum ButtonStates
 	clickedButton = 2
 };
 
+static bool pressed;
+
 class ButtonClass
 {
 public:
@@ -44,6 +46,8 @@ public:
 	sf::Vector2f getDimensions();
 
 	ButtonStates getButtonState();
+
+
 
 private:
 	sf::RectangleShape button;

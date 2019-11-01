@@ -16,11 +16,14 @@
 
 ButtonClass::ButtonClass()
 {
+	pressed = false;
 }
 
 ButtonClass::ButtonClass(sf::Vector2f _position, sf::Vector2f _size , std::string _textureNormalPath, 
 	std::string _textureHoverPath, std::string _textureClickedPath)
 {
+	pressed = false;
+
 	//set position var
 	position = _position;
 
@@ -63,40 +66,52 @@ void ButtonClass::update(sf::Event _event, sf::RenderWindow & _window)
 
 	if (_event.type == sf::Event::MouseButtonPressed)
 	{
-		switch (_event.mouseButton.button)
-		{
-		case sf::Mouse::Left:
-		{
-			if (mouseOnButton)
+		
+			switch (_event.mouseButton.button)
 			{
-				buttonState = clickedButton;
-			}
-			else
+			case sf::Mouse::Left:
 			{
-				buttonState = normalButton;
+				if (mouseOnButton /*&& !pressed*/)
+				{
+					buttonState = clickedButton;
+				}
+				else if (!mouseOnButton)
+				{
+					buttonState = normalButton;
+				}
 			}
-		}
-		break;
-		}
+			break;
+			}
+
+			/*if (pressed == false && mouseOnButton)
+			{
+				pressed = true;
+			}*/
+		
 	}	
 
 	if (_event.type == sf::Event::MouseButtonReleased)
 	{
-		switch (_event.mouseButton.button)
-		{
-		case sf::Mouse::Left:
-		{
-			if (mouseOnButton)
+		//if (pressed == true && mouseOnButton)
+		//{
+		//	pressed = false;
+		//}
+			switch (_event.mouseButton.button)
 			{
-				buttonState = hoverButton;
-			}
-			else
+			case sf::Mouse::Left:
 			{
-				buttonState = normalButton;
+				if (mouseOnButton)
+				{
+					buttonState = hoverButton;
+				}
+				else
+				{
+					buttonState = normalButton;
+				}
 			}
-		}
-		break;
-		}
+			break;
+			}
+		
 	}
 
 	switch (buttonState)
