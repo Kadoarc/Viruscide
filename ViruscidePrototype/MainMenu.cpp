@@ -71,7 +71,7 @@ void MainMenuClass::updateRenderButtons(sf::Event _event, sf::RenderWindow & _wi
 	{
 		controlsOpen = true;
 	}
-	if (QuitButton.getButtonState() == clickedButton)
+	if (QuitButton.getButtonState() == clickedButton && controlsOpen == false)
 	{
 		_window.close();
 	}
