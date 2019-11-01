@@ -250,9 +250,9 @@ void Game::RestartGame(sf::RenderWindow& _window)
 	killCounter = 0;
 	// Add the players
 	// Player 1
-	playerList.push_back(new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 1, _window));
+	playerList.push_back(new Player(SCREEN_WIDTH / 2 + 100, SCREEN_HEIGHT / 2, 1, _window));
 	// Player 2
-	playerList.push_back(new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 2, _window));
+	playerList.push_back(new Player(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2, 2, _window));
 }
 
 bool Game::HasMoney()
@@ -855,9 +855,9 @@ Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window, sf::Event& _e
 {
 	// Add the players
 	// Player 1
-	playerList.push_back(new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 1, _window));
+	playerList.push_back(new Player(SCREEN_WIDTH / 2 + 100, SCREEN_HEIGHT / 2, 1, _window));
 	// Player 2
-	playerList.push_back(new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 2, _window));
+	playerList.push_back(new Player(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2, 2, _window));
 	loadFont();
 	MakeGUI();
 	_window.setKeyRepeatEnabled(false);

@@ -398,6 +398,11 @@ Tower::~Tower()
 {
 }
 
+/***********************
+* getFillColor: Gets and returns the color based on tower type
+* Parameters: Tower*
+* Return: sf::Color
+********************/
 sf::Color Tower::getFillColor(Tower& originTower)
 {
 	// Green
