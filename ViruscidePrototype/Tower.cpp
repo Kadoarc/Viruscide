@@ -310,17 +310,20 @@ void Tower::SetTowerTraits(TowerType type)
 	switch (type)
 	{
 	case basic:
+		TowerTypeNum = 0;
 		damage = 10;
 		elementalDamge = 0;
 		price = 100;
 		break;
 	case rapid:
+		TowerTypeNum = 1;
 		damage = 5;
 		fireRate = 500;
 		elementalDamge = 1;
 		price = 250;
 		break;
 	case ultimate:
+		TowerTypeNum = 2;
 		damage = 15;
 		elementalDamge = 3;
 		price = 500;
@@ -395,9 +398,38 @@ Tower::~Tower()
 {
 }
 
-sf::Color Tower::getFillColor()
+sf::Color Tower::getFillColor(Tower& originTower)
 {
-	return(sf::Color::Cyan);
+	// Green
+	sf::Color color(0, 250, 0, 255); 
+
+	switch (this->TowerTypeNum)
+	{
+		// Tower Type 1 - GREEN
+	case 0:
+		color.r = 0;
+		color.g = 255;
+		color.b = 0;
+		return color;
+		break;
+		
+	case 1: // Tower Type 2 - ORANGE
+		color.r = 255;
+		color.g = 129;
+		color.b = 0;
+		return color;
+		break;
+		
+	case 2: // Tower Type 3 - RED
+		color.r = 255;
+		color.g = 43;
+		color.b = 0;
+		return color;
+		break;
+		
+	default: // Default
+		break;
+	}
 }
 
 sf::FloatRect Tower::getGlobalBounds()

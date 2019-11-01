@@ -55,7 +55,7 @@ Bullet::Bullet(Tower* originTower, Enemy* destination) : speed{ 8 }, elementalDa
 	this->setRadius(10);
 	this->setPosition(originTower->getPosition());
 	this->setOrigin(TILE_SIZE / 4, TILE_SIZE / 4);
-	this->setFillColor(originTower->getFillColor());
+	this->setFillColor(originTower->getFillColor(*originTower));
 	this->SetDamage(originTower->GetDamage());
 	this->SetElementalDamage(originTower->GetElementalDamage());
 	this->SetElement(originTower->GetType());

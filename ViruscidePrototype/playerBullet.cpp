@@ -8,7 +8,7 @@ PlayerBullet::PlayerBullet(float rotationAngle, Tower* origin)
 	this->setPosition(origin->getPosition());
 	//this->setPosition(sf::Vector2f(100,100));
 	this->setOrigin(TILE_SIZE / 4, TILE_SIZE / 4);
-	this->setFillColor(origin->getFillColor());
+	this->setFillColor(origin->getFillColor(*origin));
 	this->SetDamage(origin->GetDamage());
 	this->SetElementalDamage(origin->GetElementalDamage());
 	this->SetElement(origin->GetType());

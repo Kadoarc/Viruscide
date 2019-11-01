@@ -88,7 +88,7 @@ public:
 	void RotateTower();
 	float rotationAngle;
 
-	sf::Color getFillColor();
+	sf::Color getFillColor(Tower& tower);
 	sf::FloatRect getGlobalBounds();
 	sf::FloatRect getLocalBounds();
 	sf::Vector2f getPosition();

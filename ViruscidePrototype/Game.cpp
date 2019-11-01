@@ -617,12 +617,11 @@ void Game::WaveGeneration(int difficulty)
 {
 	enemyList.clear();
 
-
 	for (int j = 0; j < difficulty*ENEMIES_PER_WAVE; j++)
 	{
 		if (difficulty == WaveDifficulty::easy)
 		{
-			enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::normal));
+			enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fat));
 		}
 		
 		else

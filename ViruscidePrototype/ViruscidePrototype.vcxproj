@@ -176,6 +176,17 @@
     <ClInclude Include="TowerControl.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Images\Enemy1.png" />
+    <Image Include="Resources\Images\Enemy2.png" />
+    <Image Include="Resources\Images\Enemy3.png" />
+    <Image Include="Resources\Images\ItemDrop1.png" />
+    <Image Include="Resources\Images\Player1.png" />
+    <Image Include="Resources\Images\Player2.png" />
+    <Image Include="Resources\Images\Tower1.png" />
+    <Image Include="Resources\Images\Tower2.png" />
+    <Image Include="Resources\Images\Tower3.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
