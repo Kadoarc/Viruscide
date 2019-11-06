@@ -620,7 +620,7 @@ void Game::CancelTower()
 
 void Game::WaveGeneration(int difficulty)
 {
-	
+
 	enemyList.clear();
 	
 
