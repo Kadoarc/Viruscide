@@ -14,6 +14,7 @@
 
 #include "Tower.h"
 #include "Bullet.h"
+#include "Utils.h"
 
 /***********************
 * UpgradeLevel: Increments the (int) level by 1
@@ -360,6 +361,7 @@ int Tower::GetPrice()
 ********************/
 void Tower::SetState()
 {
+	
 	isBuilt = true;
 	rangeHelper->setRadius(range);
 	rangeHelper->setFillColor(sf::Color::Transparent);
@@ -367,6 +369,7 @@ void Tower::SetState()
 	rangeHelper->setOutlineThickness(3);
 	rangeHelper->setOrigin(sf::Vector2f(120, 120));
 	rangeHelper->setPosition(towerSprite.getPosition().x, towerSprite.getPosition().y);
+	
 }
 
 /***********************

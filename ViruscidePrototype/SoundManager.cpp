@@ -45,13 +45,23 @@ void SoundManager::loadFiles()
 		std::cout << "Error loading Splate.wav" << std::endl;
 	}
 
-	if (!soundBufferEnterTower.loadFromFile("Resources/Audio/EnterTower.wav"));
+	if (!soundBufferEnterTower.loadFromFile("Resources/Audio/EnterTower.wav"))
 	{
 		std::cout << "Error loading Enter Tower.wav" << std::endl;
+	}
+	if (!soundBufferBackground.loadFromFile("Resources/Audio/BackgroundMusic.wav"))
+	{
+		std::cout << "Error loading backgroundmusic.wav" << std::endl;
+	}
+	if (!soundBufferConstructTower.loadFromFile("Resources/Audio/BuildTower.wav"))
+	{
+		std::cout << "Error loading BuildTower.wav" << std::endl;
 	}
 	soundPew.setBuffer(soundBufferPew);
 	soundSplat.setBuffer(soundBufferSplat);
 	soundEnter.setBuffer(soundBufferEnterTower);
+	soundConsTower.setBuffer(soundBufferConstructTower);
+	soundBackG.setBuffer(soundBufferBackground);
 }
 
 void SoundManager::playSplat()
@@ -67,6 +77,16 @@ void SoundManager::playPew()
 void SoundManager::playEnterTower()
 {
 	soundEnter.play();
+}
+
+void SoundManager::playBackgroundMusic()
+{
+	soundBackG.play();
+}
+
+void SoundManager::playConstructTower()
+{
+	soundConsTower.play();
 }
 
 

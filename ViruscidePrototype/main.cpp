@@ -69,6 +69,7 @@ int main()
 
 	while (window.isOpen())
 	{
+		
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
@@ -172,6 +173,7 @@ int main()
 			{
 				if (game.GetIsGameOver())
 				{
+					
 					collector -= TIME_PASED;
 					window.clear(sf::Color::Black);
 					//game.RenderGameOver(window);

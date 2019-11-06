@@ -32,16 +32,22 @@ public:
 	void playSplat();
 	void playPew();
 	void playEnterTower();
+	void playBackgroundMusic();
+	void playConstructTower();
 private:
 	std::map<std::string, sf::SoundBuffer> soundBuffers;
 	std::list<sf::Sound> sounds;
 
 	sf::SoundBuffer soundBufferPew;
 	sf::SoundBuffer soundBufferSplat;
-	sf::SoundBuffer soundBufferEnterTower;
+	sf::SoundBuffer soundBufferEnterTower; 
+	sf::SoundBuffer soundBufferConstructTower;
+	sf::SoundBuffer soundBufferBackground;
 
 	sf::Sound soundPew;
 	sf::Sound soundSplat;
 	sf::Sound soundEnter;
+	sf::Sound soundBackG;
+	sf::Sound soundConsTower;
 };
 

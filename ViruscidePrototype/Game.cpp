@@ -152,6 +152,7 @@ void Game::UpdatePlayer(sf::Event &event)
 			GiveMoney(50);
 		}
 	}
+
 }
 
 void Game::UpdateTowers(sf::RenderWindow & window)
@@ -253,6 +254,7 @@ void Game::RestartGame(sf::RenderWindow& _window)
 	playerList.push_back(new Player(SCREEN_WIDTH / 2 + 100, SCREEN_HEIGHT / 2, 1, _window));
 	// Player 2
 	playerList.push_back(new Player(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2, 2, _window));
+	
 }
 
 bool Game::HasMoney()
@@ -292,6 +294,7 @@ bool Game::Construction(sf::Vector2i pos)
 			underConstruction = guiPtr;
 			if (HasMoney())
 			{
+				soundManager.playConstructTower();
 				return true;
 			}
 		}
@@ -316,7 +319,7 @@ bool Game::CheckPlacement(sf::Vector2i placement)
 				continue;
 			}
 			ptr->SetState();
-
+			
 			return true;
 		}
 	}
@@ -540,6 +543,7 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 
 void Game::UpdateGUI()
 {
+	
 	/// TEXT - Tower Label
 	towerLabelTxt.setCharacterSize(20);
 	towerLabelTxt.setFont(font);
@@ -603,6 +607,7 @@ void Game::UpdateGUI()
 	killCounterTxt.setPosition(SCREEN_WIDTH / 2 + 850, SCREEN_HEIGHT / 2 - 450);
 	killCounterTxt.setFillColor(sf::Color::Red);
 	killCounterTxt.setString(std::to_string(killCounter));
+	
 }
 
 void Game::CancelTower()
@@ -615,7 +620,9 @@ void Game::CancelTower()
 
 void Game::WaveGeneration(int difficulty)
 {
+	
 	enemyList.clear();
+	
 
 	for (int j = 0; j < difficulty*ENEMIES_PER_WAVE; j++)
 	{
@@ -755,10 +762,12 @@ void Game::ManageDamage()
 
 Flags Game::GameManager(Flags flag)
 {
+
 	if (coreHealth > 0)
 	{
 		if (Level < WaveDifficulty::insane && enemyList.empty())
 		{
+			
 			WaveGeneration(Level);
 			Level++;
 			return Flags::gameInProgress;
@@ -768,6 +777,7 @@ Flags Game::GameManager(Flags flag)
 			return Flags::gameWon;
 		}
 		else
+
 			return Flags::waiting;
 	}
 	else
@@ -785,6 +795,7 @@ void Game::GameCycle(sf::RenderWindow& window, Flags flag, sf::Event& _event, sf
 		_clock.restart();
 		GameManager(Flags::gameInProgress);
 		firstRun = false;
+		
 	}
 	if (flag == Flags::restartGame)
 	{
@@ -804,6 +815,7 @@ void Game::GameCycle(sf::RenderWindow& window, Flags flag, sf::Event& _event, sf
 	}
 	else
 	{
+		
 		ManageDamage();
 		ManageShooting();
 		UpdateAllStates(window, _event);
@@ -814,6 +826,7 @@ void Game::GameCycle(sf::RenderWindow& window, Flags flag, sf::Event& _event, sf
 
 void Game::UpdateAllStates(sf::RenderWindow& window, sf::Event& _event)
 {
+	
 	UpdatePlayer(_event);
 	UpdateTowers(window);
 	UpdateEnemies();
@@ -864,6 +877,7 @@ Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window, sf::Event& _e
 	//load audio
 	soundManager = SoundManager();
 	soundManager.loadFiles();
+	soundManager.playBackgroundMusic();
 
 	if (!gameBackgroundTexture.loadFromFile("Resources/Images/ViruscideGameBackround.png"))
 	{
@@ -873,6 +887,7 @@ Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window, sf::Event& _e
 	gameBackgroundSprite.setTexture(gameBackgroundTexture);
 	gameBackgroundSprite.setOrigin(gameBackgroundSprite.getGlobalBounds().width / 2, gameBackgroundSprite.getGlobalBounds().height / 2);
 	gameBackgroundSprite.setPosition(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+	
 }
 
 //void Game::ControlTower()
