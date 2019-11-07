@@ -245,7 +245,7 @@ std::string Tower::GetName()
 * Parameters: Int xPos, int yPos, towerType type
 * Return: a tower object
 ********************/
-Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 10 }, range{ 120 }, price{ 100 }, fireRate{ 10 }, level{ 1 }, elementalDamge{ 0 }
+Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 2 }, range{ 120 }, price{ 100 }, fireRate{ 10 }, level{ 1 }, elementalDamge{ 0 }
 {
 	this->xPos = xPos;
 	this->yPos = yPos;
@@ -312,7 +312,7 @@ void Tower::SetTowerTraits(TowerType type)
 	{
 	case basic:
 		TowerTypeNum = 0;
-		damage = 10;
+		damage = 2;
 		elementalDamge = 0;
 		price = 100;
 		break;
@@ -320,13 +320,13 @@ void Tower::SetTowerTraits(TowerType type)
 		TowerTypeNum = 1;
 		damage = 5;
 		fireRate = 500;
-		elementalDamge = 1;
+		elementalDamge = 0;
 		price = 250;
 		break;
 	case ultimate:
 		TowerTypeNum = 2;
 		damage = 15;
-		elementalDamge = 3;
+		elementalDamge = 0;
 		price = 500;
 		break;
 	default:

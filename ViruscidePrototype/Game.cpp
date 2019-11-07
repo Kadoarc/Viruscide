@@ -247,7 +247,7 @@ void Game::RestartGame(sf::RenderWindow& _window)
 	ResetLevel();
 	coreHealth = 30;
 	isGameOver = false;
-	money = 1000;
+	money = 300;
 	killCounter = 0;
 	// Add the players
 	// Player 1
@@ -632,7 +632,7 @@ void Game::WaveGeneration(int difficulty)
 		{
 			if (difficulty == WaveDifficulty::easy)
 			{
-				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fat));
+				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::normal));
 			}
 
 			else

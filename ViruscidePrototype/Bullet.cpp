@@ -107,7 +107,7 @@ bool Bullet::CollisionDetect()
 
 bool Bullet::DestinationIsDead()
 {
-	if (destination->isHit)
+	if (destination->GetHP() <= 0)
 	{
 		return true;
 	}

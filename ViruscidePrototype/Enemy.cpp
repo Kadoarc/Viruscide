@@ -49,7 +49,7 @@ Enemy::Enemy(int xPos, int yPos, EnemyType type) :Health{ 20 }, Speed{ 4 }, valu
 	{
 	case normal:
 		EnemyTypeNum = 0;
-		Health = 20;
+		Health = 10;
 		Speed = 3;
 		enemySprite.setTexture(enemyTexture);
 		enemySprite.setOrigin(enemySprite.getGlobalBounds().width / 2, enemySprite.getGlobalBounds().height / 2);
@@ -58,14 +58,14 @@ Enemy::Enemy(int xPos, int yPos, EnemyType type) :Health{ 20 }, Speed{ 4 }, valu
 	case fat:
 		EnemyTypeNum = 1;
 		Speed = 2;
-		Health *= 5;
+		Health = 40;
 		enemySprite.setTexture(enemyTexture1);
 		enemySprite.setOrigin(enemySprite.getGlobalBounds().width / 2, enemySprite.getGlobalBounds().height / 2);
 		enemySprite.setPosition(sf::Vector2f(xPos, yPos));
 		break;
 	case fast:
 		EnemyTypeNum = 2;
-		Health = 100;
+		Health = 20;
 		Speed = 4;
 		enemySprite.setTexture(enemyTexture2);
 		enemySprite.setOrigin(enemySprite.getGlobalBounds().width / 2, enemySprite.getGlobalBounds().height / 2);
@@ -103,14 +103,14 @@ void Enemy::GiveDamage(Bullet* bullet)
 {
 	//this->Health -= bullet->GetDamage();
 
-	if (bullet->GetDamage() > 0 && !this->isHit)
+	if (bullet->GetDamage() > 0)
 	{
 		if (EnemyTypeNum == 0)
 		{
 			if (bullet->ElementTypeNum == 0)
 			{
-				std::cout << bullet->GetDamage() / 2 << std::endl;
-				this->Health -= bullet->GetDamage() / 2;
+				std::cout << bullet->GetDamage()/4<< std::endl;
+				this->Health -= bullet->GetDamage()/4;
 				isHit = true;
 				OTDamage = bullet->GetDamage();
 			}
@@ -185,7 +185,7 @@ void Enemy::GiveDamage(Bullet* bullet)
 
 void Enemy::GiveDamage(PlayerBullet* bullet)
 {
-	if (bullet->GetDamage() > 0 && !this->isHit)
+	if (bullet->GetDamage() >0)
 	{
 		if (EnemyTypeNum == 0)
 		{
@@ -272,7 +272,7 @@ bool Enemy::GetHasWon()
 
 void Enemy::Update()
 {
-	Health -= OTDamage;
+	//Health -= OTDamage;
 
 	if (nextPath)
 	{
