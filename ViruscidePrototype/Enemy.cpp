@@ -57,16 +57,16 @@ Enemy::Enemy(int xPos, int yPos, EnemyType type) :Health{ 20 }, Speed{ 4 }, valu
 		break;
 	case fat:
 		EnemyTypeNum = 1;
-		Speed = 2;
-		Health = 40;
+		Speed = 1;
+		Health = 30;
 		enemySprite.setTexture(enemyTexture1);
 		enemySprite.setOrigin(enemySprite.getGlobalBounds().width / 2, enemySprite.getGlobalBounds().height / 2);
 		enemySprite.setPosition(sf::Vector2f(xPos, yPos));
 		break;
 	case fast:
 		EnemyTypeNum = 2;
-		Health = 25;
-		Speed = 4;
+		Health = 15;
+		Speed = 3;
 		enemySprite.setTexture(enemyTexture2);
 		enemySprite.setOrigin(enemySprite.getGlobalBounds().width / 2, enemySprite.getGlobalBounds().height / 2);
 		enemySprite.setPosition(sf::Vector2f(xPos, yPos));
@@ -109,7 +109,7 @@ void Enemy::GiveDamage(Bullet* bullet)
 		{
 			if (bullet->ElementTypeNum == 0)
 			{
-				std::cout << bullet->GetDamage()/4<< std::endl;
+				std::cout << bullet->GetDamage()/4 << std::endl;
 				this->Health -= bullet->GetDamage()/4;
 				isHit = true;
 				OTDamage = bullet->GetDamage();
@@ -191,16 +191,16 @@ void Enemy::GiveDamage(PlayerBullet* bullet)
 		{
 			if (bullet->ElementTypeNum == 0)
 			{
-				std::cout << bullet->GetDamage() * 2 << std::endl;
-				this->Health -= bullet->GetDamage() * 2;
+				std::cout << bullet->GetDamage() * 1 << std::endl;
+				this->Health -= bullet->GetDamage() * 1;
 				isHit = true;
 				OTDamage = bullet->GetDamage();
 			}
 
 			if (bullet->ElementTypeNum == 1)
 			{
-				std::cout << bullet->GetDamage() / 2 << std::endl;
-				this->Health -= bullet->GetDamage() / 2;
+				std::cout << bullet->GetDamage() * 1.5 << std::endl;
+				this->Health -= bullet->GetDamage() * 1.5;
 				isHit = true;
 				OTDamage = bullet->GetDamage();
 			}
@@ -216,23 +216,23 @@ void Enemy::GiveDamage(PlayerBullet* bullet)
 		{
 			if (bullet->ElementTypeNum == 0)
 			{
-				std::cout << bullet->GetDamage() / 3 << std::endl;
-				this->Health -= bullet->GetDamage() / 3;
+				std::cout << bullet->GetDamage() * 2 << std::endl;
+				this->Health -= bullet->GetDamage() * 2;
 				isHit = true;
 				OTDamage = bullet->GetDamage();
 			}
 
 			if (bullet->ElementTypeNum == 1)
 			{
-				std::cout << bullet->GetDamage() / 2 << std::endl;
-				this->Health -= bullet->GetDamage() / 2;
+				std::cout << bullet->GetDamage() * 1.5 << std::endl;
+				this->Health -= bullet->GetDamage() * 1.5;
 				isHit = true;
 				OTDamage = bullet->GetDamage();
 			}
 			if (bullet->ElementTypeNum == 2)
 			{
-				std::cout << bullet->GetDamage() * 2 << std::endl;
-				this->Health -= bullet->GetDamage() * 2;
+				std::cout << bullet->GetDamage() * 3 << std::endl;
+				this->Health -= bullet->GetDamage() * 3;
 				isHit = true;
 				OTDamage = bullet->GetDamage();
 			}
@@ -241,16 +241,16 @@ void Enemy::GiveDamage(PlayerBullet* bullet)
 		{
 			if (bullet->ElementTypeNum == 0)
 			{
-				std::cout << bullet->GetDamage() / 4 << std::endl;
-				this->Health -= bullet->GetDamage() / 4;
+				std::cout << bullet->GetDamage() * 2 << std::endl;
+				this->Health -= bullet->GetDamage() * 2;
 				isHit = true;
 				OTDamage = bullet->GetDamage();
 			}
 
 			if (bullet->ElementTypeNum == 1)
 			{
-				std::cout << bullet->GetDamage() / 2 << std::endl;
-				this->Health -= bullet->GetDamage() / 2;
+				std::cout << bullet->GetDamage() * 1.5 << std::endl;
+				this->Health -= bullet->GetDamage() * 1.5;
 				isHit = true;
 				OTDamage = bullet->GetDamage();
 			}
