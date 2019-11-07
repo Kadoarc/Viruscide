@@ -65,7 +65,7 @@ Enemy::Enemy(int xPos, int yPos, EnemyType type) :Health{ 20 }, Speed{ 4 }, valu
 		break;
 	case fast:
 		EnemyTypeNum = 2;
-		Health = 20;
+		Health = 25;
 		Speed = 4;
 		enemySprite.setTexture(enemyTexture2);
 		enemySprite.setOrigin(enemySprite.getGlobalBounds().width / 2, enemySprite.getGlobalBounds().height / 2);

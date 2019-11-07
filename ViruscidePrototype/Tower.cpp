@@ -325,7 +325,7 @@ void Tower::SetTowerTraits(TowerType type)
 		break;
 	case ultimate:
 		TowerTypeNum = 2;
-		damage = 15;
+		damage = 10;
 		elementalDamge = 0;
 		price = 500;
 		break;
