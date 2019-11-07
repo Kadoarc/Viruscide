@@ -119,6 +119,11 @@ int main()
 					std::cout << "R key Pressed\n";
 					game.RestartGame(window);
 				}
+				if (event.key.code == sf::Keyboard::Enter)
+				{
+					std::cout << "Enter Key Pressed\n";
+					game.waveStart = true;
+				}
 			}
 
 			if (event.type == sf::Event::MouseButtonReleased)

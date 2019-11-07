@@ -53,6 +53,7 @@ public:
 	// Declare public variables
 	bool firstRun = true;
 	bool isGameOver;
+	bool waveStart = false;
 	int money;
 	int coreHealth;
 	int Level;
@@ -64,6 +65,7 @@ public:
 	void RestartGame(sf::RenderWindow& _window);
 	bool HasMoney();
 	bool GetIsGameOver();
+	
 	bool ContainsMouse(sf::Vector2i & position);
 	bool Construction(sf::Vector2i pos);
 	void UpdateEnemies();
@@ -101,6 +103,7 @@ public:
 	void Numpad0Pressed();
 	void WPressed();
 	void UpPressed();
+	
 
 
 	// Text variables

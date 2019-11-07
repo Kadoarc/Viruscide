@@ -271,6 +271,8 @@ bool Game::GetIsGameOver()
 	return isGameOver;
 }
 
+
+
 bool Game::ContainsMouse(sf::Vector2i & position)
 {
 	if (position.x < map[0]->getPosition().x)
@@ -439,6 +441,8 @@ void Game::UpPressed()
 	}
 }
 
+
+
 void Game::Render(sf::RenderWindow &window, Flags flag)
 {
 	//render game plain background 
@@ -526,6 +530,7 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 	}
 
 	// Render Enemies
+	
 	for (int k = 0; k < enemyList.size(); k++)
 	{
 		window.draw(enemyList[k]->getSprite());
@@ -620,39 +625,42 @@ void Game::CancelTower()
 
 void Game::WaveGeneration(int difficulty)
 {
-
 	enemyList.clear();
 	
-
-	for (int j = 0; j < difficulty*ENEMIES_PER_WAVE; j++)
-	{
-		if (difficulty == WaveDifficulty::easy)
-		{
-			enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fat));
-		}
 		
-		else
+		for (int j = 0; j < difficulty*ENEMIES_PER_WAVE; j++)
 		{
-			if (difficulty == WaveDifficulty::medium)
-			{
-				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fast));
-			}
-			if (difficulty == WaveDifficulty::veryhard)
-			{
-				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::normal));
-			}
-
-			if (difficulty == WaveDifficulty::insane)
+			if (difficulty == WaveDifficulty::easy)
 			{
 				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fat));
 			}
+
 			else
 			{
-				enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fat));
-			}
-		}
+				if (difficulty == WaveDifficulty::medium)
+				{
+					enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fast));
+				}
+				if (difficulty == WaveDifficulty::veryhard)
+				{
+					enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::normal));
+				}
 
-	}
+				if (difficulty == WaveDifficulty::insane)
+				{
+					enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fat));
+				}
+				else
+				{
+					enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fat));
+				}
+			}
+
+		}
+	
+
+
+	
 }
 
 void Game::SpendMoney(int amount)
@@ -762,29 +770,32 @@ void Game::ManageDamage()
 
 Flags Game::GameManager(Flags flag)
 {
+	
+	
+		if (coreHealth > 0)
+		{
 
-	if (coreHealth > 0)
-	{
-		if (Level < WaveDifficulty::insane && enemyList.empty())
-		{
-			
-			WaveGeneration(Level);
-			Level++;
-			return Flags::gameInProgress;
-		}
-		else if (Level > WaveDifficulty::insane)
-		{
-			return Flags::gameWon;
+			if (Level < WaveDifficulty::insane && enemyList.empty())
+			{
+					WaveGeneration(Level);
+					Level++;
+				return Flags::gameInProgress;
+			}
+			else if (Level > WaveDifficulty::insane)
+			{
+				return Flags::gameWon;
+			}
+			else
+
+				return Flags::waiting;
 		}
 		else
-
-			return Flags::waiting;
-	}
-	else
-	{
-		isGameOver = true;
-		return Flags::gameOver;
-	}
+		{
+			isGameOver = true;
+			return Flags::gameOver;
+		}
+	
+	
 }
 
 void Game::GameCycle(sf::RenderWindow& window, Flags flag, sf::Event& _event, sf::Clock& _clock)
