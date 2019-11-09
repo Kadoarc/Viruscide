@@ -493,11 +493,14 @@ void Game::Render(sf::RenderWindow &window, Flags flag)
 		if (!towerList[j]->GetIsBuilt())
 		{
 			window.draw(*towerList[j]->DrawPlacementAssist(window));
+			
 		}
 		// Draw shooting indicator
 		else if (!towerList[j]->autoShoot)
 		{
+			window.draw(*towerList[j]->DrawRangeTowerHelper(window));
 			window.draw(*towerList[j]->DrawShootingIndicator(window));
+			
 		}
 		//window.draw(*towerList[j]);
 		towerList[j]->draw(window);

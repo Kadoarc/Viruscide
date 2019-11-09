@@ -230,6 +230,18 @@ sf::RectangleShape* Tower::DrawShootingIndicator(sf::RenderWindow &window)
 	return shootingDirection;
 }
 
+sf::CircleShape* Tower::DrawRangeTowerHelper(sf::RenderWindow &window)
+{
+	rangeTowerHelper->setRadius(range);
+	
+	rangeTowerHelper->setFillColor(sf::Color::Transparent);
+	rangeTowerHelper->setOutlineColor(sf::Color::Cyan);
+	rangeTowerHelper->setOutlineThickness(3);
+	rangeTowerHelper->setOrigin(sf::Vector2f(120, 120));
+	rangeTowerHelper->setPosition(this->getPosition().x, this->getPosition().y);
+	return rangeTowerHelper;
+}
+
 /***********************
 * GetName: returns the name of a tower
 * Parameters: NULL
@@ -288,6 +300,7 @@ Tower::Tower(int xPos, int yPos, TowerType type) : damage{ 2 }, range{ 120 }, pr
 
 	rangeHelper = new sf::CircleShape(range);
 	shootingDirection = new sf::RectangleShape;
+	rangeTowerHelper = new sf::CircleShape(range);
 	SetTowerTraits(type);
 }
 

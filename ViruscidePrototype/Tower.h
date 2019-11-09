@@ -26,6 +26,7 @@ class Tower /*: public sf::ConvexShape*/
 {
 	std::string name = "Basic Tower";
 	sf::CircleShape* rangeHelper;
+	sf::CircleShape* rangeTowerHelper;
 	sf::RectangleShape* shootingDirection;
 	int level;
 	float damage;
@@ -58,6 +59,7 @@ public:
 	std::string GetName();
 	sf::CircleShape* DrawPlacementAssist(sf::RenderWindow &window);
 	sf::RectangleShape* DrawShootingIndicator(sf::RenderWindow &window);
+	sf::CircleShape* DrawRangeTowerHelper(sf::RenderWindow &window);
 	bool GetIsReadyToFire();
 	void SetIsReadyToFire(bool ready);
 	int GetPrice();
