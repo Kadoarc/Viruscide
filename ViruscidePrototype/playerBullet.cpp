@@ -13,6 +13,7 @@ PlayerBullet::PlayerBullet(float rotationAngle, Tower* origin)
 	this->SetElementalDamage(origin->GetElementalDamage());
 	this->SetElement(origin->GetType());
 	this->ElementTypeNum = origin->TowerTypeNum;
+	this->originTower = origin;
 }
 
 PlayerBullet::~PlayerBullet()

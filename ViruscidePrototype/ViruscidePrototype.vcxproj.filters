@@ -78,6 +78,9 @@
     <ClCompile Include="Clock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameWon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tower.h">
@@ -143,6 +146,9 @@
     <ClInclude Include="Clock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameWon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Images\Enemy1.png">
@@ -170,6 +176,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Resources\Images\Tower3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\ViruscideWinScreen.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

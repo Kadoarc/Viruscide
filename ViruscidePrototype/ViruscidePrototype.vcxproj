@@ -137,6 +137,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="GameWon.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="ItemDrop.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameOver.h" />
+    <ClInclude Include="GameWon.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GUI.h" />
     <ClInclude Include="playerBullet.h" />
@@ -186,6 +188,7 @@
     <Image Include="Resources\Images\Tower1.png" />
     <Image Include="Resources\Images\Tower2.png" />
     <Image Include="Resources\Images\Tower3.png" />
+    <Image Include="Resources\Images\ViruscideWinScreen.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

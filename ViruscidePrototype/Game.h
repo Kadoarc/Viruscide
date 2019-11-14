@@ -29,11 +29,13 @@
 #include "playerBullet.h"
 #include "Clock.h"
 
+
+
 class Game
 {
 public:
 	// Constructors&Destructors
-	Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window, sf::Event& _event);
+	Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window, sf::Event& _event, sf::Clock& _clock);
 	Game();
 	~Game();
 
@@ -54,10 +56,13 @@ public:
 	bool firstRun = true;
 	bool isGameOver;
 	bool waveStart = false;
+	bool gameIsWon;
 	int money;
 	int coreHealth;
 	int Level;
 	int killCounter;
+	sf::Clock bullet_clock;
+	sf::Time bullet_cooldown;
 
 	// Declare public functions
 	void loadFont();
@@ -65,6 +70,7 @@ public:
 	void RestartGame(sf::RenderWindow& _window);
 	bool HasMoney();
 	bool GetIsGameOver();
+	bool GetGameIsWon();
 	
 	bool ContainsMouse(sf::Vector2i & position);
 	bool Construction(sf::Vector2i pos);

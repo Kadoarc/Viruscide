@@ -20,6 +20,7 @@
 #include "Tower.h"
 class PlayerBullet : public sf::CircleShape
 {
+	
 	TowerType element;
 	float damage;
 	float elementalDamage;
@@ -31,10 +32,10 @@ class PlayerBullet : public sf::CircleShape
 	bool missed;
 
 public:
-	
+	Tower* originTower;
 	PlayerBullet(float rotationAngle, Tower* origin);
 	~PlayerBullet();
-
+	
 	void Update();
 	void SetDamage(float damage);
 	void SetElement(TowerType type);

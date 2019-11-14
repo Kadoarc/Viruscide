@@ -38,6 +38,7 @@
 #include "Label.h"
 #include "MainMenu.h"
 #include "GameOver.h"
+#include "GameWon.h"
 
 //__________________
 //
@@ -55,17 +56,18 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(FullHdresolution::x, FullHdresolution::y), "Viruscide");;
 	Level gameLevel;
+	sf::Clock clock;
 	gameLevel.CreateLevel();
 	sf::Event event;
-	Game game(gameLevel.GetMap(), window, event);
+	Game game(gameLevel.GetMap(), window, event, clock);
 	Flags eventFlag = Flags::gameInProgress;
-	sf::Clock clock;
 	sf::Time collector = sf::Time::Zero;
 	float frameTime = 1.0f / 60.0f;
 
 	MainMenuClass mainMenu(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), sf::Vector2f(1920.0, 1080.0f),
 		"Resources/Images/ViruscideMenuScreen.png", "Resources/Images/ViruscideControlScreen.png");
 	GameOverScreenClass gameOver;
+	GameWon gameWon;
 
 	while (window.isOpen())
 	{
@@ -106,6 +108,7 @@ int main()
 				{
 					std::cout << "W key Pressed\n";
 					game.WPressed();
+				
 				}
 				// Check if Up has been pressed once
 				if (event.key.code == sf::Keyboard::Up)
@@ -183,6 +186,14 @@ int main()
 					window.clear(sf::Color::Black);
 					//game.RenderGameOver(window);
 					gameOver.render(window);
+					window.display();
+				}
+				else if(game.GetGameIsWon())
+				{
+					collector -= TIME_PASED;
+					window.clear(sf::Color::Black);
+					//game.RenderGameOver(window);
+					gameWon.render(window);
 					window.display();
 				}
 				else

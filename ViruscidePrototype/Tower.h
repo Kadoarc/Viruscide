@@ -32,6 +32,7 @@ class Tower /*: public sf::ConvexShape*/
 	float damage;
 	float elementalDamge;
 	float range;
+	float PlayerTowerRange;
 	float fireRate;
 	bool isReadyToFire = true;
 	bool isSelected = false;

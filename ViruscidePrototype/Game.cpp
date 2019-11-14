@@ -212,6 +212,8 @@ void Game::ResetLevel()
 
 void Game::UpdateBullets()
 {
+	bullet_cooldown = bullet_clock.getElapsedTime();
+
 	for (int i = 0; i < bulletList.size(); i++)
 	{
 		bulletList[i]->Update();
@@ -246,6 +248,7 @@ void Game::RestartGame(sf::RenderWindow& _window)
 	}
 	ResetLevel();
 	coreHealth = 30;
+	gameIsWon = false;
 	isGameOver = false;
 	money = 300;
 	killCounter = 0;
@@ -269,6 +272,11 @@ bool Game::HasMoney()
 bool Game::GetIsGameOver()
 {
 	return isGameOver;
+}
+
+bool Game::GetGameIsWon()
+{
+	return gameIsWon;
 }
 
 
@@ -409,14 +417,30 @@ void Game::WPressed()
 {
 	for (int i = 0; i < towerList.size(); i++)
 	{
-		if (towerList.at(i)->isOccupiedP1 == true)
+		std::cout << bullet_cooldown.asSeconds() << std::endl;
+
+		if (towerList.at(i)->isOccupiedP1 == true && towerList.at(i)->TowerTypeNum == 1 && bullet_cooldown.asSeconds() >= 0.25f)
 		{
+			bullet_clock.restart();
+			// bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+			// Add a bullet to the list
+			playerBulletList.push_back(new PlayerBullet(towerList.at(i)->rotationAngle, towerList.at(i)));
+			// Play shooting sound
+			soundManager.playPew();
+			// Set the shooting cooldown
+			towerList[i]->SetIsReadyToFire(false);
+		}
+		else if (towerList.at(i)->isOccupiedP1 == true && bullet_cooldown.asSeconds() >= 0.5f)
+		{
+			bullet_clock.restart();
+			
 			// bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
 			// Add a bullet to the list
 			playerBulletList.push_back(new PlayerBullet(towerList.at(i)->rotationAngle, towerList.at(i)));
 			// DEBUG
 			//std::cout << "Spawning bullet at rotation angle: " << towerList.at(i)->rotationAngle std::endl;
 			// Play shooting sound
+			
 			soundManager.playPew();
 			// Set the shooting cooldown
 			towerList[i]->SetIsReadyToFire(false);
@@ -428,8 +452,20 @@ void Game::UpPressed()
 {
 	for (int i = 0; i < towerList.size(); i++)
 	{
-		if (towerList.at(i)->isOccupiedP2 == true)
+		if (towerList.at(i)->isOccupiedP2 == true && towerList.at(i)->TowerTypeNum == 1 && bullet_cooldown.asSeconds() >= 0.25f)
+		{
+			bullet_clock.restart();
+			// bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
+			// Add a bullet to the list
+			playerBulletList.push_back(new PlayerBullet(towerList.at(i)->rotationAngle, towerList.at(i)));
+			// Play shooting sound
+			soundManager.playPew();
+			// Set the shooting cooldown
+			towerList[i]->SetIsReadyToFire(false);
+		}
+		else if (towerList.at(i)->isOccupiedP2 == true && bullet_cooldown.asSeconds() >= 0.5f)
 			{
+			bullet_clock.restart();
 				// bulletList.push_back(new Bullet(towerList[i], enemyList[j]));
 				// Add a bullet to the list
 				playerBulletList.push_back(new PlayerBullet(towerList.at(i)->rotationAngle, towerList.at(i)));
@@ -736,8 +772,12 @@ void Game::ManageDamage()
 			if (playerBulletList.at(p)->ExpiredBullet == true)
 			{
 				playerBulletList.erase(playerBulletList.begin() + p);
-			}
 
+			}
+			if (!playerBulletList.at(p)->originTower->GetRange()->getGlobalBounds().intersects(playerBulletList.at(p)->getGlobalBounds()))
+			{
+				playerBulletList.erase(playerBulletList.begin() + p);
+			}
 			// Get the enemy and see if the bullet is inside it
 			else if (enemyList[i]->getGlobalBounds().intersects(playerBulletList[p]->getGlobalBounds()))
 			{
@@ -777,6 +817,8 @@ Flags Game::GameManager(Flags flag)
 	
 		if (coreHealth > 0)
 		{
+			
+			
 
 			if (Level < WaveDifficulty::insane && enemyList.empty())
 			{
@@ -786,6 +828,7 @@ Flags Game::GameManager(Flags flag)
 			}
 			else if (Level > WaveDifficulty::insane)
 			{
+				gameIsWon = true;
 				return Flags::gameWon;
 			}
 			else
@@ -878,7 +921,7 @@ void Game::DrawText(sf::RenderWindow & window)
 	window.draw(killCounterLabelTxt);
 }
 
-Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window, sf::Event& _event) :map{ worldMap }, money{ 200 }, coreHealth{ 30 }, isGameOver{ false }, Level{ 1 }
+Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window, sf::Event& _event, sf::Clock& _clock) :map{ worldMap }, money{ 200 }, coreHealth{ 30 }, isGameOver{ false }, Level{ 1 }
 {
 	// Add the players
 	// Player 1
@@ -888,6 +931,7 @@ Game::Game(std::vector<Grid*> worldMap, sf::RenderWindow& _window, sf::Event& _e
 	loadFont();
 	MakeGUI();
 	_window.setKeyRepeatEnabled(false);
+	
 	//load audio
 	soundManager = SoundManager();
 	soundManager.loadFiles();
