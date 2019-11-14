@@ -680,6 +680,10 @@ void Game::WaveGeneration(int difficulty)
 				{
 					enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::fast));
 				}
+				if (difficulty == WaveDifficulty::hard)
+				{
+					enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::yellow));
+				}
 				if (difficulty == WaveDifficulty::veryhard)
 				{
 					enemyList.push_back(new Enemy(map[ENTRY_POINT_INDEX]->getPosition().x + +100 + TILE_SIZE * j, map[ENTRY_POINT_INDEX]->getPosition().y, EnemyType::normal));

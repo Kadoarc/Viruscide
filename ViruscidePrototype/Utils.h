@@ -69,7 +69,8 @@ enum EnemyType
 {
 	normal = 0,
 	fast,
-	fat
+	fat,
+	yellow
 };
 enum TowerType
 {

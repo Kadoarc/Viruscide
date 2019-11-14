@@ -29,6 +29,8 @@ class Enemy
 	sf::Texture enemyTexture;
 	sf::Texture enemyTexture1;
 	sf::Texture enemyTexture2;
+	sf::Texture enemyTexture3;
+
 	sf::Rect<float> hitbox;
 	int Health;
 	double Speed;
