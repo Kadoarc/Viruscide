@@ -142,14 +142,14 @@ void Game::UpdatePlayer(sf::Event &event)
 		{
 			std::cout << " Item Pickup \n";
 			itemList.erase(itemList.begin() + i);
-			GiveMoney(50);
+			GiveMoney(150);
 		}
 		// Player 2
 		else if (playerList.at(1)->getGlobalBounds().intersects(itemList.at(i)->getGlobalBounds()))
 		{
 			std::cout << " Item Pickup \n";
 			itemList.erase(itemList.begin() + i);
-			GiveMoney(50);
+			GiveMoney(150);
 		}
 	}
 

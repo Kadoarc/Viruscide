@@ -325,7 +325,7 @@ void Tower::SetTowerTraits(TowerType type)
 	{
 	case basic:
 		TowerTypeNum = 0;
-		damage = 2;
+		damage = 7.5;
 		elementalDamge = 0;
 		price = 100;
 		break;

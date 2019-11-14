@@ -57,7 +57,7 @@ Enemy::Enemy(int xPos, int yPos, EnemyType type) :Health{ 20 }, Speed{ 4 }, valu
 		break;
 	case fat:
 		EnemyTypeNum = 1;
-		Speed = 1;
+		Speed = 2;
 		Health = 30;
 		enemySprite.setTexture(enemyTexture1);
 		enemySprite.setOrigin(enemySprite.getGlobalBounds().width / 2, enemySprite.getGlobalBounds().height / 2);
