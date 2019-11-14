@@ -79,8 +79,8 @@ Enemy::Enemy(int xPos, int yPos, EnemyType type) :Health{ 20 }, Speed{ 4 }, valu
 	case yellow:
 		EnemyTypeNum = 3;
 		Health = 15;
-		Speed = 2;
-		enemySprite.setTexture(enemyTexture2);
+		Speed = 3;
+		enemySprite.setTexture(enemyTexture3);
 		enemySprite.setOrigin(enemySprite.getGlobalBounds().width / 2, enemySprite.getGlobalBounds().height / 2);
 		enemySprite.setPosition(sf::Vector2f(xPos, yPos));
 		break;
